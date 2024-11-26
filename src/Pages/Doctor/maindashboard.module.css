@@ -1,0 +1,38 @@
+/* Main Dashboard Container */
+
+.dashboard-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Flexbox Utilities */
+
+.flex {
+  display: flex;
+}
+
+.justify-end {
+  justify-content: flex-end;
+}
+
+/* Mobile Responsive Breakpoints */
+
+@media (max-width: 768px) {
+  .dashboard-container {
+    padding: 10px;
+  }
+  .flex {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard-container {
+    padding: 5px;
+  }
+  .logout-btn {
+    font-size: 14px;
+    padding: 8px 12px;
+  }
+}

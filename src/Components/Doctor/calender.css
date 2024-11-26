@@ -1,0 +1,85 @@
+.react-calendar {
+  @apply w-full bg-none rounded-sm shadow-md p-2 border-none;
+}
+
+.react-calendar__navigation {
+  @apply flex;
+}
+.react-calendar__navigation__label {
+  @apply font-bold;
+}
+
+.react-calendar__navigation__arrow {
+  @apply flex flex-grow-[0.3];
+}
+
+.react-calendar__month-view__weekdays {
+  @apply text-center no-underline;
+}
+
+.react-calendar__tile--now {
+  color: #1e293b; /* Dark text color */
+}
+
+.react-calendar__tile--now:hover {
+  color: #1e293b; /* Ensure hover text color stays dark */
+}
+
+.booked-day {
+  background-color: #002F88; /* Primary blue */
+  color: white;
+  font-weight: bold;
+}
+
+.booked-day:hover {
+  background-color: #002F88; /* Slightly darker blue for hover */
+  color: white;
+}
+
+.react-calendar__tile {
+  max-width: 100%; /* Ensure custom styles can take full effect */
+  text-align: center;
+}
+
+.react-calendar__month-view__days {
+  display: grid !important;
+  grid-template-columns: 14.2% 14.2% 14.2% 14.2% 14.2% 14.2% 14.2%;
+}
+.react-calendar__tile {
+    max-width: initial !important;
+    text-align: center;
+  }
+
+  .react-calendar__tile--booked {
+    @apply bg-primary-blue text-white
+  }
+  .react-calendar__tile--not-available {
+    @apply text-red-500 line-through
+  }
+
+  .react-calendar__tile--now {
+    @apply bg-transparent
+  }
+
+
+  .react-calendar__month-view__days__day--neighboringMonth {
+    opacity: 0.7;
+  }
+
+.react-calendar__navigation button:enabled:hover,
+.react-calendar__navigation button:enabled:focus {
+  @apply bg-[#D9D9D9] rounded-sm flex flex-grow-[0.3];
+}
+
+.react-calendar__navigation button,
+.react-calendar__navigation button:disabled {
+  @apply bg-transparent border-none;
+}
+
+.react-calendar__navigation__arrow {
+  @apply flex text-center text-black items-center justify-center text-2xl;
+}
+.react-calendar__navigation__prev2-button,
+.react-calendar__navigation__next2-button {
+  display: none;
+}

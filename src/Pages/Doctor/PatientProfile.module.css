@@ -1,0 +1,29 @@
+/* Global Styles */
+
+.diagnose-dashboard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.diagnose-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+/* Mobile Responsive Breakpoints */
+
+@media (max-width: 768px) {
+  .diagnose-content {
+    padding: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .diagnose-content {
+    padding: 5px;
+  }
+}
