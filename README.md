@@ -32,7 +32,14 @@ git clone https://github.com/HealthPulseConnect/Nourasense.git
 ```
 ### 2. Install dependencies
 ```
+npm install
 cd nourasense
+```
+### 3. Environment Setup
+
+```
+cp .env.example .env
+
 ```
 ### 4. Run the Development Server
 ```
