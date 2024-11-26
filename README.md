@@ -39,7 +39,6 @@ cd nourasense
 
 ```
 cp .env.example .env
-
 ```
 ### 4. Run the Development Server
 ```
