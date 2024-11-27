@@ -6,7 +6,8 @@ import AdminRoutes from "src/Routes/AdminRoutes.jsx";
 import EmptyHead from "src/Components/EmptyHead.jsx";
 function App() {
   const location = useLocation();
-  const shouldShowEmptyHead = location.pathname !== "/doctor/";
+  const shouldShowEmptyHead =
+    location.pathname !== "/doctor" || location.pathname !== "/doctor/";
 
   return (
     <>
