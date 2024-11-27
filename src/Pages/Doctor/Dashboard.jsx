@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import Introduction from "src/Components/Doctor/Introduction.jsx";
-import PatientList from "src/components/Doctor/PatientList.jsx";
-import CalendarComp from "src/components/Doctor/CalenderComp.jsx";
-import Footer from "src/components/Doctor/Footer.jsx";
+import PatientList from "src/Components/Doctor/PatientList.jsx";
+import CalendarComp from "src/Components/Doctor/CalenderComp.jsx";
+import Footer from "src/Components/Doctor/Footer.jsx";
 import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
