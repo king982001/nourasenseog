@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import DataTable from "react-data-table-component";
-import Dropdown from "/src/assets/Doctor/Dropdown.svg";
-import Download from "/src/assets/Doctor/Download.svg";
-import Share from "/src/assets/Doctor/Share.svg";
+import Dropdown from "src/assets/Doctor/Dropdown.svg";
+import Download from "src/assets/Doctor/Download.svg";
+import Share from "src/assets/Doctor/Share.svg";
 import { useParams } from "react-router-dom";
-import { useReportHistory } from "../../Hooks/DoctorHooks.js";
+import { useReportHistory } from "src/Hooks/DoctorHooks.js";
 import toast from "react-hot-toast";
 
 const TableData = () => {

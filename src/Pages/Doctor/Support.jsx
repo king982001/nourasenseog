@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import styles from "./Support.module.css";
-import phoneIcon from "/src/assets/Doctor/phone.png";
-import emailIcon from "/src/assets/Doctor/gmail.png";
-import copyrightIcon from "/src/assets/Doctor/copyright.png";
+import phoneIcon from "src/assets/Doctor/phone.png";
+import emailIcon from "src/assets/Doctor/gmail.png";
+import copyrightIcon from "src/assets/Doctor/copyright.png";
 
 const SupportPage = () => {
   const [faqState, setFaqState] = useState({});

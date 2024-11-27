@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./UpdateProfileDoc.module.css";
-import copyrightIcon from "/src/assets/Doctor/copyright.png";
-import { useUpdateGeneralDetails } from "../../Hooks/DoctorHooks.js";
+import copyrightIcon from "src/assets/Doctor/copyright.png";
+import { useUpdateGeneralDetails } from "src/Hooks/DoctorHooks.js";
 import toast from "react-hot-toast";
 
 const UpdateProfileDoc = () => {

@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { useAllDoctors, useGetStatistics } from "/src/Hooks/AdminHooks.js";
+import { useAllDoctors, useGetStatistics } from "src/Hooks/AdminHooks.js";
 import { ClipLoader } from "react-spinners";
-import { StatisticCard } from "/src/Components/Admin/StatisticCard.jsx";
-import Doctor from "/src/assets/Admin/doctor.svg";
-import Diagnoses from "/src/assets/Admin/diagnostic.svg";
-import Patient from "/src/assets/Admin/user.svg";
-import SearchIcon from "/src/assets/Admin/search-icon.svg";
+import { StatisticCard } from "src/Components/Admin/StatisticCard.jsx";
+import Doctor from "src/assets/Admin/doctor.svg";
+import Diagnoses from "src/assets/Admin/diagnostic.svg";
+import Patient from "src/assets/Admin/user.svg";
+import SearchIcon from "src/assets/Admin/search-icon.svg";
 import { useNavigate } from "react-router-dom";
-import SomethingWentWrong from "/src/Pages/Admin/SomethingWentWrong.jsx";
-import formatDate from "/src/Utilities/Admin/formatDate.js";
+import SomethingWentWrong from "src/Pages/Admin/SomethingWentWrong.jsx";
+import formatDate from "src/Utilities/Admin/formatDate.js";
 
 export const Dashboard = () => {
   const {

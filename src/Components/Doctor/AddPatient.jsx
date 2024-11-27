@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Select from "react-select";
-import { useAddPatient } from "../../Hooks/DoctorHooks.js";
+import { useAddPatient } from "src/Hooks/DoctorHooks.js";
 import toast from "react-hot-toast";
 
 const AddPatient = ({ closeModal, refetchPatients }) => {

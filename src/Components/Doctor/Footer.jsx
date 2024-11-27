@@ -1,5 +1,5 @@
 import React from "react";
-import Copyright from "/src/assets/Doctor/Copyright.svg";
+import Copyright from "src/assets/Doctor/Copyright.svg";
 const Footer = () => {
   return (
     <div className="flex items-center justify-center mt-20 mb-20 gap-1">

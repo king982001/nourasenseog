@@ -1,9 +1,9 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import styles from "./SignUp.module.css";
-import GoogleLogo from "/src/assets/Doctor/google-icon-logo-svgrepo-com.svg";
-import copyrightIcon from "/src/assets/Doctor/copyright.png";
-import { useSignup, useVerifyOtp } from "../../Hooks/DoctorHooks.js";
+import GoogleLogo from "src/assets/Doctor/google-icon-logo-svgrepo-com.svg";
+import copyrightIcon from "src/assets/Doctor/copyright.png";
+import { useSignup, useVerifyOtp } from "src/Hooks/DoctorHooks.js";
 import toast from "react-hot-toast";
 
 const SignUp = () => {

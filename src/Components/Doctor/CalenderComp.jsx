@@ -4,7 +4,7 @@ import "react-calendar/dist/Calendar.css";
 import "./calender.css";
 
 import { useNavigate } from "react-router-dom";
-import { useAppointments } from "../../Hooks/DoctorHooks.js";
+import { useAppointments } from "src/Hooks/DoctorHooks.js";
 
 const CalendarComp = () => {
   const [date, setDate] = useState(new Date());

@@ -1,9 +1,9 @@
 import "./App.css";
 import { Routes, Route, useLocation } from "react-router-dom";
-import DoctorRoutes from "./Routes/DoctorRoutes.jsx";
-import NotFoundPage from "./Pages/NotFoundPage.jsx";
-import AdminRoutes from "./Routes/AdminRoutes.jsx";
-import EmptyHead from "./Components/EmptyHead.jsx";
+import DoctorRoutes from "src/Routes/DoctorRoutes.jsx";
+import NotFoundPage from "src/Pages/NotFoundPage.jsx";
+import AdminRoutes from "src/Routes/AdminRoutes.jsx";
+import EmptyHead from "src/Components/EmptyHead.jsx";
 function App() {
   const location = useLocation();
   const shouldShowEmptyHead = location.pathname !== "/doctor/";

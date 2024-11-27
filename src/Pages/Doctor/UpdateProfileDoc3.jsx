@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./UpdateProfileDoc3.module.css";
-import copyrightIcon from "/src/assets/Doctor/copyright.png";
-import uploadIcon from "/src/assets/Doctor/file.png";
-import { useUploadIdProof } from "../../Hooks/DoctorHooks.js";
+import copyrightIcon from "src/assets/Doctor/copyright.png";
+import uploadIcon from "src/assets/Doctor/file.png";
+import { useUploadIdProof } from "src/Hooks/DoctorHooks.js";
 import toast from "react-hot-toast";
 
 const UpdateProfileDoc3 = () => {

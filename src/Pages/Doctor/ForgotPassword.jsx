@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styles from "./Login.module.css";
-import copyrightIcon from "/src/assets/Doctor/copyright.png";
+import copyrightIcon from "src/assets/Doctor/copyright.png";
 import {
   useResetPassword,
   useResetPasswordSendOtp,
   useResetPasswordVerifyOtp,
-} from "../../Hooks/DoctorHooks.js";
+} from "src/Hooks/DoctorHooks.js";
 import toast from "react-hot-toast";
 
 const ForgotPassword = () => {

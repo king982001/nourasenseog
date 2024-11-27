@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useLogin } from "/src/Hooks/AdminHooks.js";
+import { useLogin } from "src/Hooks/AdminHooks.js";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 

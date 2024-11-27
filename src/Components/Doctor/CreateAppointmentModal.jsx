@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Select from "react-select";
-import { useCreateAppointment } from "../../Hooks/DoctorHooks.js";
+import { useCreateAppointment } from "src/Hooks/DoctorHooks.js";
 import toast from "react-hot-toast";
 
 const CreateAppointmentModal = ({ patientData, closeModal }) => {

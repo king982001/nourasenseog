@@ -1,11 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import styles from "./Login.module.css";
-import GoogleLogo from "/src/assets/Doctor/google-icon-logo-svgrepo-com.svg";
-import copyrightIcon from "/src/assets/Doctor/copyright.png";
+import GoogleLogo from "src/assets/Doctor/google-icon-logo-svgrepo-com.svg";
+import copyrightIcon from "src/assets/Doctor/copyright.png";
 import { useContext, useEffect, useState } from "react";
-import { useLogin } from "/src/Hooks/DoctorHooks.js";
-import { DataContext } from "/src/Context/Doctor/DataProvider.jsx";
+import { useLogin } from "src/Hooks/DoctorHooks.js";
+import { DataContext } from "src/Context/Doctor/DataProvider.jsx";
 import toast from "react-hot-toast";
 
 const signInInitialValues = {

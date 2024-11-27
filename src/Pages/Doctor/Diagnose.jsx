@@ -1,11 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import Footer from "/src/Components/Doctor/Footer.jsx";
-import {
-  useDiagnose,
-  usePatients,
-  useReport,
-} from "../../Hooks/DoctorHooks.js";
+import Footer from "src/Components/Doctor/Footer.jsx";
+import { useDiagnose, usePatients, useReport } from "src/Hooks/DoctorHooks.js";
 import toast from "react-hot-toast";
 
 const Diagnose = () => {

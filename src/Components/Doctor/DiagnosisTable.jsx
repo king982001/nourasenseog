@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import DataTable from "react-data-table-component";
 import { useParams } from "react-router-dom";
-import { useDiagnoseHistory } from "../../Hooks/DoctorHooks.js";
+import { useDiagnoseHistory } from "src/Hooks/DoctorHooks.js";
 
 const DiagnosisTable = () => {
   const { id } = useParams();

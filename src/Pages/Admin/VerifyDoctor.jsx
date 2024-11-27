@@ -1,11 +1,11 @@
 import { useParams } from "react-router-dom";
-import { useDoctorById, useVerifyDoctor } from "/src/Hooks/AdminHooks.js";
+import { useDoctorById, useVerifyDoctor } from "src/Hooks/AdminHooks.js";
 import { ClipLoader } from "react-spinners";
 import React, { useEffect, useState } from "react";
-import SomethingWentWrong from "/src/Pages/Admin/SomethingWentWrong.jsx";
-import formatDate from "/src/Utilities/Admin/formatDate.js";
+import SomethingWentWrong from "src/Pages/Admin/SomethingWentWrong.jsx";
+import formatDate from "src/Utilities/Admin/formatDate.js";
 import toast from "react-hot-toast";
-import Prompt from "../../Components/Prompt.jsx";
+import Prompt from "src/Components/Prompt.jsx";
 
 export const VerifyDoctor = () => {
   const { doctorID } = useParams();

@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import { FaTrash } from "react-icons/fa";
 import DataTable from "react-data-table-component";
-import Search from "/src/assets/Doctor/Search.svg";
-import User from "/src/assets/Doctor/User.svg";
+import Search from "src/assets/Doctor/Search.svg";
+import User from "src/assets/Doctor/User.svg";
 import AddPatient from "./AddPatient";
 import { useNavigate } from "react-router-dom";
 import CreateAppointmentModal from "./CreateAppointmentModal.jsx";
-import { useDeletePatient, usePatients } from "../../Hooks/DoctorHooks.js";
+import { useDeletePatient, usePatients } from "src/Hooks/DoctorHooks.js";
 import { ClipLoader } from "react-spinners";
 import toast from "react-hot-toast";
 import Prompt from "../Prompt.jsx"; // Import the Prompt component
