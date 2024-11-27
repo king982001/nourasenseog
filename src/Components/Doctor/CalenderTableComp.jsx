@@ -1,4 +1,4 @@
-import TableData from "./TableData";
+import TableData from "./TableData.jsx";
 import React, { useState } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";

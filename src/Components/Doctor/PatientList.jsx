@@ -3,7 +3,7 @@ import { FaTrash } from "react-icons/fa";
 import DataTable from "react-data-table-component";
 import Search from "src/assets/Doctor/Search.svg";
 import User from "src/assets/Doctor/User.svg";
-import AddPatient from "./AddPatient";
+import AddPatient from "./AddPatient.jsx";
 import { useNavigate } from "react-router-dom";
 import CreateAppointmentModal from "./CreateAppointmentModal.jsx";
 import { useDeletePatient, usePatients } from "src/Hooks/DoctorHooks.js";

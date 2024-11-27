@@ -1,6 +1,6 @@
-import DiagnoseIntro from "src/Components/Doctor/DiagnoseIntro";
-import Footer from "src/Components/Doctor/Footer";
-import CalenderTableComp from "src/Components/Doctor/CalenderTableComp";
+import DiagnoseIntro from "src/Components/Doctor/DiagnoseIntro.jsx";
+import Footer from "src/Components/Doctor/Footer.jsx";
+import CalenderTableComp from "src/Components/Doctor/CalenderTableComp.jsx";
 import { useEffect } from "react";
 
 const PatientProfile = () => {
