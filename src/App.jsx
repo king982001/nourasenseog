@@ -7,7 +7,7 @@ import EmptyHead from "src/Components/EmptyHead.jsx";
 function App() {
   const location = useLocation();
   const shouldShowEmptyHead =
-    location.pathname !== "/doctor" || location.pathname !== "/doctor/";
+    location.pathname !== "/doctor" && location.pathname !== "/doctor/";
 
   return (
     <>
