@@ -153,6 +153,22 @@ export const useAppointments = () => {
     select: (data) => data.data.appointments,
   });
 };
+export const useAppointmentsByPatient = (id) => {
+  return useQuery({
+    queryFn: async () => {
+      const response = await api.get(
+        `/api/v1/parent/getAppointmentsByPatientId/${id}`,
+        {
+          headers: { "X-Use-Doctor-Token": true },
+        },
+      );
+      return response.data;
+    },
+
+    queryKey: ["appointments"],
+    select: (data) => data.data.appointments,
+  });
+};
 
 export const useDiagnoseHistory = (patientId) => {
   return useQuery({
@@ -162,7 +178,7 @@ export const useDiagnoseHistory = (patientId) => {
         throw new Error("Patient ID is required");
       }
       const response = await axios.get(
-        `https://diagnostics-app-4n9ac.ondigitalocean.app/diagnosis-history?id_num=${patientId}`,
+        `${import.meta.env.VITE_API_BASE_URL_LLM}/diagnosis-history?id_num=${patientId}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("DoctorToken")}`,
@@ -182,7 +198,7 @@ export const useReportHistory = (patientId) => {
         throw new Error("Patient ID is required");
       }
       const response = await axios.get(
-        `https://diagnostics-app-4n9ac.ondigitalocean.app/report-history?id_num=${patientId}`,
+        `${import.meta.env.VITE_API_BASE_URL_LLM}/report-history?id_num=${patientId}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("DoctorToken")}`,
@@ -200,7 +216,7 @@ export const useDiagnose = () => {
   return useMutation({
     mutationFn: async (data) => {
       const response = await axios.post(
-        `https://diagnostics-app-4n9ac.ondigitalocean.app/diagnosis`,
+        `${import.meta.env.VITE_API_BASE_URL_LLM}/diagnosis`,
         data,
         {
           headers: {
@@ -212,11 +228,12 @@ export const useDiagnose = () => {
     },
   });
 };
+
 export const useReport = () => {
   return useMutation({
     mutationFn: async (data) => {
       const response = await axios.post(
-        `https://diagnostics-app-4n9ac.ondigitalocean.app/report`,
+        `${import.meta.env.VITE_API_BASE_URL_LLM}/report`,
         data,
         {
           headers: {

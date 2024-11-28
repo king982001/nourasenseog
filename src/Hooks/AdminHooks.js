@@ -33,6 +33,19 @@ export const useAllDoctors = () => {
     queryFn: fetchAllDoctors,
   });
 };
+const fetchUnverifiedDoctors = async () => {
+  const response = await api.get("/api/v1/admin/getUnVerifiedDoctors", {
+    headers: { "X-Use-Admin-Token": true },
+  });
+  return response.data;
+};
+
+export const useUnverifiedDoctors = () => {
+  return useQuery({
+    queryKey: ["Doctors"],
+    queryFn: fetchUnverifiedDoctors,
+  });
+};
 
 const fetchDoctorById = async (doctorID) => {
   const response = await api.get(`/api/v1/admin/getDoctorDetails/${doctorID}`, {
@@ -59,5 +72,14 @@ export const useVerifyDoctor = () => {
           headers: { "X-Use-Admin-Token": true },
         },
       ),
+  });
+};
+
+export const useRejectDoctor = () => {
+  return useMutation({
+    mutationFn: (doctorId) =>
+      api.delete(`/api/v1/admin/rejectDoctor/${doctorId}`, {
+        headers: { "X-Use-Admin-Token": true },
+      }),
   });
 };

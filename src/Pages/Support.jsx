@@ -3,9 +3,19 @@ import styles from "./Support.module.css";
 import phoneIcon from "src/assets/Doctor/phone.png";
 import emailIcon from "src/assets/Doctor/gmail.png";
 import copyrightIcon from "src/assets/Doctor/copyright.png";
+import { useFeedback } from "src/Hooks/Hooks.js";
+import toast from "react-hot-toast";
 
 const SupportPage = () => {
   const [faqState, setFaqState] = useState({});
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    topic: "",
+    message: "",
+  });
+
+  const { mutate: sendFeedback } = useFeedback();
 
   const handleFaqClick = (index) => {
     setFaqState((prevState) => {
@@ -19,29 +29,85 @@ const SupportPage = () => {
     });
   };
 
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (
+      !formData ||
+      !formData.name ||
+      !formData.email ||
+      !formData.topic ||
+      !formData.message
+    ) {
+      return toast.error("Please fill in all fields");
+    }
+
+    const toastId = toast.loading("Please wait...");
+
+    sendFeedback(formData, {
+      onSuccess: () => {
+        toast.success("Feedback successfully saved", { id: toastId });
+      },
+      onError: () => {
+        toast.error("Oops, something went wrong", { id: toastId });
+      },
+    });
+  };
+
   useEffect(() => {
     document.title = "Nourasense - Support";
   }, []);
 
   return (
     <div>
-      <div className={styles.header}></div>
-
       <div className={styles.container}>
         <div className={styles.contactForm}>
           <h2>Contact Us</h2>
-          <form>
+          <form onSubmit={handleSubmit}>
             <label htmlFor="name">Name*</label>
-            <input type="text" id="name" name="name" required />
+            <input
+              type="text"
+              id="name"
+              name="name"
+              value={formData.name}
+              onChange={handleInputChange}
+              required
+            />
 
             <label htmlFor="email">Email*</label>
-            <input type="email" id="email" name="email" required />
+            <input
+              type="email"
+              id="email"
+              name="email"
+              value={formData.email}
+              onChange={handleInputChange}
+              required
+            />
 
-            <label htmlFor="topic">Topic</label>
-            <input type="text" id="topic" name="topic" />
+            <label htmlFor="topic">Topic*</label>
+            <input
+              type="text"
+              id="topic"
+              name="topic"
+              value={formData.topic}
+              onChange={handleInputChange}
+            />
 
             <label htmlFor="message">Message*</label>
-            <textarea id="message" name="message" required></textarea>
+            <textarea
+              id="message"
+              name="message"
+              value={formData.message}
+              onChange={handleInputChange}
+              required
+            ></textarea>
 
             <button type="submit">Send Message</button>
           </form>

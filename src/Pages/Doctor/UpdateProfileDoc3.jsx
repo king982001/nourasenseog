@@ -60,7 +60,6 @@ const UpdateProfileDoc3 = () => {
 
   return (
     <div className={styles.pageContainer3}>
-      <header className={styles.header3}></header>
       <div className={styles.signupDoc3Container}>
         <h2>Verify your Identity</h2>
         <p className={styles.uploadId3}>Upload ID</p>

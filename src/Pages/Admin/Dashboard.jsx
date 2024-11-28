@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { useAllDoctors, useGetStatistics } from "src/Hooks/AdminHooks.js";
+import {
+  useGetStatistics,
+  useUnverifiedDoctors,
+} from "src/Hooks/AdminHooks.js";
 import { ClipLoader } from "react-spinners";
 import { StatisticCard } from "src/Components/Admin/StatisticCard.jsx";
 import Doctor from "src/assets/Admin/doctor.svg";
@@ -18,11 +21,12 @@ export const Dashboard = () => {
   } = useGetStatistics();
 
   const {
-    data: allDoctors,
+    data,
     isLoading: isAllDoctorsLoading,
     isError: isAllDoctorsError,
-  } = useAllDoctors();
+  } = useUnverifiedDoctors();
 
+  const doctors = data?.data;
   const navigate = useNavigate();
 
   const [searchQuery, setSearchQuery] = useState("");
@@ -69,7 +73,7 @@ export const Dashboard = () => {
     },
   ];
 
-  const filteredDoctors = allDoctors?.doctors?.filter(
+  const filteredDoctors = doctors?.doctors?.filter(
     (doctor) =>
       doctor.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
       doctor.customId?.toLowerCase().includes(searchQuery.toLowerCase()),
@@ -113,7 +117,7 @@ export const Dashboard = () => {
             <input
               type="text"
               className={
-                "w-full h-[56px] px-4 focus:outline-none  border-0 text-lg font-Inter text-gray-500"
+                "w-full h-[56px] px-4 focus:outline-none  !border-0 !mt-0 text-lg font-Inter text-gray-500"
               }
               placeholder={"Search by name or ID"}
               value={searchQuery}

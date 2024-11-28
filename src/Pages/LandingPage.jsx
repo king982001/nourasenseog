@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Logo from "/Logo.png";
-import styles from "./LandingPage.module.css";
+import styles from "./Doctor/LandingPage.module.css";
 
 import heroImage1 from "/src/assets/Doctor/1.png";
 import heroImage2 from "/src/assets/Doctor/2.png";
@@ -44,19 +44,19 @@ const LandingPage = () => {
           <ul>
             <li
               className={styles.liInLanding}
-              onClick={() => navigate("/doctor/support")}
+              onClick={() => navigate("/support")}
             >
               <a>Support</a>
             </li>
             <li
               className={styles.liInLanding}
-              onClick={() => navigate("/doctor/support")}
+              onClick={() => navigate("/support")}
             >
               <a>Feedback</a>
             </li>
             <li
               className={styles.signinInLanding}
-              onClick={() => navigate("/doctor/login")}
+              onClick={() => navigate("/login")}
             >
               <a>Sign in</a>
             </li>
@@ -263,16 +263,16 @@ const LandingPage = () => {
             <h4 className={styles.footerHeading}>Links</h4>
             <ul className={styles.footerLinks}>
               <li>
-                <a onClick={() => navigate("/doctor/support")}>Support </a>
+                <a onClick={() => navigate("/support")}>Support </a>
               </li>
               <li>
-                <a onClick={() => navigate("/doctor/support")}>Feedback </a>
+                <a onClick={() => navigate("/support")}>Feedback </a>
               </li>
               <li>
                 <a onClick={() => navigate("/doctor/signup")}>Create account</a>
               </li>
               <li>
-                <a onClick={() => navigate("/doctor/login")}>Sign in </a>
+                <a onClick={() => navigate("/login")}>Sign in </a>
               </li>
             </ul>
           </div>

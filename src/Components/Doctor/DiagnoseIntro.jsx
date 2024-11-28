@@ -10,7 +10,7 @@ const DiagnoseIntro = () => {
   const patient = data?.find((patient) => patient._id === id);
   const navigate = useNavigate();
   const account = JSON.parse(localStorage.getItem("DoctorAccount"));
-  const isDoctorApproved = account?.approval_status || false;
+  const isDoctorApproved = account?.verified || false;
   const doctorName = account?.name?.trim() || "";
   const surName = account?.surname?.trim() || "";
   const formattedDate = new Date().toLocaleDateString("en-US", {

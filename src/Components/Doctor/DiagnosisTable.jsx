@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import DataTable from "react-data-table-component";
 import { useParams } from "react-router-dom";
 import { useDiagnoseHistory } from "src/Hooks/DoctorHooks.js";
+import { ClipLoader } from "react-spinners";
 
 const DiagnosisTable = () => {
   const { id } = useParams();
@@ -101,7 +102,9 @@ const DiagnosisTable = () => {
         <div className="flex justify-center items-center">No data found!</div>
       )}
       {loading && (
-        <div className="flex justify-center items-center">Loading...</div>
+        <div className={"flex justify-center items-center text-primary-blue"}>
+          <ClipLoader color={"#002f88"} />
+        </div>
       )}
       {!loading && !error && (
         <DataTable
