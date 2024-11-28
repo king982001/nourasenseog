@@ -58,6 +58,7 @@ const AddPatient = ({ closeModal, refetchPatients }) => {
   );
 
   const handleAddPatient = async () => {
+    console.log(patientID);
     // Validate fields before making the API call
     if (!firstName || !surname || !day || !month || !year) {
       toast.error("All fields are required!");

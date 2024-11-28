@@ -12,9 +12,7 @@ const UpdateProfileDoc = () => {
   const [formData, setFormData] = useState({
     name: "",
     surname: "",
-    dobDay: "",
-    dobMonth: "",
-    dobYear: "",
+    date_of_birth: "",
     gender: "",
     address: "",
   });
@@ -82,7 +80,6 @@ const UpdateProfileDoc = () => {
 
   return (
     <div className={styles.pageContainer1}>
-      <header className={styles.header}></header>
       <div className={styles.signupDocContainer1}>
         <h2>Update Profile</h2>
         {error && <p style={{ color: "red" }}>{error}</p>}
@@ -116,37 +113,14 @@ const UpdateProfileDoc = () => {
             <label>Date of Birth</label>
             <div className={styles.dobInputs}>
               <input
-                type="text"
+                type="date"
                 id="dob-day"
-                name="dobDay"
+                name="date_of_birth"
                 className={styles.textInput}
                 placeholder="Day"
-                value={formData.dobDay}
+                value={formData.date_of_birth}
                 onChange={handleInputChange}
                 required
-                maxLength="2"
-              />
-              <input
-                type="text"
-                id="dob-month"
-                name="dobMonth"
-                className={styles.textInput}
-                placeholder="Month"
-                value={formData.dobMonth}
-                onChange={handleInputChange}
-                required
-                maxLength="2"
-              />
-              <input
-                type="text"
-                id="dob-year"
-                name="dobYear"
-                className={styles.textInput}
-                placeholder="Year"
-                value={formData.dobYear}
-                onChange={handleInputChange}
-                required
-                maxLength="4"
               />
             </div>
           </div>

@@ -6,6 +6,7 @@ import Share from "src/assets/Doctor/Share.svg";
 import { useParams } from "react-router-dom";
 import { useReportHistory } from "src/Hooks/DoctorHooks.js";
 import toast from "react-hot-toast";
+import { ClipLoader } from "react-spinners";
 
 const TableData = () => {
   const { id } = useParams();
@@ -99,7 +100,9 @@ const TableData = () => {
         <div className={"flex justify-center items-center"}>No data found!</div>
       )}
       {reportsLoading && (
-        <div className={"flex justify-center items-center"}>Loading....</div>
+        <div className={"flex justify-center items-center text-primary-blue"}>
+          <ClipLoader color={"#002f88"} />
+        </div>
       )}
       {!reportsLoading && !error && (
         <DataTable

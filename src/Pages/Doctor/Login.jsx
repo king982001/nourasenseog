@@ -23,7 +23,7 @@ const Login = () => {
 
   useEffect(() => {
     if (localStorage.getItem("DoctorToken")) {
-      navigate("/doctor/dashboard");
+      navigate("/doctor/");
     }
   }, []);
 
@@ -42,7 +42,7 @@ const Login = () => {
     await login(data, {
       onSuccess: (response) => {
         toast.success("Welcome Back!", { id: toastId });
-        navigate("/doctor/dashboard");
+        navigate("/doctor/");
         localStorage.setItem("DoctorToken", response.data.data.token);
         localStorage.setItem(
           "DoctorAccount",

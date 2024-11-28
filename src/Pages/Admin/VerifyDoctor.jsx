@@ -1,5 +1,9 @@
-import { useParams } from "react-router-dom";
-import { useDoctorById, useVerifyDoctor } from "src/Hooks/AdminHooks.js";
+import { useNavigate, useParams } from "react-router-dom";
+import {
+  useDoctorById,
+  useRejectDoctor,
+  useVerifyDoctor,
+} from "src/Hooks/AdminHooks.js";
 import { ClipLoader } from "react-spinners";
 import React, { useEffect, useState } from "react";
 import SomethingWentWrong from "src/Pages/Admin/SomethingWentWrong.jsx";
@@ -14,6 +18,8 @@ export const VerifyDoctor = () => {
   const doctor = data?.data?.doctor;
   const [isPromptOpen, setIsPromptOpen] = useState(false);
   const [doctorToVerify, setDoctorToVerify] = useState(null);
+  const { mutate: rejectDoctor } = useRejectDoctor();
+  const navigate = useNavigate();
 
   useEffect(() => {
     document.title = "Nourasense - VerifyDoctor";
@@ -51,6 +57,19 @@ export const VerifyDoctor = () => {
       onError: (error) => {
         toast.error("Something went wrong! please try again", { id });
         console.log("Doctor verify error", error);
+      },
+    });
+  };
+
+  const handleReject = (doctorId) => {
+    const toastId = toast.loading("Please wait!");
+    rejectDoctor(doctorId, {
+      onSuccess: () => {
+        toast("Rejected Doctor", { id: toastId });
+        navigate("/admin/");
+      },
+      onError: (error) => {
+        toast.error("Something went wrong! please try again", { id: toastId });
       },
     });
   };
@@ -187,7 +206,12 @@ export const VerifyDoctor = () => {
         >
           Verify
         </button>
-        <button className={"bg-[#DADADA] py-2 px-16 text-black"}>Reject</button>
+        <button
+          className={"bg-[#DADADA] py-2 px-16 text-black"}
+          onClick={() => handleReject(doctor._id)}
+        >
+          Reject
+        </button>
       </div>
       {isPromptOpen && (
         <Prompt

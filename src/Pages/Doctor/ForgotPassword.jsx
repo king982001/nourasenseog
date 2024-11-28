@@ -107,7 +107,6 @@ const ForgotPassword = () => {
 
   return (
     <div>
-      <div className={styles.headerSignIn}></div>
       <div className={styles.signinContainer}>
         <h2>
           {step === 1 && "Forgot Password"}

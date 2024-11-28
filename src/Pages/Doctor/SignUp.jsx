@@ -88,7 +88,6 @@ const SignUp = () => {
 
   return (
     <div className={styles.pageContainer1}>
-      <header className={styles.header}></header>
       <div className={styles.signupDocContainer1}>
         <h2>Create an Account</h2>
         <div className={styles.resume}>

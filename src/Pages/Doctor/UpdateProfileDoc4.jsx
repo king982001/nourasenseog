@@ -37,7 +37,7 @@ const UpdateProfileDoc4 = () => {
         onSuccess: () => {
           setIsUploaded(true); // Set the uploaded state to true
           toast.success("Profile image uploaded successfully!");
-          navigate("/doctor/dashboard");
+          navigate("/doctor/");
         },
         onError: () => {
           setLoading(false);
@@ -53,7 +53,6 @@ const UpdateProfileDoc4 = () => {
 
   return (
     <div className={styles.pageContainer4}>
-      <header className={styles.headerdoc4}></header>
       <div className={styles.signupDoc4Container}>
         <h2>Verify your Identity</h2>
         <p className={styles.uploadId4}>Take A Picture</p>
