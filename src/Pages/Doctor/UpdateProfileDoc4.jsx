@@ -74,7 +74,7 @@ const UpdateProfileDoc4 = () => {
                 onClick={() =>
                   document.getElementById("identity-document").click()
                 }
-                className="text-blue-600 hover:text-blue-700 text-white font-semibold bg-white"
+                className="text-blue-600 hover:text-blue-700  font-semibold bg-white"
               >
                 Browse
               </button>
