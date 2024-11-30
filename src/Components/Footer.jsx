@@ -3,14 +3,14 @@ import { FaRegCopyright } from "react-icons/fa";
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-100 py-6 mt-20">
+    <footer className="bg-gray-100 py-6 mt-6">
       <div className="container mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4">
         {/* Left Section */}
         <div className="flex items-center gap-2">
-          <FaRegCopyright className="text-primary-blue text-lg" />
           <p className="text-sm text-gray-600">
-            Copyright <span className="font-semibold">Nourasense 2024</span>.
-            All Rights Reserved.
+            <span className={"text-primary-blue"}>&copy;</span> Copyright{" "}
+            <span className="font-semibold">Nourasense 2024</span>. All Rights
+            Reserved.
           </p>
         </div>
 

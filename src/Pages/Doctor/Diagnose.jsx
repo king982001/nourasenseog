@@ -33,6 +33,7 @@ const Diagnose = () => {
       toast.error("Please enter at least one measurement to proceed.");
       return;
     }
+    const toastId = toast.loading("Please wait...");
     setError(null);
     const dobFormatted = new Date(patient.date_of_birth).toLocaleDateString(
       "en-GB",
@@ -49,14 +50,15 @@ const Diagnose = () => {
     await diagnose(data, {
       onMutate: () => {
         setDiagnosisLoading(true); // Start loading for diagnosis
-        toast.loading("Please wait!");
       },
       onSuccess: (response) => {
         setDiagnosisResult(response);
+        toast.success("Diagnose successfully", { id: toastId });
         setDiagnosisLoading(false); // Stop loading after diagnosis completes
       },
       onError: (error) => {
         setError("An error occurred during diagnosis.");
+        toast.error("An error occurred during diagnosis.", { id: toastId });
         setDiagnosisLoading(false); // Stop loading on error
       },
     });
@@ -82,6 +84,7 @@ const Diagnose = () => {
   const handleGenerateReport = async () => {
     if (!diagnosisResult) return toast.error("Oops! An error occurred.");
     setReportLoading(true); // Start loading for report generation
+    const toastId = toast.loading("Please wait...");
     const account = JSON.parse(localStorage.getItem("DoctorAccount"));
 
     // Extract the required data from the diagnosis result
@@ -91,7 +94,7 @@ const Diagnose = () => {
       doctor_name: `Dr. ${account.name} ${account.surname}`, // Doctor's full name
       dob: diagnosisResult.date, // Report date (already in diagnosisResult)
       doctor_id: account.customId, // Doctor ID (from account's customId)
-      contact: account.phonenumber, // Doctor's contact (from account's phonenumber)
+      contact: account.phonenumber || "", // Doctor's contact (from account's phonenumber)
       patient_id: id, // Patient ID (from patient data)
       name: `${patient.name} ${patient.surname}`, // Patient's full name
       gender: patient.gender,
@@ -103,15 +106,15 @@ const Diagnose = () => {
     await generateReport(reportData, {
       onMutate: () => {
         setReportLoading(true);
-        toast.loading("Please wait!");
       },
       onSuccess: (response) => {
-        toast.success("Report generated successfully.");
+        toast.success("Report generated successfully.", { id: toastId });
         setReportLink(response.report_link); // Store the report download link
         setReportLoading(false); // Stop loading after report generation
       },
       onError: (error) => {
         console.error("Error generating report:", error);
+        toast.error("An error occurred.", { id: toastId });
         setReportLoading(false); // Stop loading on error
       },
     });
@@ -135,7 +138,7 @@ const Diagnose = () => {
   }
 
   return (
-    <div className="min-h-screen w-full ">
+    <div className="min-h-[80vh] w-full ">
       <div className="flex flex-col gap-2 text-center pt-8 pb-4 md:pt-12 md:pb-8 px-8 md:px-12">
         <h1 className="font-serif text-2xl sm:text-3xl">
           Hello{" "}
@@ -351,7 +354,6 @@ const Diagnose = () => {
           </>
         )}
       </div>
-      <Footer />
     </div>
   );
 };

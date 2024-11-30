@@ -170,7 +170,7 @@ export const useAppointmentsByPatient = (id) => {
   });
 };
 
-export const useDiagnoseHistory = (patientId) => {
+export const useDiagnoseHistory = (patientId, page = 1) => {
   return useQuery({
     queryKey: ["diagnoseHistory", patientId],
     queryFn: async () => {
@@ -178,7 +178,7 @@ export const useDiagnoseHistory = (patientId) => {
         throw new Error("Patient ID is required");
       }
       const response = await axios.get(
-        `${import.meta.env.VITE_API_BASE_URL_LLM}/diagnosis-history?id_num=${patientId}`,
+        `${import.meta.env.VITE_API_BASE_URL_LLM}/diagnosis-history?id_num=${patientId}&page=${page}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("DoctorToken")}`,

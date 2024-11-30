@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import styles from "./UpdateProfileDoc2.module.css";
-import copyrightIcon from "src/assets/Doctor/copyright.png";
 import { useUpdateMedicalVerification } from "src/Hooks/DoctorHooks.js";
 import toast from "react-hot-toast";
 
@@ -68,20 +66,23 @@ const UpdateProfileDoc2 = () => {
   };
 
   return (
-    <div className={styles.pageContainer2}>
-      <div className={styles.signupDocContainer2}>
-        <h2>Verify your Identity</h2>
-        <p className={styles.enter}>
+    <div className="min-h-screen flex justify-center items-center py-8">
+      <div className="w-full max-w-3xl p-8 bg-white rounded-lg shadow-xl">
+        <h2 className="text-3xl font-bold text-center mb-8 text-gray-800">
+          Verify Your Identity
+        </h2>
+        <p className="text-lg text-center mb-6 text-gray-600">
           Enter your registration details as accurately as possible. These are
           required to verify your account as a registered medical professional.
         </p>
         <form id="signup-form" onSubmit={handleNext}>
-          <div className={styles.estnameContainer}>
+          {/* Establishment Name */}
+          <div className="mb-6">
             <input
               type="text"
               id="estname"
               name="estname"
-              className={styles.textInput}
+              className="w-full p-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-blue"
               placeholder="Establishment Name"
               value={establishmentName}
               onChange={handleTextInputChange(setEstablishmentName)}
@@ -89,12 +90,14 @@ const UpdateProfileDoc2 = () => {
               required
             />
           </div>
-          <div className={styles.placeContainer}>
+
+          {/* Place of Establishment */}
+          <div className="mb-6">
             <input
               type="text"
               id="place"
               name="place"
-              className={styles.textInput}
+              className="w-full p-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-blue"
               placeholder="Place of Establishment"
               value={placeOfEstablishment}
               onChange={handleTextInputChange(setPlaceOfEstablishment)}
@@ -102,12 +105,14 @@ const UpdateProfileDoc2 = () => {
               required
             />
           </div>
-          <div className={styles.regnoContainer}>
+
+          {/* Registration Number */}
+          <div className="mb-6">
             <input
               type="number"
               id="regno"
               name="regno"
-              className={styles.textInput}
+              className="w-full p-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-blue"
               placeholder="Registration Number"
               min="0"
               value={regnoValue}
@@ -115,12 +120,14 @@ const UpdateProfileDoc2 = () => {
               required
             />
           </div>
-          <div className={styles.regcounContainer}>
+
+          {/* Registration Council */}
+          <div className="mb-8">
             <input
               type="text"
               id="regcoun"
               name="regcoun"
-              className={styles.textInput}
+              className="w-full p-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-blue"
               placeholder="Registration Council"
               value={regCouncil}
               onChange={handleTextInputChange(setRegCouncil)}
@@ -128,28 +135,22 @@ const UpdateProfileDoc2 = () => {
               required
             />
           </div>
+
+          {/* Error Message */}
           {errorMessage && (
-            <p className={styles.errorMessage}>{errorMessage}</p>
+            <p className="text-red-600 text-center mb-6">{errorMessage}</p>
           )}
+
+          {/* Submit Button */}
           <button
             type="submit"
-            className={styles.nextButton2}
+            className="w-full py-4 bg-primary-blue text-white font-semibold rounded-md hover:bg-primary-blue-dark disabled:opacity-50"
             disabled={loading}
           >
             {loading ? "Submitting..." : "Next"}
           </button>
         </form>
       </div>
-      <footer className={styles.docFooter2}>
-        <p className={styles.copyright}>
-          <img
-            src={copyrightIcon}
-            alt="Copyright Icon"
-            className="copyright-icon"
-          />
-          Copyright Nourasence 2024. All Rights Reserved.
-        </p>
-      </footer>
     </div>
   );
 };

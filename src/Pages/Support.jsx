@@ -173,17 +173,6 @@ const SupportPage = () => {
           </div>
         ))}
       </div>
-
-      <footer className={styles.footer}>
-        <p className={styles.copyright}>
-          <img
-            src={copyrightIcon}
-            alt="Copyright"
-            className={styles.copyrightIcon}
-          />{" "}
-          Copyright Nourasense 2024 . All Rights Reserved.
-        </p>
-      </footer>
     </div>
   );
 };

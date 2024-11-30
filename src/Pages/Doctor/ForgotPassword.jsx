@@ -106,7 +106,7 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div>
+    <div className={"min-h-[80vh]"}>
       <div className={styles.signinContainer}>
         <h2>
           {step === 1 && "Forgot Password"}
@@ -197,22 +197,6 @@ const ForgotPassword = () => {
           </form>
         )}
       </div>
-      <footer className={styles.footerSignIn}>
-        <p className={styles.signupLink}>
-          Back to{" "}
-          <Link to="/doctor/login" className={styles.signupLinkBlue}>
-            Sign In
-          </Link>
-        </p>
-        <p className={styles.copyright}>
-          <img
-            src={copyrightIcon}
-            alt="Copyright Icon"
-            className={styles.copyrightIcon}
-          />
-          Copyright Nourasense 2024 . All Rights Reserved.
-        </p>
-      </footer>
     </div>
   );
 };

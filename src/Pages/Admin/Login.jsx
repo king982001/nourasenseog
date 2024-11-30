@@ -60,7 +60,9 @@ export const Login = () => {
   };
 
   return (
-    <div className={"w-full h-full  flex justify-center items-center px-4"}>
+    <div
+      className={"w-full min-h-[80vh]  flex justify-center items-center px-4"}
+    >
       <div className={" max-w-[500px] mt-[76px] p-2.5 bg-[#fff] rounded-[8px]"}>
         <h2
           className={
