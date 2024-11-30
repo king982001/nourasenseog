@@ -19,24 +19,6 @@ const NotFoundPage = () => {
           Go to Homepage
         </button>
       </div>
-      <footer className="text-sm text-gray-600 mt-6">
-        <p className="mb-2">
-          If you believe this is a mistake, contact us at{" "}
-          <a
-            href="mailto:support@nourasense.com"
-            className="text-[#1261F5] font-semibold hover:underline"
-          >
-            support@nourasense.com
-          </a>
-        </p>
-        <p>
-          &copy; 2024{" "}
-          <a href="/" className="text-[#1261F5] font-semibold hover:underline">
-            Nourasense
-          </a>
-          . All rights reserved.
-        </p>
-      </footer>
     </div>
   );
 };

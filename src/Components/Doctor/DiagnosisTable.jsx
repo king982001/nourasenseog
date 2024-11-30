@@ -6,8 +6,12 @@ import { ClipLoader } from "react-spinners";
 
 const DiagnosisTable = () => {
   const { id } = useParams();
+  const [page, setPage] = useState(1); // Tracks current page
   const [error, setError] = useState(false);
-  const { data: diagnosisRecords, isLoading: loading } = useDiagnoseHistory(id);
+  const { data: diagnosisRecords, isLoading: loading } = useDiagnoseHistory(
+    id,
+    page,
+  );
 
   const getClassForDiagnosis = (value, type) => {
     const classes = {
@@ -93,6 +97,10 @@ const DiagnosisTable = () => {
     },
   };
 
+  const handlePageChange = (newPage) => {
+    setPage(newPage); // Update the current page
+  };
+
   return (
     <div className={"flex flex-col gap-y-5"}>
       <h1 className="font-serif text-xl font-semibold text-center">
@@ -110,6 +118,15 @@ const DiagnosisTable = () => {
         <DataTable
           columns={columns}
           data={diagnosisRecords?.diagnosis_history}
+          pagination
+          paginationServer
+          paginationComponentOptions={{
+            noRowsPerPage: true, // Disable "Rows per page"
+          }}
+          paginationTotalRows={diagnosisRecords?.total_records || 0}
+          paginationPerPage={diagnosisRecords?.page_size || 10}
+          paginationDefaultPage={diagnosisRecords?.current_page || 1}
+          onChangePage={handlePageChange}
           fixedHeader
           responsive
           pointerOnHover

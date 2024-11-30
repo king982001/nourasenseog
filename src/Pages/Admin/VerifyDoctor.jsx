@@ -38,7 +38,7 @@ export const VerifyDoctor = () => {
     );
   }
 
-  if (isError) {
+  if (isError || !doctor) {
     return <SomethingWentWrong />;
   }
 

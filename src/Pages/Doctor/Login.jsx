@@ -1,8 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import styles from "./Login.module.css";
 import GoogleLogo from "src/assets/Doctor/google-icon-logo-svgrepo-com.svg";
-import copyrightIcon from "src/assets/Doctor/copyright.png";
 import { useContext, useEffect, useState } from "react";
 import { useLogin } from "src/Hooks/DoctorHooks.js";
 import { DataContext } from "src/Context/Doctor/DataProvider.jsx";
@@ -63,91 +61,101 @@ const Login = () => {
   };
 
   return (
-    <div>
-      <div className={styles.signinContainer}>
-        <h2>Welcome Back!</h2>
-        <div className={styles.resume}>
-          <p className={styles.resumeP}>
-            Resume where you left off and get up-to-date diagnostics and reports
-          </p>
-        </div>
-        <form onSubmit={submitHandler}>
-          <div className={styles.formGroup}>
+    <div className="h-[100vh] md:h-screen flex flex-col justify-center items-center">
+      <div className="w-full max-w-md lg:max-w-lg p-6 bg-white rounded-lg shadow-lg drop-shadow-lg">
+        <h2 className="text-2xl md:text-3xl text-neutral-700 font-bold text-center mb-4">
+          Welcome Back!
+        </h2>
+        <p className="text-sm text-gray-500 text-center mb-6">
+          Resume where you left off and get up-to-date diagnostics and reports.
+        </p>
+        <form onSubmit={submitHandler} className="space-y-4">
+          <div>
             <input
               type="email"
               name="email"
-              className={styles.inputField}
               placeholder="Email"
               onChange={changeHandler}
               required
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-blue"
             />
           </div>
-
-          <div className={styles.formGroup}>
+          <div>
             <input
               type="password"
               name="password"
-              className={styles.inputField}
               placeholder="Password"
               onChange={changeHandler}
               required
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-blue"
             />
           </div>
-          {error && <p className={styles.error}>{error}</p>}
-          <div className={styles.remMe}>
-            <div className={`${styles.formGroup} ${styles.checkboxGroup}`}>
-              <input
-                type="checkbox"
-                className={styles.checkboxInput}
-                id="terms"
-              />
-              <label className={styles.termsText} htmlFor="terms">
-                Remember Me
-              </label>
-            </div>
-            <div>
-              <p className={styles.forgotPs}>
-                <Link to="/doctor/forgot-password" className={styles.forgotPs}>
-                  Forgot Password?
-                </Link>
-              </p>
-            </div>
+          <div className="flex items-center space-x-2">
+            <input
+              type="checkbox"
+              id="terms"
+              className="h-4 w-4 border-gray-300 rounded"
+            />
+            <label htmlFor="terms" className="text-sm text-gray-600">
+              Remember Me
+            </label>
           </div>
-
-          <button type="submit" className={styles.signinBtn}>
+          <button
+            type="submit"
+            className="w-full py-2 bg-primary-blue text-white rounded-lg font-semibold hover:bg-primary-blue-dark"
+          >
             {loading ? "Signing in..." : "Sign In"}
           </button>
-
-          <div className={styles.orDivider}>
-            <span>OR</span>
-          </div>
-
-          <button type="button" className={styles.googleBtn}>
-            <img
-              src={GoogleLogo}
-              alt="Google Logo"
-              className={styles.googleLogo}
-            />
-            Sign in with Google
-          </button>
         </form>
-      </div>
-      <footer className={styles.footerSignIn}>
-        <p className={styles.signupLink}>
-          Don{"'"}t have an account?{" "}
-          <Link to="/doctor/signup" className={styles.signupLinkBlue}>
-            Sign Up
+
+        <div className="relative flex justify-center items-center mt-6">
+          <span className="absolute bg-white px-4 text-gray-500">OR</span>
+          <div className="w-full h-px bg-gray-300"></div>
+        </div>
+
+        <button
+          type="button"
+          className="w-full flex items-center justify-center mt-6 py-2 bg-gray-200 rounded-lg hover:bg-gray-300 disabled:cursor-not-allowed disabled:bg-gray-300"
+          disabled={true}
+        >
+          <img src={GoogleLogo} alt="Google Logo" className="h-5 w-5 mr-2" />
+          Sign in with Google
+        </button>
+
+        <p className="text-sm text-center text-gray-600 mt-4">
+          <span className="text-gray-500">Don't have an account yet?</span>{" "}
+          <Link
+            to="/doctor/signup"
+            className="text-primary-blue font-medium hover:underline"
+          >
+            Create Account
           </Link>
         </p>
-        <p className={styles.copyright}>
-          <img
-            src={copyrightIcon}
-            alt="Copyright Icon"
-            className={styles.copyrightIcon}
-          />
-          Copyright Nourasense 2024 . All Rights Reserved.
+        <p className="text-sm text-center text-gray-600 mt-4">
+          <span className="text-gray-500">Are you a patient?</span>{" "}
+          <Link
+            to="/login"
+            className="text-primary-blue font-medium hover:underline"
+          >
+            Log in here
+          </Link>
         </p>
-      </footer>
+      </div>
+      <div className="mt-6 text-xs text-gray-500">
+        <p className="text-center md:text-left">
+          &copy; 2024 Nourasense. All rights reserved.{" "}
+          <Link
+            to="/privacy-policy"
+            className="text-primary-blue hover:underline"
+          >
+            Privacy Policy
+          </Link>
+          {" | "}
+          <Link to="/t&c" className="text-primary-blue hover:underline">
+            Terms of Service
+          </Link>
+        </p>
+      </div>
     </div>
   );
 };

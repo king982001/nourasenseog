@@ -74,7 +74,7 @@ const Diagnose = () => {
 
   if (loading) {
     return (
-      <div className={"w-full h-full"}>
+      <div className={"w-full h-full flex flex-col justify-center it"}>
         <div className="flex justify-center items-center min-h-screen bg-gray-100">
           <div className="flex flex-col items-center justify-center space-y-4">
             <div className="animate-spin w-12 h-12 border-4 border-t-transparent border-blue-500 rounded-full"></div>
@@ -90,7 +90,7 @@ const Diagnose = () => {
   }
 
   return (
-    <div className="min-h-screen w-full ">
+    <div className="h-[90vh] w-full flex justify-center items-center ">
       <div className="w-[90%] max-w-6xl px-4 md:px-14 mt-8 py-4 mx-auto bg-white shadow-lg rounded-lg flex flex-col gap-8">
         {patient && (
           <>
@@ -264,7 +264,6 @@ const Diagnose = () => {
           </>
         )}
       </div>
-      <Footer />
     </div>
   );
 };

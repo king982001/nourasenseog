@@ -26,12 +26,16 @@ const PatientList = () => {
   const [isVisible, setIsVisible] = useState(false);
 
   // Filter the children based on search term
-  const filteredChildren = children?.data.filter(
-    (val) =>
-      val.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      val.lastName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      val._id.toLowerCase().includes(searchTerm.toLowerCase()),
-  );
+
+  const filteredChildren =
+    typeof children?.data === "object"
+      ? children?.data.filter(
+          (val) =>
+            val.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            val.lastName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            val._id.toLowerCase().includes(searchTerm.toLowerCase()),
+        )
+      : [];
 
   useEffect(() => {
     if (showAddPatient || showDiagnose) {
@@ -135,7 +139,10 @@ const PatientList = () => {
           <div className="flex items-center gap-2">
             <img src={User} alt="User Icon" className="h-6 w-6" />
             <h1 className="font-serif text-sm md:text-base">
-              <span>{children?.data.length || 0}</span> Total Patients
+              <span>
+                {typeof children?.data === "object" ? children.data.length : 0}
+              </span>{" "}
+              Total Patients
             </h1>
           </div>
           <button

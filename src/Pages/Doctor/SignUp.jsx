@@ -1,8 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import styles from "./SignUp.module.css";
 import GoogleLogo from "src/assets/Doctor/google-icon-logo-svgrepo-com.svg";
-import copyrightIcon from "src/assets/Doctor/copyright.png";
 import { useSignup, useVerifyOtp } from "src/Hooks/DoctorHooks.js";
 import toast from "react-hot-toast";
 
@@ -33,30 +31,27 @@ const SignUp = () => {
   const handleSignUp = async (e) => {
     e.preventDefault();
     setIsLoadingSignUp(true);
-    try {
-      const data = {
-        email: formData.email,
-        password: formData.password,
-        userType: "doctor", // Default user type to 'doctor'
-      };
-      await signup(data, {
-        onMutate: () => {
-          const toastId = toast.loading("Please wait...");
-          return { toastId };
-        },
-        onSuccess: (response, variables, context) => {
-          setIsOtpSent(true);
-          toast.success("Otp sent successfully", { id: context.toastId });
-        },
-        onError: (error, variables, context) => {
-          toast.error(error.response.data.message || "Something went wrong");
-        },
-      });
-    } catch (error) {
-      console.error("Signup failed:", error);
-    } finally {
-      setIsLoadingSignUp(false);
-    }
+    const toastId = toast.loading("Please wait...");
+
+    const data = {
+      email: formData.email,
+      password: formData.password,
+      userType: "doctor", // Default user type to 'doctor'
+    };
+    await signup(data, {
+      onMutate: () => {
+        const toastId = toast.loading("Please wait...");
+        return { toastId };
+      },
+      onSuccess: () => {
+        setIsOtpSent(true);
+        toast.success("Otp sent successfully", { id: toastId });
+      },
+      onError: () => {
+        toast.error("Something went wrong", { id: toastId });
+        setIsLoadingSignUp(false);
+      },
+    });
   };
 
   // Handle OTP verification
@@ -87,105 +82,114 @@ const SignUp = () => {
   };
 
   return (
-    <div className={styles.pageContainer1}>
-      <div className={styles.signupDocContainer1}>
-        <h2>Create an Account</h2>
-        <div className={styles.resume}>
-          <p className={styles.resumeP}>
-            Join Nourasense to optimise child growth with ease.
-          </p>
-        </div>
-        <form id="signup-form" onSubmit={handleSignUp}>
-          <div className={styles.emailContainer}>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              className={styles.textInput}
-              placeholder="Email"
-              value={formData.email}
-              onChange={handleChange}
-              disabled={isOtpSent}
-              required
-            />
-          </div>
-          <div className={styles.passwordContainer}>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              className={styles.textInput}
-              placeholder="Password"
-              value={formData.password}
-              onChange={handleChange}
-              disabled={isOtpSent}
-              required
-            />
-          </div>
-          {!isOtpSent && (
+    <div className="h-[100vh] md:h-screen flex flex-col justify-center items-center">
+      <div className="w-full max-w-md lg:max-w-lg p-6 bg-white rounded-lg shadow-lg drop-shadow-lg">
+        <h2 className="text-xl md:text-3xl text-neutral-700 font-bold text-center mb-4">
+          Doctor - Create Your Account
+        </h2>
+        <p className="text-sm text-gray-500 text-center mb-6">
+          Join Nourasense to optimize child growth with ease and become a part
+          of our healthcare community.
+        </p>
+
+        {/* Sign up Form */}
+        {!isOtpSent ? (
+          <form onSubmit={handleSignUp} className="space-y-4">
+            <div>
+              <input
+                type="email"
+                placeholder="Email"
+                id={"email"}
+                name={"email"}
+                value={formData.email}
+                onChange={handleChange}
+                required
+                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-blue"
+              />
+            </div>
+            <div>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Password"
+                value={formData.password}
+                onChange={handleChange}
+                required
+                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-blue"
+              />
+            </div>
             <button
               type="submit"
-              className={styles.SignUpButton}
+              className="w-full py-2 bg-primary-blue text-white rounded-lg font-semibold hover:bg-primary-blue-dark"
               disabled={isLoadingSignUp}
             >
-              {isLoadingSignUp ? "Signing Up..." : "Sign Up"}
+              {isLoadingSignUp ? "Signing up..." : "Sign Up"}
             </button>
-          )}
-          {isOtpSent && (
-            <>
-              <div className={styles.otpContainer}>
-                <input
-                  type="text"
-                  id="otp"
-                  name="otp"
-                  className={styles.textInput}
-                  placeholder="Enter OTP"
-                  value={otpInput}
-                  onChange={(e) => setOtpInput(e.target.value)}
-                  required
-                />
-              </div>
-              <button
-                type="button"
-                className={styles.SignUpButton}
-                onClick={handleVerifyOtp}
-                disabled={isLoadingVerifyOtp}
-              >
-                {isLoadingVerifyOtp ? "Verifying OTP..." : "Verify OTP"}
-              </button>
-            </>
-          )}
-          <div className={styles.orDivider}>
-            <span>OR</span>
-          </div>
+          </form>
+        ) : (
+          <form onSubmit={handleVerifyOtp} className="space-y-4">
+            <div>
+              <input
+                type="text"
+                placeholder="Enter OTP"
+                value={otpInput}
+                onChange={(e) => setOtpInput(e.target.value)}
+                required
+                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-blue"
+              />
+            </div>
+            <button
+              type="submit"
+              className="w-full py-2 bg-primary-blue text-white rounded-lg font-semibold hover:bg-primary-blue-dark"
+              disabled={isLoadingVerifyOtp}
+            >
+              {isLoadingVerifyOtp ? "Verifying OTP..." : "Verify OTP"}
+            </button>
+          </form>
+        )}
 
-          <button type="button" className={styles.googleBtn}>
-            <img
-              src={GoogleLogo}
-              alt="Google Logo"
-              className={styles.googleLogo}
-            />
-            Sign up with Google
-          </button>
-          <p className={styles.privacySignUp}>
-            By Signing Up, you agree to our{" "}
-            <a href="#">Terms, Conditions and Privacy Policy </a>
+        <div className="relative flex justify-center items-center mt-6">
+          <span className="absolute bg-white px-4 text-gray-500">OR</span>
+          <div className="w-full h-px bg-gray-300"></div>
+        </div>
+
+        <button
+          type="button"
+          className="w-full flex items-center justify-center mt-6 py-2 bg-gray-200 rounded-lg hover:bg-gray-300 disabled:bg-gray-300 disabled:cursor-not-allowed"
+          disabled={true}
+        >
+          <img src={GoogleLogo} alt="Google Logo" className="h-5 w-5 mr-2" />
+          Sign up with Google
+        </button>
+        <div className={"flex items-center justify-center mt-6"}>
+          <p className={"text-sm text-gray-600"}>
+            Already have an account?{" "}
+            <Link
+              to="/doctor/login"
+              className="text-primary-blue hover:underline"
+            >
+              Sign In
+            </Link>
           </p>
-          <p className={styles.alreadyAccount}>
-            Already have an account? <Link to="/doctor/login">Sign in</Link>
-          </p>
-        </form>
+        </div>
       </div>
-      <footer className={styles.docFooter}>
-        <p className={styles.copyright}>
-          <img
-            src={copyrightIcon}
-            alt="Copyright Icon"
-            className="copyright-icon"
-          />{" "}
-          Copyright Nourasense 2024. All Rights Reserved.
+
+      <div className="mt-6 text-xs text-gray-500">
+        <p className="text-center md:text-left">
+          &copy; 2024 Nourasense. All rights reserved.{" "}
+          <Link
+            to="/privacy-policy"
+            className="text-primary-blue hover:underline"
+          >
+            Privacy Policy
+          </Link>
+          {" | "}
+          <Link to="/t&c" className="text-primary-blue hover:underline">
+            Terms of Service
+          </Link>
         </p>
-      </footer>
+      </div>
     </div>
   );
 };

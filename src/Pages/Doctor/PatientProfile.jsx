@@ -9,12 +9,11 @@ const PatientProfile = () => {
   }, []);
 
   return (
-    <div className="diagnose-dashboard">
+    <div className="diagnose-dashboard min-h-[80vh]">
       <div className="diagnose-content">
         <DiagnoseIntro />
         <CalenderTableComp />
       </div>
-      <Footer />
     </div>
   );
 };

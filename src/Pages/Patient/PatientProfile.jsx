@@ -14,7 +14,6 @@ const PatientProfile = () => {
         <DiagnoseIntro />
         <CalenderTableComp />
       </div>
-      <Footer />
     </div>
   );
 };

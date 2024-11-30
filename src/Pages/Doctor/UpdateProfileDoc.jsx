@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import styles from "./UpdateProfileDoc.module.css";
-import copyrightIcon from "src/assets/Doctor/copyright.png";
 import { useUpdateGeneralDetails } from "src/Hooks/DoctorHooks.js";
 import toast from "react-hot-toast";
 
@@ -79,29 +77,34 @@ const UpdateProfileDoc = () => {
   };
 
   return (
-    <div className={styles.pageContainer1}>
-      <div className={styles.signupDocContainer1}>
-        <h2>Update Profile</h2>
-        {error && <p style={{ color: "red" }}>{error}</p>}
-        <form id="signup-form" onSubmit={handleNext}>
-          <div className={styles.nameContainer1}>
-            <label>Legal Name</label>
-            <div className={styles.nameInputs}>
+    <div className="min-h-screen  flex justify-center items-center py-8">
+      <div className="w-full max-w-3xl p-8 bg-white rounded-lg shadow-xl">
+        <h2 className="text-3xl font-bold text-center mb-8 text-gray-800">
+          Update Profile
+        </h2>
+
+        {error && <p className="text-red-600 text-center mb-6">{error}</p>}
+
+        <form onSubmit={handleNext}>
+          {/* Name Inputs */}
+          <div className="mb-6">
+            <label className="block text-lg font-medium text-gray-600">
+              Legal Name
+            </label>
+            <div className="flex space-x-6 mt-1">
               <input
                 type="text"
-                id="name"
                 name="name"
-                className={styles.textInput}
-                placeholder="Name"
+                className="w-full p-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-blue"
+                placeholder="First Name"
                 value={formData.name}
                 onChange={handleInputChange}
                 required
               />
               <input
                 type="text"
-                id="surname"
                 name="surname"
-                className={styles.textInput}
+                className="w-full p-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-blue"
                 placeholder="Surname"
                 value={formData.surname}
                 onChange={handleInputChange}
@@ -109,26 +112,29 @@ const UpdateProfileDoc = () => {
               />
             </div>
           </div>
-          <div className={styles.dobContainer}>
-            <label>Date of Birth</label>
-            <div className={styles.dobInputs}>
-              <input
-                type="date"
-                id="dob-day"
-                name="date_of_birth"
-                className={styles.textInput}
-                placeholder="Day"
-                value={formData.date_of_birth}
-                onChange={handleInputChange}
-                required
-              />
-            </div>
+
+          {/* Date of Birth */}
+          <div className="mb-6">
+            <label className="block text-lg font-medium text-gray-600">
+              Date of Birth
+            </label>
+            <input
+              type="date"
+              name="date_of_birth"
+              className="w-full mt-1 p-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-blue"
+              value={formData.date_of_birth}
+              onChange={handleInputChange}
+              required
+            />
           </div>
 
-          <div className={styles.genderContainer}>
-            <label>Gender</label>
-            <div className={styles.genderInputs}>
-              <label className={styles.genderLabel}>
+          {/* Gender */}
+          <div className="mb-6">
+            <label className="block text-lg font-medium text-gray-600">
+              Gender
+            </label>
+            <div className="flex space-x-6 mt-1">
+              <label className="flex items-center text-sm">
                 <input
                   type="radio"
                   name="gender"
@@ -138,7 +144,7 @@ const UpdateProfileDoc = () => {
                 />{" "}
                 Male
               </label>
-              <label className={styles.genderLabel}>
+              <label className="flex items-center text-sm">
                 <input
                   type="radio"
                   name="gender"
@@ -148,7 +154,7 @@ const UpdateProfileDoc = () => {
                 />{" "}
                 Female
               </label>
-              <label className={styles.genderLabel}>
+              <label className="flex items-center text-sm">
                 <input
                   type="radio"
                   name="gender"
@@ -161,26 +167,26 @@ const UpdateProfileDoc = () => {
             </div>
           </div>
 
-          <div className={styles.phoneContainer}>
+          {/* Phone Number */}
+          <div className="mb-6">
             <input
               type="tel"
-              onChange={handlePhoneChange}
-              value={phoneNumber}
-              maxLength="10"
-              id="phone"
               name="phone"
-              className={styles.textInput}
+              className="w-full p-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-blue"
               placeholder="Phone Number"
+              value={phoneNumber}
+              onChange={handlePhoneChange}
+              maxLength="10"
               required
             />
           </div>
 
-          <div className={styles.formGroup}>
+          {/* Address */}
+          <div className="mb-8">
             <input
               type="text"
-              id="address"
               name="address"
-              className={styles.textInput}
+              className="w-full p-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-blue"
               placeholder="Address"
               value={formData.address}
               onChange={handleInputChange}
@@ -188,21 +194,15 @@ const UpdateProfileDoc = () => {
             />
           </div>
 
-          <button type="submit" className={styles.nextButton}>
+          {/* Submit Button */}
+          <button
+            type="submit"
+            className="w-full py-4 bg-primary-blue text-white font-semibold rounded-md hover:bg-primary-blue-dark disabled:opacity-50"
+          >
             Next
           </button>
         </form>
       </div>
-      <footer className={styles.docFooter}>
-        <p className={styles.copyright}>
-          <img
-            src={copyrightIcon}
-            alt="Copyright Icon"
-            className="copyright-icon"
-          />
-          Copyright Nourasense 2024 . All Rights Reserved.
-        </p>
-      </footer>
     </div>
   );
 };

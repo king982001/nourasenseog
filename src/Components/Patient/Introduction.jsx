@@ -22,16 +22,6 @@ const Introduction = () => {
           Here is your dashboard starting with a list of all your childs
         </p>
       </div>
-
-      {/*/!* Button Section *!/*/}
-      {/*<div className="flex flex-col gap-1 items-start md:items-center justify-center">*/}
-      {/*  <button*/}
-      {/*    className="bg-primary-blue text-white px-5 md:px-7 py-2 text-xs md:text-sm rounded-md hover:bg-primary-blue/95"*/}
-      {/*    onClick={handleProfile}*/}
-      {/*  >*/}
-      {/*    Update Profile*/}
-      {/*  </button>*/}
-      {/*</div>*/}
     </div>
   );
 };
