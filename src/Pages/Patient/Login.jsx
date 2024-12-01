@@ -16,7 +16,7 @@ const Login = () => {
   const { mutate: login } = useLogin();
 
   useEffect(() => {
-    if (localStorage.getItem("token")) {
+    if (localStorage.getItem("token") && localStorage.getItem("account")) {
       navigate("/dashboard");
     }
   }, []);

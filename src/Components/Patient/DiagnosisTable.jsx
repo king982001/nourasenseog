@@ -7,7 +7,6 @@ const DiagnosisTable = () => {
   const { id } = useParams();
   const [error, setError] = useState(false);
   const { data: diagnosisRecords, isLoading: loading } = useDiagnoseHistory(id);
-  console.log(diagnosisRecords);
   const getClassForDiagnosis = (value, type) => {
     const classes = {
       "Height-for-Age": {

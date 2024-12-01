@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import Footer from "src/Components/Footer.jsx";
 import { useDiagnose, usePatients, useReport } from "src/Hooks/DoctorHooks.js";
 import toast from "react-hot-toast";
@@ -23,9 +23,19 @@ const Diagnose = () => {
   const doctorName = account?.name?.trim() || "";
   const surName = account?.surname?.trim() || "";
 
+  const location = useLocation();
+  const navigate = useNavigate();
+  const isApproved = location.state?.isApproved;
+
   useEffect(() => {
     document.title = "Nourasense - Diagnose";
   }, []);
+
+  useEffect(() => {
+    if (!isApproved) {
+      navigate("/doctor/");
+    }
+  }, [isApproved, navigate]);
 
   const handleDiagnose = async () => {
     if (!patient) return toast.error("Oops! An error occurred.");
@@ -259,15 +269,15 @@ const Diagnose = () => {
                       ([key, value]) => (
                         <li
                           key={key}
-                          className="text-md md:text-lg space-x-2 text-gray-600"
+                          className="text-md flex md:text-lg space-x-2 text-gray-600"
                         >
                           <span className={`font-medium `}>
                             {key.replace(/_/g, " ").toUpperCase()}:
                           </span>
                           <span
-                            className={`${getZoneStyle(value)} p-1 rounded-sm font-semibold  text-white`}
+                            className={`${getZoneStyle(value)} h-8 w-8 flex items-center justify-center font-semibold rounded-[50%]  text-white`}
                           >
-                            {value > 0 ? `+${value}` : value}
+                            <p>{value > 0 ? `+${value}` : value}</p>
                           </span>
                         </li>
                       ),

@@ -137,11 +137,14 @@ const SignUp = () => {
         </button>
         <p className="text-sm text-center text-gray-600 mt-4">
           By signing up, you agree to our{" "}
-          <Link to="/terms" className="text-primary-blue hover:underline">
+          <Link to="/t&c" className="text-primary-blue hover:underline">
             Terms of Service
           </Link>{" "}
           and{" "}
-          <Link to="/privacy" className="text-primary-blue hover:underline">
+          <Link
+            to="/privacy-policy"
+            className="text-primary-blue hover:underline"
+          >
             Privacy Policy
           </Link>
           .

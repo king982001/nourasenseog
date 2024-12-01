@@ -58,8 +58,7 @@ const DiagnoseIntro = () => {
       return toast.error(
         "You're not approved yet. so you cannot access this feature.",
       );
-
-    navigate(`/doctor/diagnose/${id}`);
+    navigate(`/doctor/diagnose/${id}`, { state: { isApproved: true } });
   };
 
   return (

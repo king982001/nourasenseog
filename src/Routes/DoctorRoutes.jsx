@@ -32,10 +32,8 @@ const DoctorRoutes = () => (
 
       <Route element={<ProtectedRoute />}>
         <Route path="/" element={<Dashboard />} />
+        <Route path="/diagnose/:id" element={<Diagnose />} />
         <Route path="/patient/:id" element={<PatientProfile />} />
-        <Route element={<ApprovedRoute isApproved={isDoctorApproved} />}>
-          <Route path="/diagnose/:id" element={<Diagnose />} />
-        </Route>
       </Route>
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
