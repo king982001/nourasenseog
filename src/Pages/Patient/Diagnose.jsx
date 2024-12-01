@@ -97,7 +97,7 @@ const Diagnose = () => {
             {/* Title */}
             <div className="text-center">
               <h1 className="font-serif text-xl md:text-2xl font-semibold text-gray-800">
-                Enter Measurements for {patient.name} {patient.surname}
+                Enter Measurements for {patient.firstName} {patient.lastName}
               </h1>
               <p className="text-sm text-gray-600 mt-2">
                 * Enter at least one anthropomorphic measurement to proceed
@@ -200,15 +200,15 @@ const Diagnose = () => {
                       ([key, value]) => (
                         <li
                           key={key}
-                          className="text-md md:text-lg space-x-2 text-gray-600"
+                          className="text-md flex md:text-lg space-x-2 text-gray-600"
                         >
                           <span className={`font-medium `}>
                             {key.replace(/_/g, " ").toUpperCase()}:
                           </span>
                           <span
-                            className={`${getZoneStyle(value)} p-1 font-semibold rounded-sm  text-white`}
+                            className={`${getZoneStyle(value)} h-8 w-8 flex items-center justify-center font-semibold rounded-[50%]  text-white`}
                           >
-                            {value > 0 ? `+${value}` : value}
+                            <p>{value > 0 ? `+${value}` : value}</p>
                           </span>
                         </li>
                       ),
