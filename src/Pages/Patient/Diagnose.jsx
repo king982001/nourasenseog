@@ -90,7 +90,7 @@ const Diagnose = () => {
   }
 
   return (
-    <div className="h-[90vh] w-full flex justify-center items-center ">
+    <div className="w-full flex justify-center items-center ">
       <div className="w-[90%] max-w-6xl px-4 md:px-14 mt-8 py-4 mx-auto bg-white shadow-lg rounded-lg flex flex-col gap-8">
         {patient && (
           <>
@@ -206,7 +206,7 @@ const Diagnose = () => {
                             {key.replace(/_/g, " ").toUpperCase()}:
                           </span>
                           <span
-                            className={`${getZoneStyle(value)} p-1 font-semibold  text-white`}
+                            className={`${getZoneStyle(value)} p-1 font-semibold rounded-sm  text-white`}
                           >
                             {value > 0 ? `+${value}` : value}
                           </span>

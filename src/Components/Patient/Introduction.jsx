@@ -15,7 +15,9 @@ const Introduction = () => {
         <h1 className="font-serif text-xl md:text-3xl">
           Hello{" "}
           <span className="text-primary-blue">
-            <span>{account.name || account.email}</span>
+            <span>
+              {account.name} {account?.surname}
+            </span>
           </span>
         </h1>
         <p className="text-sm md:text-lg">

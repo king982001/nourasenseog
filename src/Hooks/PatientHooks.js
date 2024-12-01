@@ -16,6 +16,18 @@ export const useSignup = () => {
   });
 };
 
+export const useSaveGeneralDetails = () => {
+  return useMutation({
+    mutationFn: async (data) => {
+      const response = await api.put(
+        "/api/v1/parent/updateGeneralDetails",
+        data,
+      );
+      return response.data;
+    },
+  });
+};
+
 export const useVerifyOtp = () => {
   return useMutation({
     mutationFn: ({ email, otp }) =>
@@ -64,5 +76,28 @@ export const useAppointment = (id) => {
   return useQuery({
     queryFn: async (id) => fetchAppointments(id),
     queryKey: ["childAppointments"],
+  });
+};
+
+export const useResetPasswordSendOtp = () => {
+  return useMutation({
+    mutationFn: (email) =>
+      api.post("/api/v1/parent/forgotPasswordSendVerificationOtp", { email }),
+  });
+};
+export const useResetPasswordVerifyOtp = () => {
+  return useMutation({
+    mutationFn: ({ email, otp }) =>
+      api.post("/api/v1/parent/verifyOtpForPasswordReset", { email, otp }),
+  });
+};
+export const useResetPassword = () => {
+  return useMutation({
+    mutationFn: ({ email, password, confirmPassword }) =>
+      api.post("/api/v1/parent/resetPassword", {
+        email,
+        password,
+        confirmPassword,
+      }),
   });
 };

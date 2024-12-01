@@ -47,8 +47,13 @@ const SignUp = () => {
         setIsOtpSent(true);
         toast.success("Otp sent successfully", { id: toastId });
       },
-      onError: () => {
-        toast.error("Something went wrong", { id: toastId });
+      onError: (error) => {
+        toast.error(
+          error.status === 409
+            ? "Email already exist!"
+            : "Something went wrong!",
+          { id: toastId },
+        );
         setIsLoadingSignUp(false);
       },
     });

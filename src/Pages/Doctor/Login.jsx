@@ -121,25 +121,24 @@ const Login = () => {
           <img src={GoogleLogo} alt="Google Logo" className="h-5 w-5 mr-2" />
           Sign in with Google
         </button>
-
-        <p className="text-sm text-center text-gray-600 mt-4">
-          <span className="text-gray-500">Don't have an account yet?</span>{" "}
-          <Link
-            to="/doctor/signup"
-            className="text-primary-blue font-medium hover:underline"
-          >
-            Create Account
-          </Link>
-        </p>
-        <p className="text-sm text-center text-gray-600 mt-4">
-          <span className="text-gray-500">Are you a patient?</span>{" "}
-          <Link
-            to="/login"
-            className="text-primary-blue font-medium hover:underline"
-          >
-            Log in here
-          </Link>
-        </p>
+        <div className={"flex justify-between mt-4"}>
+          <p className="text-sm text-center text-gray-600">
+            <Link
+              to="/doctor/signup"
+              className="text-primary-blue font-medium hover:underline"
+            >
+              Create Account
+            </Link>
+          </p>
+          <p className="text-sm text-center text-gray-600">
+            <Link
+              to="/doctor/forgot-password"
+              className="text-primary-blue font-medium hover:underline"
+            >
+              Forgot Password?
+            </Link>
+          </p>
+        </div>
       </div>
       <div className="mt-6 text-xs text-gray-500">
         <p className="text-center md:text-left">
