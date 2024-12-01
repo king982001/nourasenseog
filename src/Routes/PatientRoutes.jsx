@@ -6,11 +6,15 @@ import Diagnose from "src/Pages/Patient/Diagnose.jsx";
 import PatientProfile from "src/Pages/Patient/PatientProfile.jsx";
 import ProtectedRoute from "src/Utilities/Patient/ProtectedRoute.jsx";
 import NotFoundPage from "src/Pages/NotFoundPage.jsx";
+import ForgotPassword from "src/Pages/Patient/ForgotPassword.jsx";
+import GeneralDetails from "src/Pages/Patient/GeneralDetails.jsx";
 
 const PatientRoutes = () => (
   <Routes>
     <Route path={"/login"} element={<Login />} />
     <Route path={"/signup"} element={<SignUp />} />
+    <Route path={"/update-profile"} element={<GeneralDetails />} />
+    <Route path={"/forgot-password"} element={<ForgotPassword />} />
     <Route element={<ProtectedRoute />}>
       <Route path={"/dashboard"} element={<Dashboard />} />
       <Route path={"/child/:id"} element={<PatientProfile />} />

@@ -15,6 +15,7 @@ import instagramIcon from "/src/assets/Doctor/instagram.svg";
 import mailIcon from "/src/assets/Doctor/mail.svg";
 import callIcon from "/src/assets/Doctor/call.svg";
 import copyrightIcon from "/src/assets/Doctor/copyright 1.png";
+import RoleSelectionModal from "src/Components/RoleSelectionModal.jsx";
 
 const phoneNumber = "+91 9723964754";
 const emailAddress = "support@nourasense.com";
@@ -24,10 +25,42 @@ const linkedIn = "https://www.linkedin.com/company/nourasense";
 const LandingPage = () => {
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false); // State for controlling the menu
-
+  const [isModalOpen, setIsModalOpen] = useState(false); // State for controlling the modal
+  const [action, setAction] = useState("signup");
   useEffect(() => {
     document.title = "Nourasense - Doctor";
   }, []);
+
+  const openModal = (action) => {
+    switch (action) {
+      case "signup":
+        setAction("signup");
+        break;
+      case "login":
+        setAction("login");
+        break;
+      default:
+        setAction("signup");
+        break;
+    }
+    setIsModalOpen(true);
+  };
+
+  const handleRoleSelection = (role) => {
+    if (action === "signup") {
+      if (role === "doctor") {
+        navigate("/doctor/signup"); // Update route for doctor registration
+      } else {
+        navigate("/signup"); // Update route for user registration
+      }
+    } else if (action === "login") {
+      if (role === "doctor") {
+        navigate("/doctor/login"); // Doctor login
+      } else {
+        navigate("/login"); // General login
+      }
+    }
+  };
 
   return (
     <div>
@@ -56,7 +89,7 @@ const LandingPage = () => {
             </li>
             <li
               className={styles.signinInLanding}
-              onClick={() => navigate("/login")}
+              onClick={() => openModal("login")}
             >
               <a>Sign in</a>
             </li>
@@ -76,10 +109,7 @@ const LandingPage = () => {
             in shaping a healthier future for children, where advanced
             diagnostics and personalized care are at your fingertips.
           </p>
-          <a
-            className={styles.ctaButton}
-            onClick={() => navigate("/doctor/signup")}
-          >
+          <a className={styles.ctaButton} onClick={() => openModal("signup")}>
             Create account
           </a>
         </div>
@@ -144,10 +174,7 @@ const LandingPage = () => {
             our automated system ensures you have the insights you need when you
             need them, empowering quick and informed decisions.
           </p>
-          <a
-            className={styles.ctaButton}
-            onClick={() => navigate("/doctor/signup")}
-          >
+          <a className={styles.ctaButton} onClick={() => openModal("signup")}>
             Create account
           </a>
         </div>
@@ -170,10 +197,7 @@ const LandingPage = () => {
             you track progress over time and make better-informed healthcare
             decisions.
           </p>
-          <a
-            className={styles.ctaButton}
-            onClick={() => navigate("/doctor/signup")}
-          >
+          <a className={styles.ctaButton} onClick={() => openModal("signup")}>
             Create account
           </a>
         </div>
@@ -198,7 +222,7 @@ const LandingPage = () => {
             <div className={styles.imgAndHeading}>
               <h3
                 style={{ color: "black" }}
-                onClick={() => navigate("/doctor/signup")}
+                onClick={() => openModal("signup")}
               >
                 1. Create Account
               </h3>
@@ -250,12 +274,19 @@ const LandingPage = () => {
           <a
             id="cta-btn-2"
             className={styles.ctaButton}
-            onClick={() => navigate("/doctor/signup")}
+            onClick={() => openModal("signup")}
           >
             Create account
           </a>
         </div>
       </div>
+
+      {isModalOpen && (
+        <RoleSelectionModal
+          onClose={() => setIsModalOpen(false)}
+          onSelectRole={handleRoleSelection}
+        />
+      )}
 
       <footer className={styles.uniqueFooter}>
         <div className={styles.footerContent}>
@@ -269,10 +300,10 @@ const LandingPage = () => {
                 <a onClick={() => navigate("/support")}>Feedback </a>
               </li>
               <li>
-                <a onClick={() => navigate("/doctor/signup")}>Create account</a>
+                <a onClick={() => openModal("signup")}>Create account</a>
               </li>
               <li>
-                <a onClick={() => navigate("/login")}>Sign in </a>
+                <a onClick={() => openModal("login")}>Sign in </a>
               </li>
             </ul>
           </div>

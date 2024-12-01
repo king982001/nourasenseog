@@ -1,12 +1,10 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import styles from "./Login.module.css";
-import copyrightIcon from "src/assets/Doctor/copyright.png";
+import { useNavigate } from "react-router-dom";
 import {
   useResetPassword,
   useResetPasswordSendOtp,
   useResetPasswordVerifyOtp,
-} from "src/Hooks/DoctorHooks.js";
+} from "src/Hooks/PatientHooks.js";
 import toast from "react-hot-toast";
 
 const ForgotPassword = () => {
@@ -93,7 +91,7 @@ const ForgotPassword = () => {
         {
           onSuccess: (response) => {
             toast.success("Password reset successful");
-            navigate("/doctor/login");
+            navigate("/login");
             setStep(1);
           },
           onError: () => {

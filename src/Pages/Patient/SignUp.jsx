@@ -26,8 +26,13 @@ const SignUp = () => {
           setIsOtpStage(true);
           setLoading(false);
         },
-        onError: () => {
-          toast.error("Something went wrong!", { id: toastId });
+        onError: (error) => {
+          toast.error(
+            error.status === 409
+              ? "Email already exist!"
+              : "Something went wrong!",
+            { id: toastId },
+          );
           setLoading(false);
         },
       },
@@ -48,7 +53,7 @@ const SignUp = () => {
             "account",
             JSON.stringify(response.data.data.parent),
           );
-          navigate("/dashboard");
+          navigate("/update-profile", { state: { fromSignUp: true } });
         },
         onError: () => {
           toast.error("Failed to verify OTP!", { id: toastId });

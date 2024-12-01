@@ -138,7 +138,7 @@ const Diagnose = () => {
   }
 
   return (
-    <div className="min-h-[80vh] w-full ">
+    <div className=" w-full ">
       <div className="flex flex-col gap-2 text-center pt-8 pb-4 md:pt-12 md:pb-8 px-8 md:px-12">
         <h1 className="font-serif text-2xl sm:text-3xl">
           Hello{" "}
@@ -265,7 +265,7 @@ const Diagnose = () => {
                             {key.replace(/_/g, " ").toUpperCase()}:
                           </span>
                           <span
-                            className={`${getZoneStyle(value)} p-1 font-semibold  text-white`}
+                            className={`${getZoneStyle(value)} p-1 rounded-sm font-semibold  text-white`}
                           >
                             {value > 0 ? `+${value}` : value}
                           </span>
