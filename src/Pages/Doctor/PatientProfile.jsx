@@ -1,7 +1,8 @@
 import DiagnoseIntro from "src/Components/Doctor/DiagnoseIntro.jsx";
 import Footer from "src/Components/Footer.jsx";
 import CalenderTableComp from "src/Components/Doctor/CalenderTableComp.jsx";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
+import BackButton from "src/Components/BackButton.jsx";
 
 const PatientProfile = () => {
   useEffect(() => {
@@ -10,6 +11,7 @@ const PatientProfile = () => {
 
   return (
     <div className="diagnose-dashboard min-h-[80vh]">
+      <BackButton display={"flex"} />
       <div className="diagnose-content">
         <DiagnoseIntro />
         <CalenderTableComp />

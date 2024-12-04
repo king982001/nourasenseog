@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import Footer from "src/Components/Footer.jsx";
 import { useChildrens, useDiagnose } from "src/Hooks/PatientHooks.js";
 import toast from "react-hot-toast";
+import BackButton from "src/Components/BackButton.jsx";
 
 const Diagnose = () => {
   const { id } = useParams();
@@ -90,181 +91,184 @@ const Diagnose = () => {
   }
 
   return (
-    <div className="w-full flex justify-center items-center ">
-      <div className="w-[90%] max-w-6xl px-4 md:px-14 mt-8 py-4 mx-auto bg-white shadow-lg rounded-lg flex flex-col gap-8">
-        {patient && (
-          <>
-            {/* Title */}
-            <div className="text-center">
-              <h1 className="font-serif text-xl md:text-2xl font-semibold text-gray-800">
-                Enter Measurements for {patient.firstName} {patient.lastName}
-              </h1>
-              <p className="text-sm text-gray-600 mt-2">
-                * Enter at least one anthropomorphic measurement to proceed
-              </p>
-            </div>
-
-            {/* Input Fields */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Weight */}
-              <div className="input flex flex-col gap-y-1">
-                <label
-                  className="pl-2 text-sm font-medium text-gray-700"
-                  htmlFor="weight"
-                >
-                  Weight (kg)
-                </label>
-                <input
-                  type="number"
-                  value={weight}
-                  name="weight"
-                  id="weight"
-                  placeholder="Enter weight in kilograms"
-                  className="w-full bg-gray-50 border border-gray-300 rounded-md py-3 px-5 focus:outline-none focus:ring-2 focus:ring-primary-blue"
-                  onChange={(e) => setWeight(e.target.value)}
-                />
+    <>
+      <BackButton />
+      <div className="w-full min-h-[80vh] flex justify-center items-center ">
+        <div className="w-[90%] max-w-6xl px-4 md:px-14 mt-8 py-4 mx-auto bg-white shadow-lg rounded-lg flex flex-col gap-8">
+          {patient && (
+            <>
+              {/* Title */}
+              <div className="text-center">
+                <h1 className="font-serif text-xl md:text-2xl font-semibold text-gray-800">
+                  Enter Measurements for {patient.firstName} {patient.lastName}
+                </h1>
+                <p className="text-sm text-gray-600 mt-2">
+                  * Enter at least one anthropometric measurement to proceed
+                </p>
               </div>
 
-              {/* Height */}
-              <div className="input flex flex-col gap-y-1">
-                <label
-                  className="pl-2 text-sm font-medium text-gray-700"
-                  htmlFor="height"
-                >
-                  Height (cm)
-                </label>
-                <input
-                  type="number"
-                  value={height}
-                  name="height"
-                  id="height"
-                  placeholder="Enter height in centimeters"
-                  className="w-full bg-gray-50 border border-gray-300 rounded-md py-3 px-5 focus:outline-none focus:ring-2 focus:ring-primary-blue"
-                  onChange={(e) => setHeight(e.target.value)}
-                />
+              {/* Input Fields */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Weight */}
+                <div className="input flex flex-col gap-y-1">
+                  <label
+                    className="pl-2 text-sm font-medium text-gray-700"
+                    htmlFor="weight"
+                  >
+                    Weight (kg)
+                  </label>
+                  <input
+                    type="number"
+                    value={weight}
+                    name="weight"
+                    id="weight"
+                    placeholder="Enter weight in kilograms"
+                    className="w-full bg-gray-50 border border-gray-300 rounded-md py-3 px-5 focus:outline-none focus:ring-2 focus:ring-primary-blue"
+                    onChange={(e) => setWeight(e.target.value)}
+                  />
+                </div>
+
+                {/* Height */}
+                <div className="input flex flex-col gap-y-1">
+                  <label
+                    className="pl-2 text-sm font-medium text-gray-700"
+                    htmlFor="height"
+                  >
+                    Height (cm)
+                  </label>
+                  <input
+                    type="number"
+                    value={height}
+                    name="height"
+                    id="height"
+                    placeholder="Enter height in centimeters"
+                    className="w-full bg-gray-50 border border-gray-300 rounded-md py-3 px-5 focus:outline-none focus:ring-2 focus:ring-primary-blue"
+                    onChange={(e) => setHeight(e.target.value)}
+                  />
+                </div>
+
+                {/* Head Circumference */}
+                <div className="input flex flex-col md:col-span-2 gap-y-1">
+                  <label
+                    className="pl-2 text-sm font-medium text-gray-700"
+                    htmlFor="headCircumference"
+                  >
+                    Head Circumference (cm)
+                  </label>
+                  <input
+                    type="number"
+                    value={headCircumference}
+                    name="headCircumference"
+                    id="headCircumference"
+                    placeholder="Enter head circumference in centimeters"
+                    className="w-full bg-gray-50 border border-gray-300 rounded-md py-3 px-5 focus:outline-none focus:ring-2 focus:ring-primary-blue"
+                    onChange={(e) => setHeadCircumference(e.target.value)}
+                  />
+                </div>
               </div>
 
-              {/* Head Circumference */}
-              <div className="input flex flex-col md:col-span-2 gap-y-1">
-                <label
-                  className="pl-2 text-sm font-medium text-gray-700"
-                  htmlFor="headCircumference"
+              {/* Diagnose Button */}
+              <div className="mt-4">
+                <button
+                  className="bg-primary-blue text-white w-full py-4 rounded-md font-medium hover:bg-primary-blue-light transition"
+                  onClick={handleDiagnose}
+                  disabled={diagnosisLoading}
                 >
-                  Head Circumference (cm)
-                </label>
-                <input
-                  type="number"
-                  value={headCircumference}
-                  name="headCircumference"
-                  id="headCircumference"
-                  placeholder="Enter head circumference in centimeters"
-                  className="w-full bg-gray-50 border border-gray-300 rounded-md py-3 px-5 focus:outline-none focus:ring-2 focus:ring-primary-blue"
-                  onChange={(e) => setHeadCircumference(e.target.value)}
-                />
+                  {diagnosisLoading ? (
+                    <div className="flex justify-center items-center gap-2">
+                      <span className="animate-spin w-5 h-5 border-2 border-white border-t-transparent rounded-full"></span>
+                      Diagnosing...
+                    </div>
+                  ) : (
+                    "Diagnose"
+                  )}
+                </button>
+                {error && <p className="text-red-500 mt-4">{error}</p>}
               </div>
-            </div>
 
-            {/* Diagnose Button */}
-            <div className="mt-4">
-              <button
-                className="bg-primary-blue text-white w-full py-4 rounded-md font-medium hover:bg-primary-blue-light transition"
-                onClick={handleDiagnose}
-                disabled={diagnosisLoading}
-              >
-                {diagnosisLoading ? (
-                  <div className="flex justify-center items-center gap-2">
-                    <span className="animate-spin w-5 h-5 border-2 border-white border-t-transparent rounded-full"></span>
-                    Diagnosing...
-                  </div>
-                ) : (
-                  "Diagnose"
-                )}
-              </button>
-              {error && <p className="text-red-500 mt-4">{error}</p>}
-            </div>
+              {/* Diagnosis Results */}
+              {diagnosisResult && (
+                <div className="bg-gray-100 p-6 rounded-md shadow-sm">
+                  <h2 className="text-xl font-semibold text-gray-800 mb-6">
+                    Diagnosis Result
+                  </h2>
 
-            {/* Diagnosis Results */}
-            {diagnosisResult && (
-              <div className="bg-gray-100 p-6 rounded-md shadow-sm">
-                <h2 className="text-xl font-semibold text-gray-800 mb-6">
-                  Diagnosis Result
-                </h2>
-
-                {/* Zones */}
-                <div className="mb-6">
-                  <h3 className="text-lg font-semibold text-gray-700 mb-3">
-                    Zones
-                  </h3>
-                  <ul className="space-y-3 pl-6">
-                    {Object.entries(diagnosisResult.zones).map(
-                      ([key, value]) => (
-                        <li
-                          key={key}
-                          className="text-md flex md:text-lg space-x-2 text-gray-600"
-                        >
-                          <span className={`font-medium `}>
-                            {key.replace(/_/g, " ").toUpperCase()}:
-                          </span>
-                          <span
-                            className={`${getZoneStyle(value)} h-8 w-8 flex items-center justify-center font-semibold rounded-[50%]  text-white`}
+                  {/* Zones */}
+                  <div className="mb-6">
+                    <h3 className="text-lg font-semibold text-gray-700 mb-3">
+                      Zones
+                    </h3>
+                    <ul className="space-y-3 pl-6">
+                      {Object.entries(diagnosisResult.zones).map(
+                        ([key, value]) => (
+                          <li
+                            key={key}
+                            className="text-md flex md:text-lg space-x-2 text-gray-600"
                           >
-                            <p>{value > 0 ? `+${value}` : value}</p>
-                          </span>
-                        </li>
-                      ),
-                    )}
-                  </ul>
-                </div>
+                            <span className={`font-medium `}>
+                              {key.replace(/_/g, " ").toUpperCase()}:
+                            </span>
+                            <span
+                              className={`${getZoneStyle(value)} h-8 w-8 flex items-center justify-center font-semibold rounded-[50%]  text-white`}
+                            >
+                              <p>{value > 0 ? `+${value}` : value}</p>
+                            </span>
+                          </li>
+                        ),
+                      )}
+                    </ul>
+                  </div>
 
-                {/* Measurements */}
-                <div className="mb-6">
-                  <h3 className="text-lg font-semibold text-gray-700 mb-3">
-                    Measurements
-                  </h3>
-                  <ul className=" space-y-2 pl-6">
-                    {Object.entries(diagnosisResult.measurements).map(
-                      ([key, value]) => (
-                        <li
-                          key={key}
-                          className="text-md md:text-lg text-gray-600"
-                        >
-                          <span className="font-medium">
-                            {key.replace(/_/g, " ").toUpperCase()}:
-                          </span>{" "}
-                          {value}
-                        </li>
-                      ),
-                    )}
-                  </ul>
-                </div>
+                  {/* Measurements */}
+                  <div className="mb-6">
+                    <h3 className="text-lg font-semibold text-gray-700 mb-3">
+                      Measurements
+                    </h3>
+                    <ul className=" space-y-2 pl-6">
+                      {Object.entries(diagnosisResult.measurements).map(
+                        ([key, value]) => (
+                          <li
+                            key={key}
+                            className="text-md md:text-lg text-gray-600"
+                          >
+                            <span className="font-medium">
+                              {key.replace(/_/g, " ").toUpperCase()}:
+                            </span>{" "}
+                            {value}
+                          </li>
+                        ),
+                      )}
+                    </ul>
+                  </div>
 
-                {/* Diagnoses */}
-                <div className="mb-6">
-                  <h3 className="text-lg font-semibold text-gray-700 mb-3">
-                    Diagnoses
-                  </h3>
-                  <ul className="space-y-2 pl-6">
-                    {Object.entries(diagnosisResult.diagnoses).map(
-                      ([key, value]) => (
-                        <li
-                          key={key}
-                          className="text-md md:text-lg  text-gray-600"
-                        >
-                          <span className="font-medium">
-                            {key.replace(/_/g, " ").toUpperCase()}:
-                          </span>{" "}
-                          {value}
-                        </li>
-                      ),
-                    )}
-                  </ul>
+                  {/* Diagnoses */}
+                  <div className="mb-6">
+                    <h3 className="text-lg font-semibold text-gray-700 mb-3">
+                      Diagnoses
+                    </h3>
+                    <ul className="space-y-2 pl-6">
+                      {Object.entries(diagnosisResult.diagnoses).map(
+                        ([key, value]) => (
+                          <li
+                            key={key}
+                            className="text-md md:text-lg  text-gray-600"
+                          >
+                            <span className="font-medium">
+                              {key.replace(/_/g, " ").toUpperCase()}:
+                            </span>{" "}
+                            {value}
+                          </li>
+                        ),
+                      )}
+                    </ul>
+                  </div>
                 </div>
-              </div>
-            )}
-          </>
-        )}
+              )}
+            </>
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

@@ -62,7 +62,7 @@ const DiagnoseIntro = () => {
   };
 
   return (
-    <div className="px-6 py-8 sm:px-10 sm:py-12 md:px-14 md:py-16">
+    <div className="px-6 py-3 sm:px-10 sm:py-7 md:px-14 md:py-9">
       <div className="flex flex-col md:flex-row items-center justify-between gap-6">
         <div className="flex flex-col gap-2 text-center sm:text-left">
           <h1 className="font-serif text-2xl sm:text-3xl">

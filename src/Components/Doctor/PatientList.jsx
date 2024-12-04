@@ -9,7 +9,8 @@ import CreateAppointmentModal from "./CreateAppointmentModal.jsx";
 import { useDeletePatient, usePatients } from "src/Hooks/DoctorHooks.js";
 import { ClipLoader } from "react-spinners";
 import toast from "react-hot-toast";
-import Prompt from "../Prompt.jsx"; // Import the Prompt component
+import Prompt from "../Prompt.jsx";
+import { FaCalendarPlus, FaStethoscope } from "react-icons/fa6"; // Import the Prompt component
 
 const PatientList = () => {
   const navigate = useNavigate();
@@ -123,15 +124,20 @@ const PatientList = () => {
     {
       name: "Action",
       cell: (row) => (
-        <div className="flex flex-wrap space-y-2 lg:space-y-3 justify-center">
+        <div className="flex items-center justify-center space-x-4">
+          {/* Diagnose Button */}
           <button
-            className="bg-primary-blue text-white min-w-[80px] px-2 md:px-3 lg:px-5 py-1 md:py-2 text-sm md:text-sm lg:text-base rounded-sm md:rounded-md hover:bg-primary-blue/95 whitespace-nowrap"
+            className="text-blue-500 hover:text-blue-600 p-2 rounded-full"
             onClick={() => navigateToPatientProfile(row._id)}
+            aria-label="Diagnose Patient"
+            title="Diagnose"
           >
-            Diagnose
+            <FaStethoscope size={20} /> {/* Icon for Diagnose */}
           </button>
+
+          {/* Add Appointment Button */}
           <button
-            className="bg-primary-blue text-white min-w-[80px] px-2 md:px-3 lg:px-5 py-1 md:py-2 text-sm md:text-sm lg:text-base rounded-sm md:rounded-md hover:bg-secondary-green/95 whitespace-nowrap"
+            className="text-green-500 hover:text-green-600 p-2 rounded-full"
             onClick={() => {
               setShowAddAppointment(true);
               setPatientData({
@@ -140,28 +146,23 @@ const PatientList = () => {
                 patientSurname: row.surname,
               });
             }}
+            aria-label="Add Appointment"
+            title="Add Appointment"
           >
-            Add Appointment
+            <FaCalendarPlus size={20} /> {/* Icon for Add Appointment */}
           </button>
-        </div>
-      ),
-    },
-    {
-      name: "Delete",
-      cell: (row) => (
-        <div className="flex justify-center">
+
+          {/* Delete Button */}
           <button
-            className=" text-red-500 hover:text-red-600"
+            className="text-red-500 hover:text-red-600 p-2 rounded-full"
             onClick={() => handleDelete(row._id)}
             aria-label="Delete Patient"
+            title="Delete"
           >
-            <FaTrash size={22} /> {/* Delete icon */}
+            <FaTrash size={20} /> {/* Icon for Delete */}
           </button>
         </div>
       ),
-      style: {
-        justifyContent: "center",
-      },
     },
   ];
 
@@ -191,7 +192,7 @@ const PatientList = () => {
   return (
     <div className="relative px-4 md:px-14 py-10">
       <div className="flex flex-col">
-        <h1 className="font-serif text-xl font-semibold text-center md:text-left">
+        <h1 className="font-serif text-xl md:text-2xl font-semibold text-center md:text-left">
           Patients
         </h1>
         <div className="flex flex-col md:flex-row justify-between items-center py-6 gap-4 md:gap-0">
@@ -205,18 +206,24 @@ const PatientList = () => {
               className="w-full  text-sm outline-none px-2 !mt-0 !border-none bg-transparent"
             />
           </div>
-          <div className="flex items-center gap-2">
-            <img src={User} alt="User Icon" className="h-6 w-6" />
-            <h1 className="font-serif text-sm md:text-base">
-              <span>{patient?.length || 0}</span> Total Patients
-            </h1>
-          </div>
-          <button
-            className="bg-primary-blue text-white px-8 md:px-12 py-2 text-sm md:text-lg rounded-md hover:bg-primary-blue/95"
-            onClick={() => setShowAddPatient(true)}
+          <div
+            className={
+              "flex w-full justify-between sm:w-[55%] sm:justify-between"
+            }
           >
-            Add Patient
-          </button>
+            <div className="flex items-center gap-2">
+              <img src={User} alt="User Icon" className="h-6 w-6" />
+              <h1 className="font-serif text-sm md:text-base">
+                <span>{patient?.length || 0}</span> Total Patients
+              </h1>
+            </div>
+            <button
+              className="bg-primary-blue text-white px-8 md:px-12 py-2 text-sm md:text-lg rounded-md hover:bg-primary-blue/95"
+              onClick={() => setShowAddPatient(true)}
+            >
+              Add Patient
+            </button>
+          </div>
         </div>
         {loading ? (
           <div className="flex flex-col items-center justify-center min-h-[300px]">

@@ -3,6 +3,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import Footer from "src/Components/Footer.jsx";
 import { useDiagnose, usePatients, useReport } from "src/Hooks/DoctorHooks.js";
 import toast from "react-hot-toast";
+import BackButton from "src/Components/BackButton.jsx";
 
 const Diagnose = () => {
   const { id } = useParams();
@@ -149,6 +150,7 @@ const Diagnose = () => {
 
   return (
     <div className=" w-full ">
+      <BackButton />
       <div className="flex flex-col gap-2 text-center pt-8 pb-4 md:pt-12 md:pb-8 px-8 md:px-12">
         <h1 className="font-serif text-2xl sm:text-3xl">
           Hello{" "}
@@ -169,7 +171,7 @@ const Diagnose = () => {
                 Enter Measurements for {patient.name} {patient.surname}
               </h1>
               <p className="text-sm text-gray-600 mt-2">
-                * Enter at least one anthropomorphic measurement to proceed
+                * Enter at least one anthropometric measurement to proceed
               </p>
             </div>
 
@@ -269,7 +271,7 @@ const Diagnose = () => {
                       ([key, value]) => (
                         <li
                           key={key}
-                          className="text-md flex md:text-lg space-x-2 text-gray-600"
+                          className="text-sm sm:text-md flex items-center md:text-lg space-x-2 text-gray-600"
                         >
                           <span className={`font-medium `}>
                             {key.replace(/_/g, " ").toUpperCase()}:

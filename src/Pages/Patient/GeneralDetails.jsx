@@ -1,11 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-import { useSaveGeneralDetails } from "src/Hooks/PatientHooks"; // Replace with the appropriate hook for saving general details
+import { useSaveGeneralDetails } from "src/Hooks/PatientHooks";
+import DatePicker from "react-datepicker";
+import Select from "react-select";
+import "react-datepicker/dist/react-datepicker.css";
 
 const GeneralDetails = () => {
-  const [gender, setGender] = useState("");
-  const [dateOfBirth, setDateOfBirth] = useState("");
+  const [gender, setGender] = useState(null);
+  const [dateOfBirth, setDateOfBirth] = useState(null);
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -14,7 +17,6 @@ const GeneralDetails = () => {
   const { mutate: saveDetails } = useSaveGeneralDetails();
   const navigate = useNavigate();
   const location = useLocation();
-  // Check if the user is coming from the signup page
   const isFromSignUp = location.state?.fromSignUp;
 
   // Redirect to signup if not from signup page
@@ -30,15 +32,20 @@ const GeneralDetails = () => {
     const toastId = toast.loading("Saving your details...");
 
     saveDetails(
-      { gender, dateOfBirth, name, surname, phoneNumber },
+      {
+        gender: gender?.value,
+        dateOfBirth: dateOfBirth?.toISOString().split("T")[0],
+        name,
+        surname,
+        phoneNumber,
+      },
       {
         onSuccess: (response) => {
           toast.success("General details saved successfully!", { id: toastId });
-          console.log(response);
           localStorage.setItem("account", JSON.stringify(response.data.parent));
-          navigate("/dashboard"); // Adjust this to the next page after saving details
+          navigate("/dashboard");
         },
-        onError: (error) => {
+        onError: () => {
           toast.error("Failed to save details. Please try again.", {
             id: toastId,
           });
@@ -48,8 +55,14 @@ const GeneralDetails = () => {
     );
   };
 
+  const genderOptions = [
+    { value: "male", label: "Male" },
+    { value: "female", label: "Female" },
+    { value: "other", label: "Other" },
+  ];
+
   return (
-    <div className="min-h-screen flex flex-col justify-center items-center">
+    <div className="sm:min-h-screen flex flex-col justify-center items-center">
       <div className="w-full max-w-md lg:max-w-lg p-6 bg-white rounded-lg shadow-lg drop-shadow-lg">
         <h2 className="text-2xl md:text-3xl text-neutral-700 font-bold text-center mb-4">
           Provide Your General Details
@@ -100,16 +113,16 @@ const GeneralDetails = () => {
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-blue"
             />
           </div>
-          <div>
+          <div className={"flex flex-col"}>
             <label htmlFor="date-of-birth" className="text-sm text-gray-600">
               Date of Birth
             </label>
-            <input
+            <DatePicker
               id="date-of-birth"
-              type="date"
-              value={dateOfBirth}
-              onChange={(e) => setDateOfBirth(e.target.value)}
-              required
+              selected={dateOfBirth}
+              onChange={(date) => setDateOfBirth(date)}
+              dateFormat="yyyy-MM-dd"
+              placeholderText="Select your date of birth"
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-blue"
             />
           </div>
@@ -117,20 +130,15 @@ const GeneralDetails = () => {
             <label htmlFor="gender" className="text-sm text-gray-600">
               Gender
             </label>
-            <select
+            <Select
               id="gender"
+              options={genderOptions}
               value={gender}
-              onChange={(e) => setGender(e.target.value)}
-              required
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-blue"
-            >
-              <option value="" disabled>
-                Select Gender
-              </option>
-              <option value="male">Male</option>
-              <option value="female">Female</option>
-              <option value="other">Other</option>
-            </select>
+              onChange={setGender}
+              placeholder="Select Gender"
+              className="w-full active:ring-primary-blue"
+              classNamePrefix="react-select"
+            />
           </div>
           <button
             type="submit"
@@ -139,11 +147,6 @@ const GeneralDetails = () => {
             {loading ? "Saving..." : "Save Details"}
           </button>
         </form>
-
-        <div className="relative flex justify-center items-center mt-6">
-          <span className="absolute bg-white px-4 text-gray-500">OR</span>
-          <div className="w-full h-px bg-gray-300"></div>
-        </div>
 
         <p className="text-sm text-center text-gray-600 mt-4">
           By submitting, you agree to our{" "}
