@@ -10,7 +10,12 @@ import backgroundSvg from "/src/assets/Doctor/svg.svg";
 import miniImage1 from "/src/assets/Doctor/mini 1.svg";
 import miniImage2 from "/src/assets/Doctor/mini 2.svg";
 import miniImage3 from "/src/assets/Doctor/mini 3.svg";
-import linkedinIcon from "/src/assets/Doctor/linkedin.svg";
+import {
+  FaLinkedinIn,
+  FaInstagram,
+  FaEnvelope,
+  FaPhone,
+} from "react-icons/fa6";
 import instagramIcon from "/src/assets/Doctor/instagram.svg";
 import mailIcon from "/src/assets/Doctor/mail.svg";
 import callIcon from "/src/assets/Doctor/call.svg";
@@ -80,12 +85,6 @@ const LandingPage = () => {
               onClick={() => navigate("/support")}
             >
               <a>Support</a>
-            </li>
-            <li
-              className={styles.liInLanding}
-              onClick={() => navigate("/support")}
-            >
-              <a>Feedback</a>
             </li>
             <li
               className={styles.signinInLanding}
@@ -287,7 +286,6 @@ const LandingPage = () => {
           onSelectRole={handleRoleSelection}
         />
       )}
-
       <footer className={styles.uniqueFooter}>
         <div className={styles.footerContent}>
           <div className={styles.footerSection}>
@@ -307,9 +305,11 @@ const LandingPage = () => {
               </li>
             </ul>
           </div>
-          <div className={styles.footerSection}>
+          <div
+            className={`${styles.footerSection} w-[60vw] sm:w-full text-right sm:text-left`}
+          >
             <h4 className={styles.footerHeading}>Nourasense</h4>
-            <p className={styles.footerParagraph}>
+            <p className={`${styles.footerParagraph}`}>
               Developing state-of-the-art diagnostics and reporting tools for
               better child care.
             </p>
@@ -317,26 +317,20 @@ const LandingPage = () => {
               <h4 className={styles.footerHeading}>Find Us on</h4>
               <div className={styles.socialIcons}>
                 <a className={styles.socialIcon}>
-                  <img
-                    src={linkedinIcon}
-                    style={{ width: "31px" }}
-                    alt=""
+                  <FaLinkedinIn
+                    size={28}
                     onClick={() => window.open(`${linkedIn}`, "_blank")}
                   />
                 </a>
                 <a className={styles.socialIcon}>
-                  <img
-                    src={instagramIcon}
-                    style={{ width: "25px" }}
-                    alt=""
+                  <FaInstagram
                     onClick={() => window.open(`${instaLink}`, "_blank")}
+                    size={28}
                   />
                 </a>
                 <a className={styles.socialIcon}>
-                  <img
-                    src={mailIcon}
-                    style={{ width: "25px" }}
-                    alt=""
+                  <FaEnvelope
+                    size={28}
                     onClick={() =>
                       window.open(
                         `https://mail.google.com/mail/?view=cm&fs=1&to=${emailAddress}`,
@@ -346,11 +340,9 @@ const LandingPage = () => {
                   />
                 </a>
                 <a className={styles.socialIcon}>
-                  <img
-                    src={callIcon}
-                    style={{ width: "25px" }}
-                    alt=""
+                  <FaPhone
                     onClick={() => window.open(`tel:${phoneNumber}`, "_blank")}
+                    size={24}
                   />
                 </a>
               </div>

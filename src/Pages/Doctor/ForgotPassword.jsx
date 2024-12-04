@@ -108,9 +108,9 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div className="h-[85vh] md:h-screen px-4 sm:px-0 flex items-center justify-center py-12 bg-gray-50">
+    <div className="h-[85vh] md:h-screen px-4 sm:px-0 flex items-center justify-center py-12 ">
       <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-md">
-        <h2 className="text-2xl font-semibold text-center text-gray-800 mb-4 sm:mb-6">
+        <h2 className="text-2xl text-center text-gray-800 mb-4 sm:mb-6 font-serif">
           {step === 1 && "Forgot Password"}
           {step === 2 && "Verify OTP"}
           {step === 3 && "Reset Password"}

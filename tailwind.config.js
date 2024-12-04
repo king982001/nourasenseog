@@ -4,8 +4,8 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["Inter", "sans-serif"],
-        serif: ["Ledger", "serif"],
+        sans: ["Ledger", "sans-serif"],
+        serif: ["'DM Serif Display'", "serif"],
       },
       colors: {
         "primary-blue": "#002F88",

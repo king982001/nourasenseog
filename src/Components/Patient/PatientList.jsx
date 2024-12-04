@@ -136,21 +136,29 @@ const PatientList = () => {
               className="w-full  text-sm outline-none px-2 !mt-0 !border-none bg-transparent"
             />
           </div>
-          <div className="flex items-center gap-2">
-            <img src={User} alt="User Icon" className="h-6 w-6" />
-            <h1 className="font-serif text-sm md:text-base">
-              <span>
-                {typeof children?.data === "object" ? children.data.length : 0}
-              </span>{" "}
-              Total Patients
-            </h1>
-          </div>
-          <button
-            className="bg-primary-blue text-white px-8 md:px-12 py-2 text-sm md:text-lg rounded-md hover:bg-primary-blue/95"
-            onClick={() => setShowAddPatient(true)}
+          <div
+            className={
+              "flex w-full justify-between sm:w-[55%] sm:justify-between"
+            }
           >
-            Add Child
-          </button>
+            <div className="flex items-center gap-2">
+              <img src={User} alt="User Icon" className="h-6 w-6" />
+              <h1 className="font-serif text-sm md:text-base">
+                <span>
+                  {typeof children?.data === "object"
+                    ? children.data.length
+                    : 0}
+                </span>{" "}
+                Total Childrens
+              </h1>
+            </div>
+            <button
+              className="bg-primary-blue text-white px-8 md:px-12 py-2 text-sm md:text-lg rounded-md hover:bg-primary-blue/95"
+              onClick={() => setShowAddPatient(true)}
+            >
+              Add Child
+            </button>
+          </div>
         </div>
         {loading ? (
           <div className="flex flex-col items-center justify-center min-h-[300px]">
