@@ -1,5 +1,7 @@
 import React from "react";
 import { Routes, Route, Outlet, useNavigate } from "react-router-dom";
+import { FiHome, FiHelpCircle, FiLogOut, FiUserPlus } from "react-icons/fi";
+
 import Login from "src/Pages/Doctor/Login.jsx";
 import DataProvider from "src/Context/Doctor/DataProvider.jsx";
 import NotFoundPage from "src/Pages/NotFoundPage.jsx";
@@ -15,12 +17,32 @@ import PatientProfile from "src/Pages/Doctor/PatientProfile.jsx";
 import Diagnose from "src/Pages/Doctor/Diagnose.jsx";
 import EmptyHead from "src/Components/EmptyHead.jsx";
 
-const PublicLayout = () => (
-  <>
-    <EmptyHead />
-    <Outlet />
-  </>
-);
+const PublicLayout = () => {
+  const menuItems = [
+    {
+      name: "Home",
+      link: "/",
+      icon: FiHome,
+    },
+    {
+      name: "Create Account",
+      link: "/doctor/signup",
+      icon: FiUserPlus,
+    },
+    {
+      name: "Support",
+      link: "/support",
+      icon: FiHelpCircle,
+    },
+  ];
+
+  return (
+    <>
+      <EmptyHead showNavigation={true} menuItems={menuItems} />
+      <Outlet />
+    </>
+  );
+};
 
 const ProtectedLayout = () => {
   const navigate = useNavigate();
@@ -31,9 +53,27 @@ const ProtectedLayout = () => {
     navigate("/doctor/login", { replace: true }); // Navigate to login
   };
 
+  const menuItems = [
+    {
+      name: "Dashboard",
+      link: "/doctor/dashboard",
+      icon: FiHome,
+    },
+    {
+      name: "Support",
+      link: "/support",
+      icon: FiHelpCircle,
+    },
+    {
+      name: "Logout",
+      onClick: handleLogout,
+      icon: FiLogOut,
+    },
+  ];
+
   return (
     <>
-      <EmptyHead showLogoutBtn={true} logoutHandler={handleLogout} />
+      <EmptyHead showNavigation={true} menuItems={menuItems} />
       <Outlet />
     </>
   );

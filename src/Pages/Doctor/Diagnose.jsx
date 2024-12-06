@@ -149,10 +149,10 @@ const Diagnose = () => {
   }
 
   return (
-    <div className=" w-full ">
+    <>
       <BackButton />
-      <div className="flex flex-col gap-2 text-center pt-8 pb-4 md:pt-12 md:pb-8 px-8 md:px-12">
-        <h1 className="font-serif text-2xl sm:text-3xl">
+      <div className="flex flex-col gap-2 text-center pt-16 pb-4 md:pt-12 md:pb-8 px-8 md:px-12">
+        <h1 className="font-serif text-xl md:text-2xl font-semibold text-gray-800">
           Hello{" "}
           <span className="text-primary-blue">
             Dr. {doctorName} {surName}
@@ -366,7 +366,7 @@ const Diagnose = () => {
           </>
         )}
       </div>
-    </div>
+    </>
   );
 };
 

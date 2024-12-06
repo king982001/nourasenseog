@@ -5,6 +5,7 @@ import emailIcon from "src/assets/Doctor/gmail.png";
 import copyrightIcon from "src/assets/Doctor/copyright.png";
 import { useFeedback } from "src/Hooks/Hooks.js";
 import toast from "react-hot-toast";
+import BackButton from "src/Components/BackButton.jsx";
 
 const SupportPage = () => {
   const [faqState, setFaqState] = useState({});
@@ -66,7 +67,8 @@ const SupportPage = () => {
   }, []);
 
   return (
-    <div>
+    <>
+      <BackButton />
       <div className={styles.container}>
         <div className={styles.contactForm}>
           <h2>Contact Us</h2>
@@ -173,7 +175,7 @@ const SupportPage = () => {
           </div>
         ))}
       </div>
-    </div>
+    </>
   );
 };
 

@@ -1,5 +1,6 @@
 import { Outlet, Route, Routes, useNavigate } from "react-router-dom";
 import { Login } from "src/Pages/Admin/Login.jsx";
+import { FiHome, FiHelpCircle, FiLogOut } from "react-icons/fi";
 import { Dashboard } from "src/Pages/Admin/Dashboard.jsx";
 import ProtectedRoute from "src/Utilities/Admin/ProtectedRoute.jsx";
 import { VerifyDoctor } from "src/Pages/Admin/VerifyDoctor.jsx";
@@ -22,9 +23,27 @@ const ProtectedLayout = () => {
     navigate("/admin/login", { replace: true }); // Navigate to login
   };
 
+  const menuItems = [
+    {
+      name: "Home",
+      link: "/admin/",
+      icon: FiHome,
+    },
+    {
+      name: "Support",
+      link: "/support",
+      icon: FiHelpCircle,
+    },
+    {
+      name: "Logout",
+      onClick: handleLogout,
+      icon: FiLogOut,
+    },
+  ];
+
   return (
     <>
-      <EmptyHead showLogoutBtn={true} logoutHandler={handleLogout} />
+      <EmptyHead showNavigation={true} menuItems={menuItems} />
       <Outlet />
     </>
   );
