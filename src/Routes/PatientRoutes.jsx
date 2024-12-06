@@ -1,4 +1,5 @@
 import { Routes, Route, Outlet, useNavigate } from "react-router-dom";
+import { FiHome, FiHelpCircle, FiLogOut, FiUserPlus } from "react-icons/fi";
 import Login from "src/Pages/Patient/Login.jsx";
 import SignUp from "src/Pages/Patient/SignUp.jsx";
 import Dashboard from "src/Pages/Patient/Dashboard.jsx";
@@ -11,12 +12,31 @@ import GeneralDetails from "src/Pages/Patient/GeneralDetails.jsx";
 import EmptyHead from "src/Components/EmptyHead.jsx";
 import React from "react";
 
-const PublicLayout = () => (
-  <>
-    <EmptyHead />
-    <Outlet />
-  </>
-);
+const PublicLayout = () => {
+  const menuItems = [
+    {
+      name: "Home",
+      link: "/",
+      icon: FiHome,
+    },
+    {
+      name: "Create Account",
+      link: "/signup",
+      icon: FiUserPlus,
+    },
+    {
+      name: "Support",
+      link: "/support",
+      icon: FiHelpCircle,
+    },
+  ];
+  return (
+    <>
+      <EmptyHead showNavigation={true} menuItems={menuItems} />
+      <Outlet />
+    </>
+  );
+};
 
 const ProtectedLayout = () => {
   const navigate = useNavigate();
@@ -27,9 +47,26 @@ const ProtectedLayout = () => {
     navigate("/login", { replace: true }); // Navigate to login
   };
 
+  const menuItems = [
+    {
+      name: "Dashboard",
+      link: "/dashboard",
+      icon: FiHome,
+    },
+    {
+      name: "Support",
+      link: "/support",
+      icon: FiHelpCircle,
+    },
+    {
+      name: "Logout",
+      onClick: handleLogout,
+      icon: FiLogOut,
+    },
+  ];
   return (
     <>
-      <EmptyHead showLogoutBtn={true} logoutHandler={handleLogout} />
+      <EmptyHead showNavigation={true} menuItems={menuItems} />
       <Outlet />
     </>
   );

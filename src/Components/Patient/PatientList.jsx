@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
 import { useChildrens } from "src/Hooks/PatientHooks.js";
 import AddPatient from "src/Components/Patient/AddPatient.jsx";
+import { FaStethoscope } from "react-icons/fa6";
 
 const formattedDate = () => {
   return new Date().toLocaleDateString("en-US", {
@@ -24,7 +25,6 @@ const PatientList = () => {
   const addPatientRef = useRef(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [isVisible, setIsVisible] = useState(false);
-
   // Filter the children based on search term
 
   const filteredChildren =
@@ -73,7 +73,7 @@ const PatientList = () => {
     },
     {
       name: "Child ID",
-      selector: (row) => row._id,
+      selector: (row) => row.customId || "N/A",
     },
     {
       name: "Gender",
@@ -88,9 +88,11 @@ const PatientList = () => {
       cell: (row) => (
         <button
           onClick={() => navigate(`/child/${row._id}`)}
-          className="bg-primary-blue text-white p-3 md:px-7 md:py-2 text-sm rounded-md hover:bg-primary-blue/95"
+          className="text-blue-500 hover:text-blue-600 p-2 rounded-full"
+          aria-label="Diagnose Patient"
+          title="Diagnose"
         >
-          Diagnose
+          <FaStethoscope size={20} />
         </button>
       ),
     },
@@ -122,8 +124,8 @@ const PatientList = () => {
   return (
     <div className="relative px-4 md:px-14 py-10">
       <div className="flex flex-col">
-        <h1 className="font-serif text-xl font-semibold text-center md:text-left">
-          Patients
+        <h1 className="font-serif text-xl md:text-2xl font-semibold text-center md:text-left">
+          Childrens
         </h1>
         <div className="flex flex-col md:flex-row justify-between items-center py-6 gap-4 md:gap-0">
           <div className="input flex items-center p-[12px] px-4 border border-[#B0B0B0] rounded-md bg-white cursor-text w-full md:max-w-xs">

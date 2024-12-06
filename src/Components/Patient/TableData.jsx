@@ -1,11 +1,10 @@
 import React from "react";
 import DataTable from "react-data-table-component";
 import Dropdown from "src/assets/Doctor/Dropdown.svg";
-import Download from "src/assets/Doctor/Download.svg";
-import Share from "src/assets/Doctor/Share.svg";
 import { useParams } from "react-router-dom";
 import { useReportHistory } from "src/Hooks/DoctorHooks.js";
 import toast from "react-hot-toast";
+import { AiOutlineDownload, AiOutlineShareAlt } from "react-icons/ai";
 
 const TableData = () => {
   const { id } = useParams();
@@ -17,10 +16,6 @@ const TableData = () => {
 
   const columns = [
     {
-      name: "Report No.",
-      selector: (row) => row.report_number,
-    },
-    {
       name: "Date",
       selector: (row) => row.date,
     },
@@ -31,27 +26,40 @@ const TableData = () => {
     {
       name: "Action",
       cell: (row) => (
-        <div className="flex gap-2">
-          <button onClick={() => handleDownload(row.report_link)}>
-            <img src={Download} alt="Download svg" />
+        <div className="flex gap-4 justify-center">
+          {/* Download Button */}
+          <button
+            onClick={() => handleDownload(row.report_link)}
+            className="p-2 rounded-full hover:bg-gray-200 transition-all"
+            title="Download"
+          >
+            <AiOutlineDownload className="text-2xl text-blue-600 hover:text-blue-800" />
           </button>
-          <button onClick={() => handleShare(row.report_link)}>
-            <img src={Share} alt="Share svg" />
+          {/* Share Button */}
+          <button
+            onClick={() => handleShare(row.report_link)}
+            className="p-2 rounded-full hover:bg-gray-200 transition-all"
+            title="Share"
+          >
+            <AiOutlineShareAlt className="text-2xl text-green-600 hover:text-green-800" />
           </button>
         </div>
       ),
+      width: "30%",
     },
   ];
 
   const customStyles = {
     headCells: {
       style: {
-        textAlign: "center",
+        textAlign: "center !important", // Enforce alignment in headers
+        justifyContent: "center", // Ensures alignment works visually
       },
     },
     cells: {
       style: {
-        textAlign: "center",
+        textAlign: "center !important", // Enforce alignment in cells
+        justifyContent: "center", // Centers content visually
       },
     },
   };

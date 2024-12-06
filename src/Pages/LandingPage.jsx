@@ -1,6 +1,12 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import Logo from "/Logo.png";
+import { useNavigate } from "react-router-dom";
+import {
+  FiLogIn,
+  FiUserPlus,
+  FiHelpCircle,
+  FiUsers,
+  FiUser,
+} from "react-icons/fi";
 import styles from "./Doctor/LandingPage.module.css";
 
 import heroImage1 from "/src/assets/Doctor/1.png";
@@ -16,11 +22,10 @@ import {
   FaEnvelope,
   FaPhone,
 } from "react-icons/fa6";
-import instagramIcon from "/src/assets/Doctor/instagram.svg";
-import mailIcon from "/src/assets/Doctor/mail.svg";
-import callIcon from "/src/assets/Doctor/call.svg";
+
 import copyrightIcon from "/src/assets/Doctor/copyright 1.png";
 import RoleSelectionModal from "src/Components/RoleSelectionModal.jsx";
+import EmptyHead from "src/Components/EmptyHead.jsx";
 
 const phoneNumber = "+91 9723964754";
 const emailAddress = "support@nourasense.com";
@@ -67,34 +72,37 @@ const LandingPage = () => {
     }
   };
 
+  const menuItems = [
+    {
+      name: "Doctor Login",
+      link: "/doctor/login", // Adjust the URL path according to your routes
+      icon: FiUsers,
+    },
+    {
+      name: "Doctor Sign Up",
+      link: "/doctor/signup", // Adjust the URL path according to your routes
+      icon: FiUser,
+    },
+    {
+      name: "Parent Login",
+      link: "/login", // Adjust the URL path according to your routes
+      icon: FiLogIn,
+    },
+    {
+      name: "Parent Sign Up",
+      link: "/signup", // Adjust the URL path according to your routes
+      icon: FiUserPlus,
+    },
+    {
+      name: "Support",
+      link: "/support", // Adjust the URL path according to your routes
+      icon: FiHelpCircle,
+    },
+  ];
+
   return (
     <div>
-      <nav className={styles.navbar}>
-        <div className={styles.navbarBrand}>
-          <Link to={"/"}>
-            <img src={Logo} alt="Nourasense" className={"h-8 w-auto"} />
-          </Link>
-        </div>
-        <div
-          className={`${styles.navbarLinks} ${isMenuOpen ? styles.active : ""}`}
-          id="navbar-links"
-        >
-          <ul>
-            <li
-              className={styles.liInLanding}
-              onClick={() => navigate("/support")}
-            >
-              <a>Support</a>
-            </li>
-            <li
-              className={styles.signinInLanding}
-              onClick={() => openModal("login")}
-            >
-              <a>Sign in</a>
-            </li>
-          </ul>
-        </div>
-      </nav>
+      <EmptyHead showNavigation={true} menuItems={menuItems} />
 
       <div className={styles.heroSection} style={{ marginRight: "-5%" }}>
         <div className={styles.heroContent}>
