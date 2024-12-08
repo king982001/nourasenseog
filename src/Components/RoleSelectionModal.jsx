@@ -6,7 +6,7 @@ const RoleSelectionModal = ({ onClose, onSelectRole }) => {
 
   return (
     <div className="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50">
-      <div className="bg-white rounded shadow-lg w-full max-w-lg md:max-w-xl mx-4 p-2">
+      <div className="bg-white rounded shadow-lg w-full max-w-[90vw] sm:max-w-lg md:max-w-xl mx-4 p-2">
         <div
           className={
             "flex h-full justify-end items-center text-gray-800 hover:text-gray-600"
@@ -18,11 +18,11 @@ const RoleSelectionModal = ({ onClose, onSelectRole }) => {
             onClick={onClose}
           />
         </div>
-        <div className={"py-6 px-6 md:px-14"}>
-          <h2 className="text-2xl font-normal font-serif text-center text-gray-800 mb-4">
+        <div className={" p-3 sm:p-6 md:py-6 md:px-14"}>
+          <h2 className="text-xl sm:text-2xl font-normal font-serif text-center text-gray-800 mb-4">
             Choose an Account Type
           </h2>
-          <p className="text-gray-600 font-sans text-sm text-center mb-6">
+          <p className="text-gray-600 font-sans text-xs sm:text-sm text-center mb-6">
             Before you continue, please choose which type of account you would
             like to register as.
           </p>

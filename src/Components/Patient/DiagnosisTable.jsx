@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import DataTable from "react-data-table-component";
 import { useParams } from "react-router-dom";
 import { useDiagnoseHistory } from "src/Hooks/DoctorHooks.js";
+import { ClipLoader } from "react-spinners";
 
 const DiagnosisTable = () => {
   const { id } = useParams();
   const [error, setError] = useState(false);
   const { data: diagnosisRecords, isLoading: loading } = useDiagnoseHistory(id);
-  console.log(diagnosisRecords);
   const getClassForDiagnosis = (value, type) => {
     const classes = {
       "Height-for-Age": {
