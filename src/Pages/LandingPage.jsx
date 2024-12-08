@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   FiLogIn,
   FiUserPlus,
@@ -34,7 +34,6 @@ const linkedIn = "https://www.linkedin.com/company/nourasense";
 
 const LandingPage = () => {
   const navigate = useNavigate();
-  const [isMenuOpen, setIsMenuOpen] = useState(false); // State for controlling the menu
   const [isModalOpen, setIsModalOpen] = useState(false); // State for controlling the modal
   const [action, setAction] = useState("signup");
   useEffect(() => {
@@ -300,16 +299,22 @@ const LandingPage = () => {
             <h4 className={styles.footerHeading}>Links</h4>
             <ul className={styles.footerLinks}>
               <li>
-                <a onClick={() => navigate("/support")}>Support </a>
+                <Link to={"/support"}>Support</Link>
               </li>
               <li>
-                <a onClick={() => navigate("/support")}>Feedback </a>
+                <Link to={"/support"}>Feedback</Link>
               </li>
               <li>
-                <a onClick={() => openModal("signup")}>Create account</a>
+                <Link to={"/privacy-policy"}>Privacy Policy</Link>
               </li>
               <li>
-                <a onClick={() => openModal("login")}>Sign in </a>
+                <Link to={"/t&c"}>Terms and Conditions</Link>
+              </li>
+              <li>
+                <Link to={"signup"}>Create account</Link>
+              </li>
+              <li>
+                <Link to={"login"}>Sign in</Link>
               </li>
             </ul>
           </div>
@@ -326,19 +331,19 @@ const LandingPage = () => {
               <div className={styles.socialIcons}>
                 <a className={styles.socialIcon}>
                   <FaLinkedinIn
-                    size={28}
+                    size={22}
                     onClick={() => window.open(`${linkedIn}`, "_blank")}
                   />
                 </a>
                 <a className={styles.socialIcon}>
                   <FaInstagram
                     onClick={() => window.open(`${instaLink}`, "_blank")}
-                    size={28}
+                    size={22}
                   />
                 </a>
                 <a className={styles.socialIcon}>
                   <FaEnvelope
-                    size={28}
+                    size={22}
                     onClick={() =>
                       window.open(
                         `https://mail.google.com/mail/?view=cm&fs=1&to=${emailAddress}`,
@@ -350,7 +355,7 @@ const LandingPage = () => {
                 <a className={styles.socialIcon}>
                   <FaPhone
                     onClick={() => window.open(`tel:${phoneNumber}`, "_blank")}
-                    size={24}
+                    size={21}
                   />
                 </a>
               </div>

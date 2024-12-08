@@ -7,6 +7,7 @@ const DiagnosisTable = () => {
   const { id } = useParams();
   const [error, setError] = useState(false);
   const { data: diagnosisRecords, isLoading: loading } = useDiagnoseHistory(id);
+  console.log(diagnosisRecords);
   const getClassForDiagnosis = (value, type) => {
     const classes = {
       "Height-for-Age": {
@@ -28,6 +29,21 @@ const DiagnosisTable = () => {
         Obese: "text-red-600",
         Wasted: "text-orange-500",
         "Severely wasted": "text-red-600",
+      },
+      "Weight-For-Age": {
+        Normal: "text-green-600",
+        "Possible risk of overweight": "text-yellow-500",
+        Overweight: "text-orange-500",
+        Obese: "text-red-600",
+        Wasted: "text-orange-500",
+        "Severely wasted": "text-red-600",
+      },
+      "Head-Circumference-for-Age": {
+        Normal: "text-green-600",
+        Macrocephaly: "text-orange-500",
+        "Severe macrocephaly": "text-red-600",
+        Microcephaly: "text-orange-500",
+        "Severe microcephaly": "text-red-600",
       },
     };
 
@@ -75,6 +91,26 @@ const DiagnosisTable = () => {
         </span>
       ),
     },
+    {
+      name: "Head-Circumference-for-Age",
+      selector: (row) => (
+        <span
+          className={`${getClassForDiagnosis(row.diagnosis.head_circumference_for_age, "Head-Circumference-for-Age")} font-semibold`}
+        >
+          {row.diagnosis.head_circumference_for_age}
+        </span>
+      ),
+    },
+    {
+      name: "Weight-For-Age",
+      selector: (row) => (
+        <span
+          className={`${getClassForDiagnosis(row.diagnosis.weight_for_height, "Weight-For-Age")} font-semibold`}
+        >
+          {row.diagnosis.weight_for_height}
+        </span>
+      ),
+    },
   ];
 
   const customStyles = {
@@ -100,7 +136,9 @@ const DiagnosisTable = () => {
         <div className="flex justify-center items-center">No data found!</div>
       )}
       {loading && (
-        <div className="flex justify-center items-center">Loading...</div>
+        <div className={"flex justify-center items-center text-primary-blue"}>
+          <ClipLoader color={"#002f88"} />
+        </div>
       )}
       {!loading && !error && (
         <DataTable
