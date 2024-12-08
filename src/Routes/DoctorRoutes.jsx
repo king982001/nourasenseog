@@ -6,16 +6,15 @@ import Login from "src/Pages/Doctor/Login.jsx";
 import DataProvider from "src/Context/Doctor/DataProvider.jsx";
 import NotFoundPage from "src/Pages/NotFoundPage.jsx";
 import SignUp from "src/Pages/Doctor/SignUp.jsx";
-import UpdateProfileDoc from "src/Pages/Doctor/UpdateProfileDoc.jsx";
-import UpdateProfileDoc2 from "src/Pages/Doctor/UpdateProfileDoc2.jsx";
-import UpdateProfileDoc3 from "src/Pages/Doctor/UpdateProfileDoc3.jsx";
-import UpdateProfileDoc4 from "src/Pages/Doctor/UpdateProfileDoc4.jsx";
+import UploadDoctorId from "src/Pages/Doctor/UploadDoctorId.jsx";
+import UploadProfilePic from "src/Pages/Doctor/UploadProfilePic.jsx";
 import ForgotPassword from "src/Pages/Doctor/ForgotPassword.jsx";
 import ProtectedRoute from "src/Utilities/Doctor/ProtectedRoute.jsx";
 import Dashboard from "src/Pages/Doctor/Dashboard.jsx";
 import PatientProfile from "src/Pages/Doctor/PatientProfile.jsx";
 import Diagnose from "src/Pages/Doctor/Diagnose.jsx";
 import EmptyHead from "src/Components/EmptyHead.jsx";
+import { GeneralDetails } from "src/Pages/Doctor/GeneralDetails.jsx";
 
 const PublicLayout = () => {
   const menuItems = [
@@ -56,7 +55,7 @@ const ProtectedLayout = () => {
   const menuItems = [
     {
       name: "Dashboard",
-      link: "/doctor/dashboard",
+      link: "/doctor/",
       icon: FiHome,
     },
     {
@@ -85,10 +84,9 @@ const DoctorRoutes = () => (
       <Route element={<PublicLayout />}>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/updateProfileDoc" element={<UpdateProfileDoc />} />
-        <Route path="/updateProfileDoc2" element={<UpdateProfileDoc2 />} />
-        <Route path="/updateProfileDoc3" element={<UpdateProfileDoc3 />} />
-        <Route path="/updateProfileDoc4" element={<UpdateProfileDoc4 />} />
+        <Route path="/update-profile" element={<GeneralDetails />} />
+        <Route path="/upload-id" element={<UploadDoctorId />} />
+        <Route path="/upload-profile" element={<UploadProfilePic />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
       </Route>
 

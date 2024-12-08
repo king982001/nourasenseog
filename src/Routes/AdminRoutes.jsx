@@ -52,7 +52,7 @@ const ProtectedLayout = () => {
 const AdminRoutes = () => (
   <Routes>
     <Route element={<PublicLayout />}>
-      <Route path={"/admin/login"} element={<Login />} />
+      <Route path={"/login"} element={<Login />} />
     </Route>
     <Route
       element={

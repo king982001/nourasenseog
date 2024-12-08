@@ -27,6 +27,9 @@ const Diagnose = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const isApproved = location.state?.isApproved;
+  const dobFormatted = new Date(patient.date_of_birth).toLocaleDateString(
+    "en-GB",
+  );
 
   useEffect(() => {
     document.title = "Nourasense - Diagnose";
@@ -46,9 +49,6 @@ const Diagnose = () => {
     }
     const toastId = toast.loading("Please wait...");
     setError(null);
-    const dobFormatted = new Date(patient.date_of_birth).toLocaleDateString(
-      "en-GB",
-    );
     const data = {
       dob: dobFormatted,
       gender: patient.gender.charAt(0).toLowerCase(),
@@ -103,7 +103,7 @@ const Diagnose = () => {
       client_details:
         account.registration?.establishment_name || "Unknown Hospital", // Client details (hospital name)
       doctor_name: `Dr. ${account.name} ${account.surname}`, // Doctor's full name
-      dob: diagnosisResult.date, // Report date (already in diagnosisResult)
+      dob: dobFormatted || "", // Report date (already in diagnosisResult)
       doctor_id: account.customId, // Doctor ID (from account's customId)
       contact: account.phonenumber || "", // Doctor's contact (from account's phonenumber)
       patient_id: id, // Patient ID (from patient data)
@@ -113,6 +113,7 @@ const Diagnose = () => {
       zones: diagnosisResult.zones, // Zones data
       measurements: diagnosisResult.measurements, // Measurements data
       diagnoses: diagnosisResult.diagnoses, // Diagnoses data
+      zscores: diagnosisResult.zscores,
     };
     await generateReport(reportData, {
       onMutate: () => {

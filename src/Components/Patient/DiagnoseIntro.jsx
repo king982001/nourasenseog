@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
 import { useChildrens } from "src/Hooks/PatientHooks.js";
@@ -6,6 +6,7 @@ import { useChildrens } from "src/Hooks/PatientHooks.js";
 const DiagnoseIntro = () => {
   const { id } = useParams();
   const { data, isLoading: loading, isError } = useChildrens();
+  const account = JSON.parse(localStorage.getItem("account"));
   const patient = data?.data.find((patient) => patient._id === id);
   const navigate = useNavigate();
   const formattedDate = new Date().toLocaleDateString("en-US", {
@@ -56,8 +57,13 @@ const DiagnoseIntro = () => {
     <div className="px-6 py-3 sm:px-10 sm:py-7 md:px-14 md:py-9">
       <div className="flex flex-col md:flex-row items-center justify-between gap-6">
         <div className="flex flex-col gap-2 text-center sm:text-left">
-          <h1 className="font-serif text-4xl sm:text-6xl text-primary-blue">
-            Hello
+          <h1 className="font-serif text-2xl lg:text-3xl">
+            Hello{" "}
+            <span className="text-primary-blue">
+              <span>
+                {account.name} {account?.surname}
+              </span>
+            </span>
           </h1>
           <p className="text-base sm:text-lg">
             Welcome to{" "}
