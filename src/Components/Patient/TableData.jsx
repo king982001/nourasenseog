@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import { useReportHistory } from "src/Hooks/DoctorHooks.js";
 import toast from "react-hot-toast";
 import { AiOutlineDownload, AiOutlineShareAlt } from "react-icons/ai";
+import { ClipLoader } from "react-spinners";
 
 const TableData = () => {
   const { id } = useParams();
