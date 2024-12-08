@@ -33,7 +33,9 @@ export const NavigationMenu = ({
               <div className="flex flex-col py-4 px-6">
                 {/* Header Section */}
                 <div className="flex items-center justify-between mb-6">
-                  <h2 className="text-lg font-bold text-primary-blue">Menu</h2>
+                  <h2 className="text-lg font-bold text-primary-blue font-serif">
+                    Menu
+                  </h2>
                   {/* Close button */}
                   <button
                     className="text-gray-600 hover:text-primary-blue transition-colors duration-200"

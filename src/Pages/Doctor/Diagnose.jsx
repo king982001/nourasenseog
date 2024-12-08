@@ -43,6 +43,21 @@ const Diagnose = () => {
 
   const handleDiagnose = async () => {
     if (!patient) return toast.error("Oops! An error occurred.");
+
+    // Validate input ranges
+    if (weight && (weight < 4 || weight > 60)) {
+      return toast.error("Weight must be between 4 and 60 kg.");
+    }
+    if (height && (height < 65 || height > 120)) {
+      return toast.error("Height must be between 65 and 120 cm.");
+    }
+    if (
+      headCircumference &&
+      (headCircumference < 10 || headCircumference > 150)
+    ) {
+      return toast.error("Head circumference must be between 10 and 150 cm.");
+    }
+
     if (!weight && !height && !headCircumference) {
       toast.error("Please enter at least one measurement to proceed.");
       return;
@@ -262,26 +277,30 @@ const Diagnose = () => {
                   Diagnosis Result
                 </h2>
 
-                {/* Zones */}
+                {/* Z-scores */}
                 <div className="mb-6">
                   <h3 className="text-lg font-semibold text-gray-700 mb-3">
-                    Zones
+                    Z-scores
                   </h3>
                   <ul className="space-y-3 pl-6">
-                    {Object.entries(diagnosisResult.zones).map(
+                    {Object.entries(diagnosisResult.zscores).map(
                       ([key, value]) => (
                         <li
                           key={key}
-                          className="text-sm sm:text-md flex items-center md:text-lg space-x-2 text-gray-600"
+                          className="text-sm sm:text-md flex items-center md:text-lg space-x-2 sm:space-x-4 text-gray-600"
                         >
                           <span className={`font-medium `}>
                             {key.replace(/_/g, " ").toUpperCase()}:
                           </span>
                           <span
-                            className={`${getZoneStyle(value)} h-8 w-8 flex items-center justify-center font-semibold rounded-[50%]  text-white`}
+                            className={` h-8 w-8 flex items-center justify-center font-semibold rounded-[50%]  `}
                           >
                             <p>{value > 0 ? `+${value}` : value}</p>
                           </span>
+
+                          <span
+                            className={`${getZoneStyle(diagnosisResult.zones[key])} h-2 w-2 rounded-full shadow drop-shadow-sm`}
+                          ></span>
                         </li>
                       ),
                     )}

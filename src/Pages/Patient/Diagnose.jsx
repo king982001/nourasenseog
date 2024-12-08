@@ -23,6 +23,33 @@ const Diagnose = () => {
 
   const handleDiagnose = async () => {
     if (!patient) return toast.error("Oops! An error occurred.");
+
+    // Validate input ranges
+    if (weight && (weight < 4 || weight > 60)) {
+      return toast.error(
+        weight < 4
+          ? "Weight must be greater than 4 kg."
+          : "Weight must be less than 60 kg.",
+      );
+    }
+    if (height && (height < 65 || height > 120)) {
+      return toast.error(
+        height < 65
+          ? "Height must be greater than 65 cm."
+          : "Height must be less than 120 cm.",
+      );
+    }
+    if (
+      headCircumference &&
+      (headCircumference < 10 || headCircumference > 150)
+    ) {
+      return toast.error(
+        headCircumference < 10
+          ? "Head circumference must be greater than 10 cm."
+          : "Head circumference must be less than 150 cm.",
+      );
+    }
+
     if (!weight && !height && !headCircumference) {
       toast.error("Please enter at least one measurement to proceed.");
       return;
@@ -93,7 +120,7 @@ const Diagnose = () => {
   return (
     <>
       <BackButton />
-      <div className="w-full min-h-[80vh] flex justify-center items-center ">
+      <div className="w-full min-h-[80vh] flex justify-center items-center pt-14 pb-4 md:pt-12 md:pb-8 md:px-12">
         <div className="w-[90%] max-w-6xl px-4 md:px-14 mt-8 py-4 mx-auto bg-white shadow-lg rounded-lg flex flex-col gap-8">
           {patient && (
             <>
@@ -193,26 +220,29 @@ const Diagnose = () => {
                     Diagnosis Result
                   </h2>
 
-                  {/* Zones */}
+                  {/* zscores */}
                   <div className="mb-6">
                     <h3 className="text-lg font-semibold text-gray-700 mb-3">
-                      Zones
+                      Z-scores
                     </h3>
                     <ul className="space-y-3 pl-6">
-                      {Object.entries(diagnosisResult.zones).map(
+                      {Object.entries(diagnosisResult.zscores).map(
                         ([key, value]) => (
                           <li
                             key={key}
-                            className="text-md flex md:text-lg space-x-2 text-gray-600"
+                            className="text-md flex items-center md:text-lg space-x-2 sm:space-x-4  text-gray-600"
                           >
                             <span className={`font-medium `}>
                               {key.replace(/_/g, " ").toUpperCase()}:
                             </span>
                             <span
-                              className={`${getZoneStyle(value)} h-8 w-8 flex items-center justify-center font-semibold rounded-[50%]  text-white`}
+                              className={`h-8 w-8 flex items-center justify-center font-semibold rounded-[50%]  text-gray-600`}
                             >
                               <p>{value > 0 ? `+${value}` : value}</p>
                             </span>
+                            <span
+                              className={`${getZoneStyle(diagnosisResult.zones[key])} h-2 w-2 rounded-full shadow drop-shadow-sm`}
+                            ></span>
                           </li>
                         ),
                       )}
