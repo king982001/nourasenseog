@@ -19,7 +19,7 @@ const DiagnosisTable = () => {
         Normal: "text-green-600",
         "Normal but might indicate an endocrine disorder": "text-yellow-500",
         Stunted: "text-orange-500",
-        "Severely stunted": "text-red-600",
+        "Severly stunted": "text-red-600",
       },
       "Weight-for-Age": {
         Normal: "text-green-600",
@@ -34,6 +34,21 @@ const DiagnosisTable = () => {
         Obese: "text-red-600",
         Wasted: "text-orange-500",
         "Severely wasted": "text-red-600",
+      },
+      "Weight-For-Age": {
+        Normal: "text-green-600",
+        "Possible risk of overweight": "text-yellow-500",
+        Overweight: "text-orange-500",
+        Obese: "text-red-600",
+        Wasted: "text-orange-500",
+        "Severely wasted": "text-red-600",
+      },
+      "Head-Circumference-for-Age": {
+        Normal: "text-green-600",
+        Macrocephaly: "text-orange-500",
+        "Severe macrocephaly": "text-red-600",
+        Microcephaly: "text-orange-500",
+        "Severe microcephaly": "text-red-600",
       },
     };
 
@@ -78,6 +93,26 @@ const DiagnosisTable = () => {
           className={`${getClassForDiagnosis(row.diagnosis.bmi_for_age, "BMI-for-Age")} font-semibold`}
         >
           {row.diagnosis.bmi_for_age}
+        </span>
+      ),
+    },
+    {
+      name: "Head-Circumference-for-Age",
+      selector: (row) => (
+        <span
+          className={`${getClassForDiagnosis(row.diagnosis.head_circumference_for_age, "Head-Circumference-for-Age")} font-semibold`}
+        >
+          {row.diagnosis.head_circumference_for_age}
+        </span>
+      ),
+    },
+    {
+      name: "Weight-For-Age",
+      selector: (row) => (
+        <span
+          className={`${getClassForDiagnosis(row.diagnosis.weight_for_height, "Weight-For-Age")} font-semibold`}
+        >
+          {row.diagnosis.weight_for_height}
         </span>
       ),
     },

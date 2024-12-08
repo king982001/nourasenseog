@@ -108,7 +108,9 @@ const TableData = () => {
         </button>
       </div>
       {error && (
-        <div className={"flex justify-center items-center"}>No data found!</div>
+        <div className={"flex justify-center items-center"}>
+          You have not generated any reports yet.
+        </div>
       )}
       {reportsLoading && (
         <div className={"flex justify-center items-center text-primary-blue"}>
