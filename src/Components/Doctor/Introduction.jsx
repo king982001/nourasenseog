@@ -1,5 +1,5 @@
 const Introduction = () => {
-  const account = JSON.parse(localStorage.getItem("DoctorAccount"));
+  const account = JSON.parse(localStorage.getItem("DoctorAccount")) || "";
   const doctorName = account?.name?.trim() || "";
   const surName = account?.surname?.trim() || "";
 

@@ -245,3 +245,12 @@ export const useReport = () => {
     },
   });
 };
+
+export const useUpdateDoctorGeneralDetails = () => {
+  return useMutation({
+    mutationFn: async (data) => {
+      const response = await api.post("/api/v1/doctor/updateDetails", data);
+      return response.data;
+    },
+  });
+};

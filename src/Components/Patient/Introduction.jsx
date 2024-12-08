@@ -12,8 +12,8 @@ const Introduction = () => {
     <div className="px-4 md:px-14 py-6 flex flex-col md:flex-row items-start md:items-center justify-between mt-8 gap-3 md:gap-0">
       {/* Greeting Section */}
       <div className="flex flex-col gap-2">
-        <h1 className="font-serif text-4xl sm:text-6xl text-primary-blue">
-          Hello
+        <h1 className="font-serif text-2xl lg:text-3xl">
+          Hello{" "}
           <span className="text-primary-blue">
             <span>
               {account.name} {account?.surname}

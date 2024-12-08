@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import GoogleLogo from "src/assets/Doctor/google-icon-logo-svgrepo-com.svg";
 import { useSignup, useVerifyOtp } from "src/Hooks/DoctorHooks.js";
@@ -63,6 +63,7 @@ const SignUp = () => {
   // Handle OTP verification
   const handleVerifyOtp = async (e) => {
     e.preventDefault();
+    const toastId = toast.loading("Please wait...");
     setIsLoadingVerifyOtp(true);
     try {
       const otpData = {
@@ -70,14 +71,20 @@ const SignUp = () => {
         otp: otpInput,
       };
       await verifyOtp(otpData, {
-        onMutate: () => {
-          const toastId = toast.loading("Please wait...");
-          return { toastId };
-        },
         onSuccess: (response, variables, context) => {
-          toast.success("Otp Verified successfully");
+          toast.success("Otp Verified successfully", { id: toastId });
           localStorage.setItem("DoctorToken", response.data.data.token);
-          navigate("/doctor/updateProfileDoc");
+          navigate("/doctor/update-profile", {
+            state: {
+              fromSignup: true,
+              email: formData.email,
+              password: formData.password,
+            },
+          });
+        },
+        onError: (error) => {
+          toast.error("Unable to verify otp", { id: toastId });
+          setIsLoadingVerifyOtp(false);
         },
       });
     } catch (error) {
