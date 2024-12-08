@@ -1,40 +1,61 @@
 import React, { useState } from "react";
-import { FaUserMd, FaUser } from "react-icons/fa"; // Importing icons from react-icons
+import { GrFormClose } from "react-icons/gr"; // Importing icons from react-icons
 
 const RoleSelectionModal = ({ onClose, onSelectRole }) => {
+  const [role, setRole] = useState("doctor");
+
   return (
     <div className="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md mx-4">
-        <h2 className="text-xl font-normal font-serif text-center text-gray-800 mb-4">
-          Are you a Doctor or Guardian?
-        </h2>
-        <p className="text-gray-600 font-sans text-center tracking-tight mb-6">
-          Select your role to continue with sign in or sign up.
-        </p>
-        <div className="grid grid-cols-2 gap-4">
-          {/* Doctor Card */}
-          <button
-            onClick={() => onSelectRole("doctor")}
-            className="flex flex-col items-center p-4 bg-primary-blue text-white rounded-lg hover:bg-primary-blue-dark transition duration-200"
-          >
-            <FaUserMd size={36} className="mb-2" />
-            <span className="font-normal text-lg">Doctor</span>
-          </button>
-          {/* Guardian Card */}
-          <button
-            onClick={() => onSelectRole("guardian")}
-            className="flex flex-col items-center p-4 bg-green-500 text-white rounded-lg hover:bg-green-600 transition duration-200"
-          >
-            <FaUser size={36} className="mb-2" />
-            <span className="font-normal text-lg">Guardian</span>
-          </button>
-        </div>
-        <button
-          onClick={onClose}
-          className="mt-6 w-full py-2 px-4 text-gray-600 bg-gray-200 rounded-lg hover:bg-gray-300 transition duration-200"
+      <div className="bg-white rounded shadow-lg w-full max-w-lg md:max-w-xl mx-4 p-2">
+        <div
+          className={
+            "flex h-full justify-end items-center text-gray-800 hover:text-gray-600"
+          }
         >
-          Cancel
-        </button>
+          <GrFormClose
+            size={32}
+            className={"cursor-pointer"}
+            onClick={onClose}
+          />
+        </div>
+        <div className={"py-6 px-6 md:px-14"}>
+          <h2 className="text-2xl font-normal font-serif text-center text-gray-800 mb-4">
+            Choose an Account Type
+          </h2>
+          <p className="text-gray-600 font-sans text-sm text-center mb-6">
+            Before you continue, please choose which type of account you would
+            like to register as.
+          </p>
+          <div className={"flex flex-col space-y-6"}>
+            <div className={"flex flex-col space-y-4"}>
+              <label htmlFor={"Account Type"} className={""}>
+                Account Type
+              </label>
+              <select
+                className={
+                  "p-6 border border-[#CBCBCB] active:outline-none focus:outline-none rounded"
+                }
+                value={role}
+                onChange={(e) => setRole(e.target.value)}
+              >
+                <option value={"doctor"}>Medical Professional</option>
+                <option value={"parent"}>
+                  General User(Parent, Guardian, etc)
+                </option>
+              </select>
+            </div>
+            <div className={"flex w-full"}>
+              <button
+                className={
+                  "w-full rounded bg-primary-blue hover:opacity-90 transition-all p-6 text-white"
+                }
+                onClick={() => onSelectRole(role)}
+              >
+                Confirm Role
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
