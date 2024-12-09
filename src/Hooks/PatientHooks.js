@@ -35,15 +35,30 @@ export const useVerifyOtp = () => {
   });
 };
 
-const fetchChildrens = async () => {
-  const response = await api.get("/api/v1/parent/getChildListByParent");
+const fetchChildrens = async (page) => {
+  const response = await api.get(
+    `/api/v1/parent/getChildListByParent?page=${page}`,
+  );
   return response.data;
 };
 
-export const useChildrens = () => {
+export const useChildrens = (page = 1) => {
   return useQuery({
-    queryFn: fetchChildrens,
-    queryKey: ["childrens"],
+    queryFn: () => fetchChildrens(page), // Pass `page` to your fetch function
+    queryKey: ["childrens", page], // Include `page` in the query key
+    keepPreviousData: true, // Retain previous data while fetching new data
+  });
+};
+
+export const useChildrenById = (id) => {
+  return useQuery({
+    queryFn: async () => {
+      const response = await api.get(`/api/v1/parent/getChildById/${id}`);
+      return response.data;
+    },
+    enabled: !!id,
+    queryKey: ["patient", id],
+    select: (data) => data?.data.child,
   });
 };
 

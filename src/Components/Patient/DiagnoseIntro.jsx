@@ -1,13 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
-import { useChildrens } from "src/Hooks/PatientHooks.js";
+import { useChildrenById, useChildrens } from "src/Hooks/PatientHooks.js";
 
 const DiagnoseIntro = () => {
   const { id } = useParams();
-  const { data, isLoading: loading, isError } = useChildrens();
+  const { data: patient, isLoading: loading, isError } = useChildrenById(id);
+  console.log(patient);
   const account = JSON.parse(localStorage.getItem("account"));
-  const patient = data?.data.find((patient) => patient._id === id);
   const navigate = useNavigate();
   const formattedDate = new Date().toLocaleDateString("en-US", {
     year: "numeric",

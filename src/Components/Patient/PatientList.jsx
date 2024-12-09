@@ -18,18 +18,23 @@ const formattedDate = () => {
 
 const PatientList = () => {
   const navigate = useNavigate();
-  const { data: children, isLoading: loading, refetch } = useChildrens();
+  const [page, setPage] = useState(1);
+  const { data: children, isLoading: loading, refetch } = useChildrens(page);
   const [showDiagnose, setShowDiagnose] = useState(false);
   const [showAddPatient, setShowAddPatient] = useState(false);
   const addDiagnoseRef = useRef(null);
   const addPatientRef = useRef(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [isVisible, setIsVisible] = useState(false);
-  // Filter the children based on search term
 
+  useEffect(() => {
+    refetch(); // Trigger refetch when page changes
+  }, [page, refetch]);
+
+  // Filter the children based on search term
   const filteredChildren =
-    typeof children?.data === "object"
-      ? children?.data.filter(
+    typeof children?.data.children === "object"
+      ? children?.data.children.filter(
           (val) =>
             val.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
             val.lastName.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -121,6 +126,11 @@ const PatientList = () => {
       },
     },
   };
+
+  const handlePageChange = (newPage) => {
+    setPage(newPage); // Update the current page
+  };
+
   return (
     <div className="relative px-4 md:px-14 py-10">
       <div className="flex flex-col">
@@ -147,8 +157,8 @@ const PatientList = () => {
               <img src={User} alt="User Icon" className="h-6 w-6" />
               <h1 className="font-serif text-sm md:text-base">
                 <span>
-                  {typeof children?.data === "object"
-                    ? children.data.length
+                  {typeof children?.data.children === "object"
+                    ? children?.data?.totalChildren
                     : 0}
                 </span>{" "}
                 Total Childrens
@@ -174,6 +184,14 @@ const PatientList = () => {
             columns={columns}
             data={filteredChildren}
             fixedHeader
+            pagination
+            paginationServer
+            paginationComponentOptions={{
+              noRowsPerPage: true, // Disable "Rows per page"
+            }}
+            paginationTotalRows={children?.data?.totalChildren || 0}
+            paginationDefaultPage={Number(children?.data?.currentPage) || 1}
+            onChangePage={(newPage) => handlePageChange(newPage)}
             responsive
             pointerOnHover
             customStyles={customStyles}

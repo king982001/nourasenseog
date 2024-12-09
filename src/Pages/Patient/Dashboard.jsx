@@ -12,7 +12,7 @@ const ParentMainDashboard = () => {
     navigate("/login");
   };
   return (
-    <div className={"h-[100vh]"}>
+    <div className={"min-h-[100vh]"}>
       <Introduction />
       <PatientList />
     </div>
