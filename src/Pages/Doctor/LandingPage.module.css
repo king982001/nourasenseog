@@ -72,9 +72,10 @@ a {
     display: flex;
     flex-wrap: wrap;
     margin-top: 30px;
+    margin-left: -5%;
     margin-bottom: 30px;
     justify-content: space-between;
-    padding: 2rem 4rem;
+    padding: 2rem 2rem;
     width: 100%;
     position: relative;
 }
@@ -318,13 +319,15 @@ p {
     .heroSection {
         flex-direction: column;
         align-items: center;
-        padding: 1rem;
+        padding: 0;
+        margin-right: 0;
+        margin-left: 0;
     }
 
     .heroContent {
         max-width: 100%;
         text-align: center;
-        padding: 0 1rem;
+        padding: 1rem 1rem;
     }
 
     .heroContent h1 {
@@ -335,7 +338,9 @@ p {
         font-size: 1rem;
         line-height: 1.5rem;
     }
-
+    .ctaButtondiv{
+        margin-top: 12px;
+    }
     .ctaButton {
         padding: 0.5rem 1.5rem;
     }
@@ -345,6 +350,7 @@ p {
         height: 100%;
         margin-top: 20px;
         margin-right: 0;
+        margin-left: 0;
     }
 
     .backgroundSection {

@@ -47,11 +47,11 @@ const Diagnose = () => {
     if (!patient) return toast.error("Oops! An error occurred.");
 
     // Validate input ranges
-    if (weight && (weight < 4 || weight > 60)) {
-      return toast.error("Weight must be between 4 and 60 kg.");
+    if (weight && (weight < 1 || weight > 125)) {
+      return toast.error("Weight must be between 1 and 125 kg.");
     }
-    if (height && (height < 65 || height > 120)) {
-      return toast.error("Height must be between 65 and 120 cm.");
+    if (height && (height < 10 || height > 200)) {
+      return toast.error("Height must be between 10 and 200 cm.");
     }
     if (
       headCircumference &&

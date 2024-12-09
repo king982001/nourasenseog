@@ -4,9 +4,12 @@ import Search from "src/assets/Patient/Search.svg";
 import User from "src/assets/Patient/User.svg";
 import { useNavigate } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
-import { useChildrens } from "src/Hooks/PatientHooks.js";
+import { useChildrens, useDeleteChildren } from "src/Hooks/PatientHooks.js";
 import AddPatient from "src/Components/Patient/AddPatient.jsx";
 import { FaStethoscope } from "react-icons/fa6";
+import { FaTrash } from "react-icons/fa";
+import Prompt from "src/Components/Prompt.jsx";
+import toast from "react-hot-toast";
 
 const formattedDate = () => {
   return new Date().toLocaleDateString("en-US", {
@@ -20,12 +23,15 @@ const PatientList = () => {
   const navigate = useNavigate();
   const [page, setPage] = useState(1);
   const { data: children, isLoading: loading, refetch } = useChildrens(page);
+  const { mutate: deleteChildren } = useDeleteChildren();
   const [showDiagnose, setShowDiagnose] = useState(false);
   const [showAddPatient, setShowAddPatient] = useState(false);
   const addDiagnoseRef = useRef(null);
   const addPatientRef = useRef(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [isVisible, setIsVisible] = useState(false);
+  const [childrenToDelete, setChildrenToDelete] = useState(null);
+  const [isPromptOpen, setIsPromptOpen] = useState(false);
 
   useEffect(() => {
     refetch(); // Trigger refetch when page changes
@@ -68,6 +74,29 @@ const PatientList = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  const handleDelete = (patientId) => {
+    setChildrenToDelete(patientId); // Set the selected patient ID
+    setIsPromptOpen(true); // Open the Prompt modal
+  };
+
+  const confirmDelete = async () => {
+    if (childrenToDelete) {
+      setIsPromptOpen(false); // Close the Prompt modal after deletion
+      await deleteChildren(childrenToDelete, {
+        onMutate: () => {
+          toast.loading("Deleting children. Please wait...");
+        },
+        onSuccess: () => {
+          toast.success("Children deleted successfully.");
+          refetch();
+        },
+        onError: () => {
+          toast.error("Error deleting children");
+        },
+      });
+    }
+  };
+
   const columns = [
     {
       name: "Name",
@@ -91,14 +120,26 @@ const PatientList = () => {
     {
       name: "Action",
       cell: (row) => (
-        <button
-          onClick={() => navigate(`/child/${row._id}`)}
-          className="text-blue-500 hover:text-blue-600 p-2 rounded-full"
-          aria-label="Diagnose Patient"
-          title="Diagnose"
-        >
-          <FaStethoscope size={20} />
-        </button>
+        <div>
+          <button
+            onClick={() => navigate(`/child/${row._id}`)}
+            className="text-blue-500 hover:text-blue-600 p-2 rounded-full"
+            aria-label="Diagnose Patient"
+            title="Diagnose"
+          >
+            <FaStethoscope size={20} />
+          </button>
+
+          {/* Delete Button */}
+          <button
+            className="text-red-500 hover:text-red-600 p-2 rounded-full"
+            onClick={() => handleDelete(row._id)}
+            aria-label="Delete Patient"
+            title="Delete"
+          >
+            <FaTrash size={20} /> {/* Icon for Delete */}
+          </button>
+        </div>
       ),
     },
   ];
@@ -212,6 +253,14 @@ const PatientList = () => {
             />
           </div>
         </div>
+      )}
+      {isPromptOpen && (
+        <Prompt
+          isOpen={isPromptOpen}
+          message="Are you sure you want to delete this patient?"
+          onConfirm={confirmDelete}
+          onCancel={() => setIsPromptOpen(false)}
+        />
       )}
     </div>
   );
