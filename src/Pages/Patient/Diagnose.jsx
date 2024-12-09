@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import Footer from "src/Components/Footer.jsx";
-import { useChildrens, useDiagnose } from "src/Hooks/PatientHooks.js";
+import {
+  useChildrenById,
+  useChildrens,
+  useDiagnose,
+} from "src/Hooks/PatientHooks.js";
 import toast from "react-hot-toast";
 import BackButton from "src/Components/BackButton.jsx";
 
 const Diagnose = () => {
   const { id } = useParams();
-  const { data, isLoading: loading, isError } = useChildrens();
-  const patient = data?.data.find((patient) => patient._id === id);
+  const { data: patient, isLoading: loading, isError } = useChildrenById(id);
   const { mutate: diagnose } = useDiagnose();
   const [weight, setWeight] = useState("");
   const [height, setHeight] = useState("");
@@ -55,7 +57,7 @@ const Diagnose = () => {
       return;
     }
     setError(null);
-    const dobFormatted = new Date(patient.dataOfBirth).toLocaleDateString(
+    const dobFormatted = new Date(patient?.dataOfBirth).toLocaleDateString(
       "en-GB",
     );
     const data = {

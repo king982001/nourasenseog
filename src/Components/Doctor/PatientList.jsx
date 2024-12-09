@@ -14,7 +14,13 @@ import { FaCalendarPlus, FaStethoscope } from "react-icons/fa6"; // Import the P
 
 const PatientList = () => {
   const navigate = useNavigate();
-  const { data: patient, isLoading: loading, isError, refetch } = usePatients();
+  const [page, setPage] = useState(1);
+  const {
+    data: patient,
+    isLoading: loading,
+    isError,
+    refetch,
+  } = usePatients(page);
   const [showDiagnose, setShowDiagnose] = useState(false);
   const [showAddPatient, setShowAddPatient] = useState(false);
   const [showAddAppointment, setShowAddAppointment] = useState(false);
@@ -32,6 +38,10 @@ const PatientList = () => {
   const { mutate: deletePatient } = useDeletePatient();
   const [isPromptOpen, setIsPromptOpen] = useState(false); // State for Prompt modal
   const [patientToDelete, setPatientToDelete] = useState(null); // State for selected patient ID
+
+  useEffect(() => {
+    refetch(); // Trigger refetch when page changes
+  }, [page, refetch]);
 
   useEffect(() => {
     if (showAddPatient || showDiagnose) {
@@ -63,7 +73,7 @@ const PatientList = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const fetchedPatients = patient?.filter(
+  const fetchedPatients = patient?.data?.patients.filter(
     (val) =>
       val.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       val._id.toLowerCase().includes(searchTerm.toLowerCase()),
@@ -189,6 +199,10 @@ const PatientList = () => {
     },
   };
 
+  const handlePageChange = (newPage) => {
+    setPage(newPage); // Update the current page
+  };
+
   return (
     <div className="relative px-4 md:px-14 py-10">
       <div className="flex flex-col">
@@ -237,6 +251,14 @@ const PatientList = () => {
             columns={columns}
             data={fetchedPatients}
             fixedHeader
+            pagination
+            paginationServer
+            paginationComponentOptions={{
+              noRowsPerPage: true, // Disable "Rows per page"
+            }}
+            paginationTotalRows={patient?.data?.totalPatients || 0}
+            paginationDefaultPage={Number(patient?.data?.currentPage) || 1}
+            onChangePage={(newPage) => handlePageChange(newPage)}
             responsive
             pointerOnHover
             customStyles={customStyles}

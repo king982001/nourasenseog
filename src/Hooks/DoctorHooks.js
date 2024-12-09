@@ -93,16 +93,31 @@ export const useResetPassword = () => {
   });
 };
 
-export const usePatients = () => {
+export const usePatients = (page) => {
   return useQuery({
     queryFn: async () => {
-      const response = await api.get("/api/v1/doctor/getPatientsByDoctor", {
+      const response = await api.get(
+        `/api/v1/doctor/getPatientsByDoctor?page=${page}`,
+        {
+          headers: { "X-Use-Doctor-Token": true },
+        },
+      );
+      return response.data;
+    },
+    queryKey: ["patients"],
+  });
+};
+export const usePatientById = (id) => {
+  return useQuery({
+    queryFn: async () => {
+      const response = await api.get(`/api/v1/doctor/getPatientById/${id}`, {
         headers: { "X-Use-Doctor-Token": true },
       });
       return response.data;
     },
-    queryKey: ["patients"],
-    select: (data) => data.data.patients,
+    enabled: !!id,
+    queryKey: ["patient", id],
+    select: (data) => data?.data.patient,
   });
 };
 
@@ -158,9 +173,6 @@ export const useAppointmentsByPatient = (id) => {
     queryFn: async () => {
       const response = await api.get(
         `/api/v1/parent/getAppointmentsByPatientId/${id}`,
-        {
-          headers: { "X-Use-Doctor-Token": true },
-        },
       );
       return response.data;
     },

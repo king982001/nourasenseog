@@ -1,14 +1,17 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import Footer from "src/Components/Footer.jsx";
-import { useDiagnose, usePatients, useReport } from "src/Hooks/DoctorHooks.js";
+import {
+  useDiagnose,
+  usePatientById,
+  useReport,
+} from "src/Hooks/DoctorHooks.js";
 import toast from "react-hot-toast";
 import BackButton from "src/Components/BackButton.jsx";
 
 const Diagnose = () => {
   const { id } = useParams();
-  const { data, isLoading: loading, isError } = usePatients();
-  const patient = data?.find((patient) => patient._id === id);
+  const { data: patient, isLoading: loading, isError } = usePatientById(id);
   const { mutate: diagnose } = useDiagnose();
   const { mutate: generateReport } = useReport();
 
@@ -23,11 +26,10 @@ const Diagnose = () => {
   const account = JSON.parse(localStorage.getItem("DoctorAccount"));
   const doctorName = account?.name?.trim() || "";
   const surName = account?.surname?.trim() || "";
-
   const location = useLocation();
   const navigate = useNavigate();
   const isApproved = location.state?.isApproved;
-  const dobFormatted = new Date(patient.date_of_birth).toLocaleDateString(
+  const dobFormatted = new Date(patient?.date_of_birth).toLocaleDateString(
     "en-GB",
   );
 

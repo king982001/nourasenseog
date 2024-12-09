@@ -1,13 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { usePatients } from "src/Hooks/DoctorHooks.js";
+import { usePatientById, usePatients } from "src/Hooks/DoctorHooks.js";
 import { ClipLoader } from "react-spinners";
 import toast from "react-hot-toast";
 
 const DiagnoseIntro = () => {
   const { id } = useParams();
-  const { data, isLoading: loading, isError } = usePatients();
-  const patient = data?.find((patient) => patient._id === id);
+  const { data: patient, isLoading: loading, isError } = usePatientById(id);
   const navigate = useNavigate();
   const account = JSON.parse(localStorage.getItem("DoctorAccount"));
   const isDoctorApproved = account?.verified || false;
