@@ -68,6 +68,13 @@ export const useAddChild = () => {
   });
 };
 
+export const useDeleteChildren = () => {
+  return useMutation({
+    mutationFn: (childId) =>
+      api.delete(`/api/v1/parent/deleteChildByPatient/${childId}`),
+  });
+};
+
 export const useDiagnose = () => {
   return useMutation({
     mutationFn: async (data) => {

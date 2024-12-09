@@ -9,7 +9,7 @@ const Footer = () => {
         <div className="flex items-center gap-2">
           <p className="text-sm text-gray-600">
             <span className={"text-primary-blue"}>&copy;</span> Copyright{" "}
-            <span className="font-semibold">Nourasense 2024</span>. All Rights
+            <span className="font-semibold">NouraSense 2024</span>. All Rights
             Reserved.
           </p>
         </div>

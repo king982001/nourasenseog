@@ -27,29 +27,17 @@ const Diagnose = () => {
     if (!patient) return toast.error("Oops! An error occurred.");
 
     // Validate input ranges
-    if (weight && (weight < 4 || weight > 60)) {
-      return toast.error(
-        weight < 4
-          ? "Weight must be greater than 4 kg."
-          : "Weight must be less than 60 kg.",
-      );
+    if (weight && (weight < 1 || weight > 125)) {
+      return toast.error("Weight must be between 1 and 125 kg.");
     }
-    if (height && (height < 65 || height > 120)) {
-      return toast.error(
-        height < 65
-          ? "Height must be greater than 65 cm."
-          : "Height must be less than 120 cm.",
-      );
+    if (height && (height < 10 || height > 200)) {
+      return toast.error("Height must be between 10 and 200 cm.");
     }
     if (
       headCircumference &&
       (headCircumference < 10 || headCircumference > 150)
     ) {
-      return toast.error(
-        headCircumference < 10
-          ? "Head circumference must be greater than 10 cm."
-          : "Head circumference must be less than 150 cm.",
-      );
+      return toast.error("Head circumference must be between 10 and 150 cm.");
     }
 
     if (!weight && !height && !headCircumference) {

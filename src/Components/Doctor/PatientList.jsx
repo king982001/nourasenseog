@@ -228,7 +228,7 @@ const PatientList = () => {
             <div className="flex items-center gap-2">
               <img src={User} alt="User Icon" className="h-6 w-6" />
               <h1 className="font-serif text-sm md:text-base">
-                <span>{patient?.length || 0}</span> Total Patients
+                <span>{patient?.data?.totalPatients || 0}</span> Total Patients
               </h1>
             </div>
             <button

@@ -103,14 +103,14 @@ const LandingPage = () => {
     <div>
       <EmptyHead showNavigation={true} menuItems={menuItems} />
 
-      <div className={styles.heroSection} style={{ marginRight: "-5%" }}>
+      <div className={styles.heroSection} style={{ marginLeft: 0 }}>
         <div className={styles.heroContent}>
           <h1>
-            Join Nourasense & Transform Child <b>Growth Monitoring</b>
+            Join NouraSense & Transform Child <b>Growth Monitoring</b>
           </h1>
           <p>
             Be a part of the revolution in child healthcare with{" "}
-            <b>Nourasense</b>. Our innovative platform empowers you to track,
+            <b>NouraSense</b>. Our innovative platform empowers you to track,
             diagnose, and optimize child growth with precision and ease. Join us
             in shaping a healthier future for children, where advanced
             diagnostics and personalized care are at your fingertips.
@@ -166,7 +166,7 @@ const LandingPage = () => {
         </div>
       </div>
 
-      <div className={styles.heroSection} style={{ marginLeft: "-5%" }}>
+      <div className={styles.heroSection}>
         <div className={styles.heroImage}>
           <img src={heroImage2} alt="" />
         </div>
@@ -186,10 +186,7 @@ const LandingPage = () => {
         </div>
       </div>
 
-      <div
-        className={styles.heroSection}
-        style={{ marginBottom: "-70px", marginLeft: "-5%" }}
-      >
+      <div className={styles.heroSection} style={{ marginBottom: "0px" }}>
         <div className={styles.heroImage}>
           <img src={heroImage3} alt="" />
         </div>
@@ -321,7 +318,7 @@ const LandingPage = () => {
           <div
             className={`${styles.footerSection} w-[60vw] sm:w-full text-right sm:text-left`}
           >
-            <h4 className={styles.footerHeading}>Nourasense</h4>
+            <h4 className={styles.footerHeading}>NouraSense</h4>
             <p className={`${styles.footerParagraph}`}>
               Developing state-of-the-art diagnostics and reporting tools for
               better child care.
@@ -369,7 +366,7 @@ const LandingPage = () => {
               alt="Copyright Icon"
               className="copyicon"
             />
-            Copyright Nourasense 2024 . All Rights Reserved.
+            Copyright NouraSense 2024 . All Rights Reserved.
           </p>
         </div>
       </footer>
