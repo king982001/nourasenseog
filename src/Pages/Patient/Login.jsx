@@ -17,6 +17,10 @@ const Login = () => {
   const { mutate: login } = useLogin();
 
   useEffect(() => {
+    document.title = "Nourasense - Login";
+  }, []);
+
+  useEffect(() => {
     if (localStorage.getItem("token") && localStorage.getItem("account")) {
       navigate("/dashboard");
     }

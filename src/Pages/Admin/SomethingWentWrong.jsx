@@ -1,7 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom"; // Make sure you have react-router-dom installed
 
 const SomethingWentWrong = () => {
+  useEffect(() => {
+    document.title = "Nourasense - Error";
+  }, []);
+
   return (
     <div className="flex flex-col items-center justify-center h-[80vh] bg-white font-Inter">
       <h1 className="text-6xl font-bold text-gray-800">Something Went Wrong</h1>

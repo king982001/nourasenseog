@@ -19,6 +19,10 @@ const GeneralDetails = () => {
   const location = useLocation();
   const isFromSignUp = location.state?.fromSignUp;
 
+  useEffect(() => {
+    document.title = "Nourasense - Profile";
+  }, []);
+
   // Redirect to signup if not from signup page
   useEffect(() => {
     if (!isFromSignUp) {

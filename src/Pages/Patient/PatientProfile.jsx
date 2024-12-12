@@ -1,4 +1,3 @@
-import Footer from "src/Components/Footer.jsx";
 import { useEffect } from "react";
 import DiagnoseIntro from "src/Components/Patient/DiagnoseIntro.jsx";
 import CalenderTableComp from "src/Components/Patient/CalenderTableComp.jsx";

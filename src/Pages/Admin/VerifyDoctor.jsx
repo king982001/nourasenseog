@@ -22,7 +22,7 @@ export const VerifyDoctor = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    document.title = "Nourasense - VerifyDoctor";
+    document.title = `Nourasense - Verify`;
   }, []);
 
   if (isLoading) {

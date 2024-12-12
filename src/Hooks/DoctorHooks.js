@@ -20,22 +20,6 @@ export const useVerifyOtp = () => {
     mutationFn: (data) => api.post("/api/v1/doctor/verify", data),
   });
 };
-export const useUpdateGeneralDetails = () => {
-  return useMutation({
-    mutationFn: (data) =>
-      api.put("/api/v1/doctor/updateGeneralDetails", data, {
-        headers: { "X-Use-Doctor-Token": true },
-      }),
-  });
-};
-export const useUpdateMedicalVerification = () => {
-  return useMutation({
-    mutationFn: (data) =>
-      api.post("/api/v1/doctor/updateMedicalVerification", data, {
-        headers: { "X-Use-Doctor-Token": true },
-      }),
-  });
-};
 
 export const useUploadIdProof = () => {
   return useMutation({
@@ -138,6 +122,14 @@ export const useAddPatient = () => {
       }),
   });
 };
+export const useAddPatientByPatientId = () => {
+  return useMutation({
+    mutationFn: (patientId) =>
+      api.post(`/api/v1/doctor/addChildByCustomId/${patientId}`, {
+        headers: { "X-Use-Doctor-Token": true },
+      }),
+  });
+};
 
 export const useCreateAppointment = () => {
   return useMutation({
@@ -203,14 +195,14 @@ export const useDiagnoseHistory = (patientId, page = 1) => {
   });
 };
 
-export const useReportHistory = (patientId) => {
+export const useReportHistory = (patientId, page = 1) => {
   return useQuery({
     queryFn: async () => {
       if (!patientId) {
         throw new Error("Patient ID is required");
       }
       const response = await axios.get(
-        `${import.meta.env.VITE_API_BASE_URL_LLM}/report-history?id_num=${patientId}`,
+        `${import.meta.env.VITE_API_BASE_URL_LLM}/report-history?id_num=${patientId}&page=${page}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("DoctorToken")}`,

@@ -1,11 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import GoogleLogo from "src/assets/Doctor/google-icon-logo-svgrepo-com.svg";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useLogin } from "src/Hooks/DoctorHooks.js";
-import { DataContext } from "src/Context/Doctor/DataProvider.jsx";
 import toast from "react-hot-toast";
-import BackButton from "src/Components/BackButton.jsx";
 
 const signInInitialValues = {
   email: "",
@@ -16,7 +14,6 @@ const Login = () => {
   const [data, setData] = useState(signInInitialValues);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const { setAccount } = useContext(DataContext);
   const navigate = useNavigate();
   const { mutate: login } = useLogin();
 
@@ -47,7 +44,6 @@ const Login = () => {
           "DoctorAccount",
           JSON.stringify(response.data.data.doctor),
         );
-        setAccount(response.data.data.doctor);
       },
       onError: (error) => {
         if (error.status === 401 || error.status === 404) {
