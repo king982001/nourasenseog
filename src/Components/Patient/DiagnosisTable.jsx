@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
 import { useParams } from "react-router-dom";
 import { useDiagnoseHistory } from "src/Hooks/DoctorHooks.js";
@@ -7,7 +7,17 @@ import { ClipLoader } from "react-spinners";
 const DiagnosisTable = () => {
   const { id } = useParams();
   const [error, setError] = useState(false);
-  const { data: diagnosisRecords, isLoading: loading } = useDiagnoseHistory(id);
+  const [page, setPage] = useState(1); // Tracks current page
+  const {
+    data: diagnosisRecords,
+    isLoading: loading,
+    refetch,
+  } = useDiagnoseHistory(id, page);
+
+  useEffect(() => {
+    refetch();
+  }, [page, refetch]);
+
   const getClassForDiagnosis = (value, type) => {
     const classes = {
       "Height-for-Age": {
@@ -30,7 +40,7 @@ const DiagnosisTable = () => {
         Wasted: "text-orange-500",
         "Severely wasted": "text-red-600",
       },
-      "Weight-For-Age": {
+      "Weight-For-Height": {
         Normal: "text-green-600",
         "Possible risk of overweight": "text-yellow-500",
         Overweight: "text-orange-500",
@@ -102,10 +112,10 @@ const DiagnosisTable = () => {
       ),
     },
     {
-      name: "Weight-For-Age",
+      name: "Weight-For-Height",
       selector: (row) => (
         <span
-          className={`${getClassForDiagnosis(row.diagnosis.weight_for_height, "Weight-For-Age")} font-semibold`}
+          className={`${getClassForDiagnosis(row.diagnosis.weight_for_height, "Weight-For-Height")} font-semibold`}
         >
           {row.diagnosis.weight_for_height}
         </span>
@@ -127,6 +137,10 @@ const DiagnosisTable = () => {
     },
   };
 
+  const handlePageChange = (newPage) => {
+    setPage(newPage); // Update the current page
+  };
+
   return (
     <div className={"flex flex-col gap-y-5"}>
       <h1 className="font-serif text-xl font-semibold text-center">
@@ -144,6 +158,15 @@ const DiagnosisTable = () => {
         <DataTable
           columns={columns}
           data={diagnosisRecords?.diagnosis_history}
+          pagination
+          paginationServer
+          paginationComponentOptions={{
+            noRowsPerPage: true, // Disable "Rows per page"
+          }}
+          paginationTotalRows={diagnosisRecords?.total_records || 0}
+          paginationPerPage={diagnosisRecords?.page_size || 10}
+          paginationDefaultPage={diagnosisRecords?.current_page || 1}
+          onChangePage={handlePageChange}
           fixedHeader
           responsive
           pointerOnHover

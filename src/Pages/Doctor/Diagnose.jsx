@@ -14,7 +14,6 @@ const Diagnose = () => {
   const { data: patient, isLoading: loading, isError } = usePatientById(id);
   const { mutate: diagnose } = useDiagnose();
   const { mutate: generateReport } = useReport();
-
   const [weight, setWeight] = useState("");
   const [height, setHeight] = useState("");
   const [headCircumference, setHeadCircumference] = useState("");
@@ -114,6 +113,8 @@ const Diagnose = () => {
     setReportLoading(true); // Start loading for report generation
     const toastId = toast.loading("Please wait...");
     const account = JSON.parse(localStorage.getItem("DoctorAccount"));
+    const dob = new Date(patient?.date_of_birth);
+    const dobFormatted = `${dob.getFullYear()}-${String(dob.getMonth() + 1).padStart(2, "0")}-${String(dob.getDate()).padStart(2, "0")}`;
 
     // Extract the required data from the diagnosis result
     const reportData = {
@@ -132,6 +133,7 @@ const Diagnose = () => {
       diagnoses: diagnosisResult.diagnoses, // Diagnoses data
       zscores: diagnosisResult.zscores,
     };
+
     await generateReport(reportData, {
       onMutate: () => {
         setReportLoading(true);
@@ -289,8 +291,11 @@ const Diagnose = () => {
                       ([key, value]) => (
                         <li
                           key={key}
-                          className="text-sm sm:text-md flex items-center md:text-lg space-x-2 sm:space-x-4 text-gray-600"
+                          className="text-sm sm:text-md flex items-center md:text-lg space-x-2 sm:space-x-5 text-gray-600"
                         >
+                          <span
+                            className={`${getZoneStyle(diagnosisResult.zones[key])} h-2 w-2 rounded-full shadow drop-shadow-sm`}
+                          ></span>
                           <span className={`font-medium `}>
                             {key.replace(/_/g, " ").toUpperCase()}:
                           </span>
@@ -299,10 +304,6 @@ const Diagnose = () => {
                           >
                             <p>{value > 0 ? `+${value}` : value}</p>
                           </span>
-
-                          <span
-                            className={`${getZoneStyle(diagnosisResult.zones[key])} h-2 w-2 rounded-full shadow drop-shadow-sm`}
-                          ></span>
                         </li>
                       ),
                     )}

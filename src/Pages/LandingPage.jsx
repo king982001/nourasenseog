@@ -37,7 +37,7 @@ const LandingPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false); // State for controlling the modal
   const [action, setAction] = useState("signup");
   useEffect(() => {
-    document.title = "Nourasense - Doctor";
+    document.title = "Nourasense";
   }, []);
 
   const openModal = (action) => {
@@ -210,11 +210,11 @@ const LandingPage = () => {
         <h2 className={styles.sectionHeading}>What are we Solving?</h2>
         <div className={styles.how}>
           <h1
+            className={"text-4xl font-medium"}
             style={{
               padding: "2rem 4rem",
               fontFamily: "Ledger",
-              fontWeight: "100",
-              margin: "-50px 0",
+              margin: "-50px 0 0 0",
             }}
           >
             How it works
@@ -229,9 +229,6 @@ const LandingPage = () => {
               >
                 1. Create Account
               </h3>
-              <div className={styles.secImg}>
-                <img src={miniImage1} alt="" />
-              </div>
             </div>
             <p style={{ color: "black" }}>
               Start by creating a secure account with us. This step is simple
@@ -245,9 +242,6 @@ const LandingPage = () => {
           <div className={styles.contentItem}>
             <div className={styles.imgAndHeading}>
               <h3 style={{ color: "black" }}>2. Diagnose</h3>
-              <div className={styles.secImg}>
-                <img src={miniImage2} alt="" />
-              </div>
             </div>
             <p style={{ color: "black" }}>
               After setting up your account, enter your child{"'"}s/patient{"'"}
@@ -260,9 +254,6 @@ const LandingPage = () => {
           <div className={styles.contentItem}>
             <div className={styles.imgAndHeading}>
               <h3 style={{ color: "black" }}>3. Get Report</h3>
-              <div className={styles.secImg}>
-                <img src={miniImage3} alt="" />
-              </div>
             </div>
             <p style={{ color: "black" }}>
               Our system then generates a comprehensive report detailing your

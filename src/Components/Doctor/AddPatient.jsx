@@ -1,6 +1,9 @@
 import { useState } from "react";
 import Select from "react-select";
-import { useAddPatient } from "src/Hooks/DoctorHooks.js";
+import {
+  useAddPatient,
+  useAddPatientByPatientId,
+} from "src/Hooks/DoctorHooks.js";
 import toast from "react-hot-toast";
 
 const AddPatient = ({ closeModal, refetchPatients }) => {
@@ -12,6 +15,7 @@ const AddPatient = ({ closeModal, refetchPatients }) => {
   const [year, setYear] = useState("");
   const [patientID, setPatientID] = useState("");
   const { mutate: addPatient } = useAddPatient();
+  const { mutate: addPatientByPatientId } = useAddPatientByPatientId();
 
   const customStyles = {
     control: (base, state) => ({
@@ -58,7 +62,23 @@ const AddPatient = ({ closeModal, refetchPatients }) => {
   );
 
   const handleAddPatient = async () => {
-    console.log(patientID);
+    if (patientID && patientID.length) {
+      await addPatientByPatientId(patientID, {
+        onMutate: () => {
+          toast.loading("Please wait...");
+        },
+        onSuccess: () => {
+          toast.success("Patient added successfully.");
+          closeModal();
+          refetchPatients();
+        },
+        onError: () => {
+          toast.error("Unable to add patient");
+        },
+      });
+      return;
+    }
+
     // Validate fields before making the API call
     if (!firstName || !surname || !day || !month || !year) {
       toast.error("All fields are required!");
@@ -70,7 +90,6 @@ const AddPatient = ({ closeModal, refetchPatients }) => {
       surname: surname,
       date_of_birth: `${year.value}/${month.value}/${day.value}`,
       gender: gender,
-      patientID: patientID, // Include this if needed
     };
 
     await addPatient(patientData, {

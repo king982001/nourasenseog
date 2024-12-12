@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
 import { useParams } from "react-router-dom";
 import { useDiagnoseHistory } from "src/Hooks/DoctorHooks.js";
@@ -8,10 +8,15 @@ const DiagnosisTable = () => {
   const { id } = useParams();
   const [page, setPage] = useState(1); // Tracks current page
   const [error, setError] = useState(false);
-  const { data: diagnosisRecords, isLoading: loading } = useDiagnoseHistory(
-    id,
-    page,
-  );
+  const {
+    data: diagnosisRecords,
+    isLoading: loading,
+    refetch,
+  } = useDiagnoseHistory(id, page);
+
+  useEffect(() => {
+    refetch();
+  }, [page, refetch]);
 
   const getClassForDiagnosis = (value, type) => {
     const classes = {
@@ -35,7 +40,7 @@ const DiagnosisTable = () => {
         Wasted: "text-orange-500",
         "Severely wasted": "text-red-600",
       },
-      "Weight-For-Age": {
+      "Weight-For-Height": {
         Normal: "text-green-600",
         "Possible risk of overweight": "text-yellow-500",
         Overweight: "text-orange-500",
@@ -107,10 +112,10 @@ const DiagnosisTable = () => {
       ),
     },
     {
-      name: "Weight-For-Age",
+      name: "Weight-For-Height",
       selector: (row) => (
         <span
-          className={`${getClassForDiagnosis(row.diagnosis.weight_for_height, "Weight-For-Age")} font-semibold`}
+          className={`${getClassForDiagnosis(row.diagnosis.weight_for_height, "Weight-For-Height")} font-semibold`}
         >
           {row.diagnosis.weight_for_height}
         </span>

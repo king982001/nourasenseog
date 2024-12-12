@@ -1,9 +1,7 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { AiOutlineDownload, AiOutlineShareAlt } from "react-icons/ai";
 import DataTable from "react-data-table-component";
 import Dropdown from "src/assets/Doctor/Dropdown.svg";
-import Download from "src/assets/Doctor/Download.svg";
-import Share from "src/assets/Doctor/Share.svg";
 import { useParams } from "react-router-dom";
 import { useReportHistory } from "src/Hooks/DoctorHooks.js";
 import toast from "react-hot-toast";
@@ -11,11 +9,17 @@ import { ClipLoader } from "react-spinners";
 
 const TableData = () => {
   const { id } = useParams();
+  const [page, setPage] = useState(1); // Tracks current page
   const {
     data: reports,
     isLoading: reportsLoading,
     error,
-  } = useReportHistory(id);
+    refetch,
+  } = useReportHistory(id, page);
+
+  useEffect(() => {
+    refetch();
+  }, [page, refetch]);
 
   const columns = [
     {
@@ -66,6 +70,10 @@ const TableData = () => {
         justifyContent: "center", // Centers content visually
       },
     },
+  };
+
+  const handlePageChange = (newPage) => {
+    setPage(newPage); // Update the current page
   };
 
   const handleDownload = (report_link) => {
@@ -121,6 +129,15 @@ const TableData = () => {
         <DataTable
           columns={columns}
           data={reports?.report_history}
+          pagination
+          paginationServer
+          paginationComponentOptions={{
+            noRowsPerPage: true, // Disable "Rows per page"
+          }}
+          paginationTotalRows={reports?.total_records || 0}
+          paginationPerPage={reports?.page_size || 10}
+          paginationDefaultPage={reports?.current_page || 1}
+          onChangePage={handlePageChange}
           fixedHeader
           responsive
           pointerOnHover

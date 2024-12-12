@@ -15,6 +15,10 @@ const SignUp = () => {
   const { mutate: verifyOtp } = useVerifyOtp();
   const navigate = useNavigate();
 
+  useEffect(() => {
+    document.title = "Nourasense - Signup";
+  }, []);
+
   const handleSignUp = (e) => {
     e.preventDefault();
     setLoading(true);

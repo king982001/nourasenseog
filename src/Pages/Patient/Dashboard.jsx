@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Footer from "src/Components/Footer.jsx";
 import Introduction from "src/Components/Patient/Introduction.jsx";
 import PatientList from "src/Components/Patient/PatientList.jsx";
@@ -11,6 +11,11 @@ const ParentMainDashboard = () => {
     localStorage.removeItem("account");
     navigate("/login");
   };
+
+  useEffect(() => {
+    document.title = "Nourasense - Dashboard";
+  }, []);
+
   return (
     <div className={"min-h-[100vh]"}>
       <Introduction />

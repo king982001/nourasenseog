@@ -56,18 +56,18 @@ const Diagnose = () => {
       weight: parseFloat(weight),
       head_circumference: parseFloat(headCircumference),
     };
+    setDiagnosisLoading(true); // Start loading for diagnosis
 
+    const toastId = toast.loading("Please wait!");
     await diagnose(data, {
-      onMutate: () => {
-        setDiagnosisLoading(true); // Start loading for diagnosis
-        toast.loading("Please wait!");
-      },
       onSuccess: (response) => {
         setDiagnosisResult(response);
         setDiagnosisLoading(false); // Stop loading after diagnosis completes
+        toast.success("Diagnosis Completed!", { id: toastId });
       },
       onError: (error) => {
         setError("An error occurred during diagnosis.");
+        toast.error("An error occured!", { id: toastId });
         setDiagnosisLoading(false); // Stop loading on error
       },
     });
@@ -215,13 +215,16 @@ const Diagnose = () => {
                     <h3 className="text-lg font-semibold text-gray-700 mb-3">
                       Z-scores
                     </h3>
-                    <ul className="space-y-3 pl-6">
+                    <ul className="space-y-3  pl-6">
                       {Object.entries(diagnosisResult.zscores).map(
                         ([key, value]) => (
                           <li
                             key={key}
-                            className="text-md flex items-center md:text-lg space-x-2 sm:space-x-4  text-gray-600"
+                            className="text-md flex items-center md:text-lg space-x-2 sm:space-x-5  text-gray-600"
                           >
+                            <span
+                              className={`${getZoneStyle(diagnosisResult.zones[key])} h-2 w-2 rounded-full shadow drop-shadow-sm`}
+                            ></span>
                             <span className={`font-medium `}>
                               {key.replace(/_/g, " ").toUpperCase()}:
                             </span>
@@ -230,9 +233,6 @@ const Diagnose = () => {
                             >
                               <p>{value > 0 ? `+${value}` : value}</p>
                             </span>
-                            <span
-                              className={`${getZoneStyle(diagnosisResult.zones[key])} h-2 w-2 rounded-full shadow drop-shadow-sm`}
-                            ></span>
                           </li>
                         ),
                       )}

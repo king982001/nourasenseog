@@ -3,7 +3,6 @@ import { Routes, Route, Outlet, useNavigate } from "react-router-dom";
 import { FiHome, FiHelpCircle, FiLogOut, FiUserPlus } from "react-icons/fi";
 
 import Login from "src/Pages/Doctor/Login.jsx";
-import DataProvider from "src/Context/Doctor/DataProvider.jsx";
 import NotFoundPage from "src/Pages/NotFoundPage.jsx";
 import SignUp from "src/Pages/Doctor/SignUp.jsx";
 import UploadDoctorId from "src/Pages/Doctor/UploadDoctorId.jsx";
@@ -79,31 +78,29 @@ const ProtectedLayout = () => {
 };
 
 const DoctorRoutes = () => (
-  <DataProvider>
-    <Routes>
-      <Route element={<PublicLayout />}>
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="/update-profile" element={<GeneralDetails />} />
-        <Route path="/upload-id" element={<UploadDoctorId />} />
-        <Route path="/upload-profile" element={<UploadProfilePic />} />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
-      </Route>
+  <Routes>
+    <Route element={<PublicLayout />}>
+      <Route path="/login" element={<Login />} />
+      <Route path="/signup" element={<SignUp />} />
+      <Route path="/update-profile" element={<GeneralDetails />} />
+      <Route path="/upload-id" element={<UploadDoctorId />} />
+      <Route path="/upload-profile" element={<UploadProfilePic />} />
+      <Route path="/forgot-password" element={<ForgotPassword />} />
+    </Route>
 
-      <Route
-        element={
-          <ProtectedRoute>
-            <ProtectedLayout />
-          </ProtectedRoute>
-        }
-      >
-        <Route path="/" element={<Dashboard />} />
-        <Route path="/diagnose/:id" element={<Diagnose />} />
-        <Route path="/patient/:id" element={<PatientProfile />} />
-      </Route>
-      <Route path="*" element={<NotFoundPage />} />
-    </Routes>
-  </DataProvider>
+    <Route
+      element={
+        <ProtectedRoute>
+          <ProtectedLayout />
+        </ProtectedRoute>
+      }
+    >
+      <Route path="/" element={<Dashboard />} />
+      <Route path="/diagnose/:id" element={<Diagnose />} />
+      <Route path="/patient/:id" element={<PatientProfile />} />
+    </Route>
+    <Route path="*" element={<NotFoundPage />} />
+  </Routes>
 );
 
 export default DoctorRoutes;
