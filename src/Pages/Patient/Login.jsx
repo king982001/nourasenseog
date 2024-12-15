@@ -58,7 +58,7 @@ const Login = () => {
     <>
       <div className=" h-[80vh] min-h-[700px] sm:h-[90vh] flex flex-col justify-center items-center">
         <div className="w-full max-w-md lg:max-w-lg p-6 bg-white rounded-lg shadow-lg drop-shadow-lg">
-          <h2 className="text-2xl md:text-3xl text-neutral-700 font-bold text-center mb-4">
+          <h2 className="text-2xl md:text-3xl text-neutral-700 font-serif text-center mb-4">
             Welcome Back!
           </h2>
           <p className="text-sm text-gray-500 text-center mb-6">

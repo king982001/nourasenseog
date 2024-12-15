@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useSignup, useVerifyOtp } from "src/Hooks/PatientHooks.js";
 import toast from "react-hot-toast";
 import GoogleLogo from "src/assets/Patient/google-icon-logo-svgrepo-com.svg";
-import BackButton from "src/Components/BackButton.jsx";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
@@ -72,7 +71,7 @@ const SignUp = () => {
     <>
       <div className="h-[80vh] md:h-screen flex flex-col justify-center items-center">
         <div className="w-full max-w-md lg:max-w-lg p-6 bg-white rounded-lg shadow-lg drop-shadow-lg">
-          <h2 className="text-2xl md:text-3xl text-neutral-700 font-bold text-center mb-4 font-serif">
+          <h2 className="text-2xl md:text-3xl text-neutral-700 font-serif text-center mb-4">
             Create Your Account
           </h2>
           <p className="text-sm text-gray-500 text-center mb-6">
