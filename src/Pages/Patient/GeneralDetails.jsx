@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { useSaveGeneralDetails } from "src/Hooks/PatientHooks";
-import DatePicker from "react-datepicker";
 import Select from "react-select";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -34,11 +33,10 @@ const GeneralDetails = () => {
     e.preventDefault();
     setLoading(true);
     const toastId = toast.loading("Saving your details...");
-
     saveDetails(
       {
         gender: gender?.value,
-        dateOfBirth: dateOfBirth?.toISOString().split("T")[0],
+        dateOfBirth: dateOfBirth,
         name,
         surname,
         phoneNumber,
@@ -121,12 +119,11 @@ const GeneralDetails = () => {
             <label htmlFor="date-of-birth" className="text-sm text-gray-600">
               Date of Birth
             </label>
-            <DatePicker
+            <input
+              type={"date"}
               id="date-of-birth"
-              selected={dateOfBirth}
-              onChange={(date) => setDateOfBirth(date)}
-              dateFormat="yyyy-MM-dd"
-              placeholderText="Select your date of birth"
+              onChange={(e) => setDateOfBirth(e.target.value)}
+              placeholder="Select your date of birth"
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-blue"
             />
           </div>

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-import DatePicker from "react-datepicker";
 import Select from "react-select";
 import "react-datepicker/dist/react-datepicker.css";
 import { useUpdateDoctorGeneralDetails } from "src/Hooks/DoctorHooks.js";
@@ -45,7 +44,7 @@ export const GeneralDetails = () => {
       gender: gender?.value,
       name,
       surname,
-      date_of_birth: dateOfBirth?.toISOString().split("T")[0],
+      date_of_birth: dateOfBirth,
       address,
       phonenumber: phoneNumber,
       email,
@@ -113,11 +112,10 @@ export const GeneralDetails = () => {
             <label className="text-sm text-gray-600 font-semibold">
               Date of Birth
             </label>
-            <DatePicker
-              selected={dateOfBirth}
-              onChange={(date) => setDateOfBirth(date)}
-              dateFormat="yyyy-MM-dd"
-              placeholderText="Select your date of birth"
+            <input
+              type={"date"}
+              onChange={(e) => setDateOfBirth(e.target.value)}
+              placeholder="Select your date of birth"
               className="w-full px-4 py-2 border rounded-lg"
             />
           </div>
