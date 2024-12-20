@@ -13,9 +13,6 @@ import heroImage1 from "/src/assets/Doctor/1.png";
 import heroImage2 from "/src/assets/Doctor/2.png";
 import heroImage3 from "/src/assets/Doctor/3.png";
 import backgroundSvg from "/src/assets/Doctor/svg.svg";
-import miniImage1 from "/src/assets/Doctor/mini 1.svg";
-import miniImage2 from "/src/assets/Doctor/mini 2.svg";
-import miniImage3 from "/src/assets/Doctor/mini 3.svg";
 import {
   FaLinkedinIn,
   FaInstagram,
