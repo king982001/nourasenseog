@@ -176,7 +176,7 @@ const PatientList = () => {
     <div className="relative px-4 md:px-14 py-10">
       <div className="flex flex-col">
         <h1 className="font-serif text-xl md:text-2xl font-semibold text-center md:text-left">
-          Childrens
+          Children
         </h1>
         <div className="flex flex-col md:flex-row justify-between items-center py-6 gap-4 md:gap-0">
           <div className="input flex items-center p-[12px] px-4 border border-[#B0B0B0] rounded-md bg-white cursor-text w-full md:max-w-xs">
@@ -202,7 +202,7 @@ const PatientList = () => {
                     ? children?.data?.totalChildren
                     : 0}
                 </span>{" "}
-                Total Childrens
+                Total Children
               </h1>
             </div>
             <button

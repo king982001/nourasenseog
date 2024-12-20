@@ -6,7 +6,6 @@ import { useChildrenById, useChildrens } from "src/Hooks/PatientHooks.js";
 const DiagnoseIntro = () => {
   const { id } = useParams();
   const { data: patient, isLoading: loading, isError } = useChildrenById(id);
-  console.log(patient);
   const account = JSON.parse(localStorage.getItem("account"));
   const navigate = useNavigate();
   const formattedDate = new Date().toLocaleDateString("en-US", {

@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import DiagnoseIntro from "src/Components/Patient/DiagnoseIntro.jsx";
 import CalenderTableComp from "src/Components/Patient/CalenderTableComp.jsx";
 import BackButton from "src/Components/BackButton.jsx";
+import { NutritionalValues } from "src/Components/Patient/NutritionalValues.jsx";
 
 const PatientProfile = () => {
   useEffect(() => {
@@ -14,6 +15,7 @@ const PatientProfile = () => {
       <div className="diagnose-content">
         <DiagnoseIntro />
         <CalenderTableComp />
+        <NutritionalValues />
       </div>
     </div>
   );
