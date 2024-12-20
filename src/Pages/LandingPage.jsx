@@ -207,14 +207,13 @@ const LandingPage = () => {
       </div>
 
       <div className={styles.backgroundSection2}>
-        <h2 className={styles.sectionHeading}>What are we Solving?</h2>
         <div className={styles.how}>
           <h1
-            className={"text-4xl font-medium"}
+            className={
+              "text-[32px] sm:text-4xl text-center sm:text-start font-medium"
+            }
             style={{
-              padding: "2rem 4rem",
               fontFamily: "Ledger",
-              margin: "-50px 0 0 0",
             }}
           >
             How it works
@@ -283,81 +282,89 @@ const LandingPage = () => {
       )}
       <footer className={styles.uniqueFooter}>
         <div className={styles.footerContent}>
-          <div className={styles.footerSection}>
-            <h4 className={styles.footerHeading}>Links</h4>
-            <ul className={styles.footerLinks}>
-              <li>
-                <Link to={"/support"}>Support</Link>
-              </li>
-              <li>
-                <Link to={"/support"}>Feedback</Link>
-              </li>
-              <li>
-                <Link to={"/privacy-policy"}>Privacy Policy</Link>
-              </li>
-              <li>
-                <Link to={"/t&c"}>Terms and Conditions</Link>
-              </li>
-              <li>
-                <Link to={"signup"}>Create account</Link>
-              </li>
-              <li>
-                <Link to={"login"}>Sign in</Link>
-              </li>
-            </ul>
-          </div>
-          <div
-            className={`${styles.footerSection} w-[60vw] sm:w-full text-right sm:text-left`}
-          >
-            <h4 className={styles.footerHeading}>NouraSense</h4>
-            <p className={`${styles.footerParagraph}`}>
+          <div className={styles.footerBranding}>
+            <h4 className={styles.footerHeading}>
+              <img src="/Logo1.png" alt="Logo" /> NouraSense
+            </h4>
+            <p className={styles.footerParagraph}>
               Developing state-of-the-art diagnostics and reporting tools for
               better child care.
             </p>
-            <div className={styles.footerSection}>
-              <h4 className={styles.footerHeading}>Find Us on</h4>
-              <div className={styles.socialIcons}>
-                <a className={styles.socialIcon}>
-                  <FaLinkedinIn
-                    size={22}
-                    onClick={() => window.open(`${linkedIn}`, "_blank")}
-                  />
-                </a>
-                <a className={styles.socialIcon}>
-                  <FaInstagram
-                    onClick={() => window.open(`${instaLink}`, "_blank")}
-                    size={22}
-                  />
-                </a>
-                <a className={styles.socialIcon}>
-                  <FaEnvelope
-                    size={22}
-                    onClick={() =>
-                      window.open(
-                        `https://mail.google.com/mail/?view=cm&fs=1&to=${emailAddress}`,
-                        "_blank",
-                      )
-                    }
-                  />
-                </a>
-                <a className={styles.socialIcon}>
-                  <FaPhone
-                    onClick={() => window.open(`tel:${phoneNumber}`, "_blank")}
-                    size={21}
-                  />
-                </a>
-              </div>
+          </div>
+
+          <div className={styles.footerSection}>
+            <h4 className={styles.footerHeading}>Quick Links</h4>
+            <ul className={styles.footerLinks}>
+              <li>
+                <Link to="/support">Support</Link>
+              </li>
+              <li>
+                <Link to="/support">Feedback</Link>
+              </li>
+              <li>
+                <Link to="/privacy-policy">Privacy Policy</Link>
+              </li>
+              <li>
+                <Link to="/t&c">Terms and Conditions</Link>
+              </li>
+            </ul>
+          </div>
+
+          <div className={styles.footerSection}>
+            <h4 className={styles.footerHeading}>Account</h4>
+            <ul className={styles.footerLinks}>
+              <li>
+                <Link to="signup">Create account</Link>
+              </li>
+              <li>
+                <Link to="login">Sign in</Link>
+              </li>
+            </ul>
+          </div>
+
+          <div className={styles.footerSection}>
+            <h4 className={styles.footerHeading}>Connect With Us</h4>
+            <div className={styles.socialIcons}>
+              <a
+                className={styles.socialIcon}
+                onClick={() => window.open(linkedIn, "_blank")}
+                aria-label="LinkedIn"
+              >
+                <FaLinkedinIn size={20} />
+              </a>
+              <a
+                className={styles.socialIcon}
+                onClick={() => window.open(instaLink, "_blank")}
+                aria-label="Instagram"
+              >
+                <FaInstagram size={20} />
+              </a>
+              <a
+                className={styles.socialIcon}
+                onClick={() =>
+                  window.open(
+                    `https://mail.google.com/mail/?view=cm&fs=1&to=${emailAddress}`,
+                    "_blank",
+                  )
+                }
+                aria-label="Email"
+              >
+                <FaEnvelope size={20} />
+              </a>
+              <a
+                className={styles.socialIcon}
+                onClick={() => window.open(`tel:${phoneNumber}`, "_blank")}
+                aria-label="Phone"
+              >
+                <FaPhone size={20} />
+              </a>
             </div>
           </div>
         </div>
+
         <div className={styles.footerBottom}>
           <p className={styles.landing_copyright}>
-            <img
-              src={copyrightIcon}
-              alt="Copyright Icon"
-              className="copyicon"
-            />
-            Copyright NouraSense 2024 . All Rights Reserved.
+            © Copyright NouraSense 2024. All Rights Reserved.
           </p>
         </div>
       </footer>
