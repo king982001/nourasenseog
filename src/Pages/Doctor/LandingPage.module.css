@@ -257,7 +257,7 @@ p {
     padding-right: 1rem;
 }
 
-.footerHeading img{
+.footerBrand img{
     width: 30px;
     height: 30px;
 margin-bottom: 2px;
@@ -267,7 +267,17 @@ margin-bottom: 2px;
     display: flex;
     align-items: center;
     gap: 6px;
-    font-size: 1.75rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    color: #fff;
+    letter-spacing: 0.5px;
+}
+.footerBrand {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 1.25rem;
     font-weight: 600;
     margin-bottom: 1.5rem;
     color: #fff;
@@ -292,7 +302,7 @@ margin-bottom: 2px;
 .footerLinks li a {
     color: rgba(255, 255, 255, 0.8);
     text-decoration: none;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     transition: all 0.3s ease;
     display: inline-block;
     padding: 0.25rem 0;
@@ -467,30 +477,24 @@ margin-bottom: 2px;
         font-size: 1rem;
         font-weight: 600;
         margin-bottom: 1.25rem;
-        opacity: 0.85;
         letter-spacing: 0.5px;
     }
 
     .footerLinks {
         display: flex;
-        font-size: 0.75rem;
+        font-size: 0.5rem;
         flex-direction: column;
         gap: 0.5rem;
-    }
-
-    .footerLinks li {
-        transition: opacity 0.2s ease;
     }
 
     .footerLinks li:hover {
         opacity: 0.7;
     }
 
-    .footerLinks a {
+    .footerLinks li {
         color: #fff;
         text-decoration: none;
-        font-size: 0.95rem;
-        opacity: 0.75;
+        font-size: 0.75rem;
         transition: opacity 0.2s ease;
     }
 
