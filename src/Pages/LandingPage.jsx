@@ -280,7 +280,7 @@ const LandingPage = () => {
       <footer className={styles.uniqueFooter}>
         <div className={styles.footerContent}>
           <div className={styles.footerBranding}>
-            <h4 className={styles.footerHeading}>
+            <h4 className={styles.footerBrand}>
               <img src="/Logo1.png" alt="Logo" /> NouraSense
             </h4>
             <p className={styles.footerParagraph}>

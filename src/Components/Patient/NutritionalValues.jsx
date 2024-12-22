@@ -75,6 +75,7 @@ export const NutritionalValues = () => {
     isError: isChildrenError,
   } = useChildrenById(id);
   const [error, setError] = useState(null);
+
   useEffect(() => {
     if (childrenData && childrenData.gender && childrenData.dataOfBirth) {
       const age = calculateAgeInMonths(childrenData.dataOfBirth);
@@ -94,7 +95,8 @@ export const NutritionalValues = () => {
         },
       });
     }
-  }, []);
+  }, [childrenData, mutate]);
+
   if (isChildrenLoading || isMutating)
     return (
       <div className={"w-full flex flex-col mt-12 justify-center items-center"}>
