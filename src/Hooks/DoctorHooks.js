@@ -258,3 +258,15 @@ export const useUpdateDoctorGeneralDetails = () => {
     },
   });
 };
+
+export const useChartData = (age, gender) => {
+  return useQuery({
+    queryFn: async () => {
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_BASE_URL_LLM}/graph-data?child_age=${age}&child_gender=${gender}`,
+      );
+      return response.data;
+    },
+    queryKey: ["chartData"],
+  });
+};
