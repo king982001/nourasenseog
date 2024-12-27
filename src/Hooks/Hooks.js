@@ -19,3 +19,15 @@ export const useNutrition = () => {
     },
   });
 };
+
+export const useGraphMeasurements = (id_num) => {
+  return useQuery({
+    queryFn: async () => {
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_BASE_URL_LLM}/get-measurements?id_num=${id_num}`,
+      );
+      return response.data;
+    },
+    queryKey: ["graphMeasurements", id_num],
+  });
+};

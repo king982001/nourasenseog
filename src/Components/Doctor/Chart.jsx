@@ -12,17 +12,21 @@ import {
 import { useChartData, usePatientById } from "src/Hooks/DoctorHooks.js";
 import { ClipLoader } from "react-spinners";
 import { useParams } from "react-router-dom";
+import { useGraphMeasurements } from "src/Hooks/Hooks.js";
 
 export const Chart = ({ indicator = "wfh" }) => {
   const { id } = useParams();
   const { data: patient, isLoading: patientLoading } = usePatientById(id);
   const [chartData, setChartData] = useState([]);
+  const { data: childMeasurements, isLoading: measurementsLoading } =
+    useGraphMeasurements(id);
   const [yAxisLabel, setYAxisLabel] = useState("Weight (kg)");
   const [xAxisLabel, setXAxisLabel] = useState("Length (cm)");
   const [chartDimensions, setChartDimensions] = useState({
     fontSize: 12,
     padding: 20,
   });
+  const [childData, setChildData] = useState([]);
 
   // Responsive dimensions calculation
   useEffect(() => {
@@ -63,6 +67,31 @@ export const Chart = ({ indicator = "wfh" }) => {
     }
   }, [rawData, indicator]);
 
+  // Data processing for childMeasurements
+  useEffect(() => {
+    if (childMeasurements && childMeasurements[indicator]) {
+      const formattedChildData = childMeasurements[indicator].map((item) => {
+        const xKey = indicator === "wfh" ? "height" : "month";
+        const yKey =
+          indicator === "hfa"
+            ? "height"
+            : indicator === "wfa"
+              ? "weight"
+              : indicator === "hcfa"
+                ? "head_circumference"
+                : indicator === "bmi"
+                  ? "bmi"
+                  : "weight";
+
+        return {
+          [indicator === "wfh" ? "Length" : "Month"]: item[xKey],
+          y: item[yKey],
+        };
+      });
+      setChildData(formattedChildData);
+    }
+  }, [childMeasurements, indicator]);
+
   const updateAxisLabels = (ind) => {
     switch (ind) {
       case "hfa":
@@ -91,17 +120,31 @@ export const Chart = ({ indicator = "wfh" }) => {
     }
   };
 
-  const getMinMaxValues = (data) => {
-    if (!data || !data.length) return { min: 0, max: 32 };
+  const getMinMaxValues = (data, childData) => {
+    if ((!data || !data.length) && (!childData || !childData.length))
+      return { min: 0, max: 32 };
     let min = Infinity;
     let max = -Infinity;
-    data.forEach((item) => {
-      const values = ["SD3neg", "SD2neg", "SD1neg", "SD0", "SD1", "SD2", "SD3"];
+    const processItem = (item) => {
+      const values = [
+        "SD3neg",
+        "SD2neg",
+        "SD1neg",
+        "SD0",
+        "SD1",
+        "SD2",
+        "SD3",
+        "y",
+      ];
       values.forEach((key) => {
-        if (item[key] < min) min = item[key];
-        if (item[key] > max) max = item[key];
+        if (item[key] !== undefined) {
+          if (item[key] < min) min = item[key];
+          if (item[key] > max) max = item[key];
+        }
       });
-    });
+    };
+    data.forEach(processItem);
+    childData.forEach(processItem);
     const padding = (max - min) * 0.05;
     return {
       min: Math.max(0, Math.floor(min - padding)),
@@ -109,15 +152,23 @@ export const Chart = ({ indicator = "wfh" }) => {
     };
   };
 
+  const getXAxisDomain = () => {
+    const xValues = [...chartData, ...childData].map(
+      (item) => item[indicator === "wfh" ? "Length" : "Month"],
+    );
+    return [Math.min(...xValues), Math.max(...xValues)];
+  };
+
   if (!indicator) {
     return <div>An indicator is required to plot the graph!</div>;
   }
 
-  const { min, max } = getMinMaxValues(chartData);
+  const { min, max } = getMinMaxValues(chartData, childData);
+  const xAxisDomain = getXAxisDomain();
 
   return (
     <div className="w-full h-[450px] p-2">
-      {isLoading || patientLoading ? (
+      {isLoading || patientLoading || measurementsLoading ? (
         <div className="flex h-full w-full justify-center items-center">
           <ClipLoader />
         </div>
@@ -135,6 +186,9 @@ export const Chart = ({ indicator = "wfh" }) => {
             <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
             <XAxis
               dataKey={indicator === "wfh" ? "Length" : "Month"}
+              type="number"
+              domain={xAxisDomain}
+              allowDataOverflow={true}
               label={{
                 value: xAxisLabel,
                 position: "bottom",
@@ -147,9 +201,11 @@ export const Chart = ({ indicator = "wfh" }) => {
                 fontSize: chartDimensions.fontSize * 0.9,
                 dy: chartDimensions.padding * 0.2,
               }}
+              ticks={[0, 10, 20, 30, 40, 50, 60]}
             />
             <YAxis
               domain={[min, max]}
+              type="number"
               label={{
                 value: yAxisLabel,
                 angle: -90,
@@ -189,7 +245,26 @@ export const Chart = ({ indicator = "wfh" }) => {
                 fontSize: `${chartDimensions.fontSize}px`,
               }}
             />
-            {/* Lines remain the same but with responsive strokeWidth */}
+
+            {childData.map((point, index) => (
+              <Line
+                key={index}
+                data={[point]}
+                type="monotone"
+                dataKey="y"
+                stroke="#22c55e"
+                strokeWidth={0}
+                dot={{
+                  r: 8,
+                  fill: "#22c55e",
+                  strokeWidth: 2,
+                  stroke: "#ffffff",
+                }}
+                name={index === 0 ? "Child Data" : ""}
+                isAnimationActive={false}
+              />
+            ))}
+
             <Line
               type="monotone"
               dataKey="SD3neg"
