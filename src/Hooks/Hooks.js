@@ -31,3 +31,13 @@ export const useGraphMeasurements = (id_num) => {
     queryKey: ["graphMeasurements", id_num],
   });
 };
+
+export const useAllPricingPlans = () => {
+  return useQuery({
+    queryFn: async () => {
+      const response = await api.get("/api/v1/payment/plans/getAllPlans");
+      return response.data;
+    },
+    queryKey: ["pricingPlans"],
+  });
+};

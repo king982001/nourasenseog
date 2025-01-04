@@ -6,6 +6,7 @@ import {
   FiHelpCircle,
   FiUsers,
   FiUser,
+  FiDollarSign,
 } from "react-icons/fi";
 import styles from "./Doctor/LandingPage.module.css";
 
@@ -88,6 +89,11 @@ const LandingPage = () => {
       name: "Parent Sign Up",
       link: "/signup", // Adjust the URL path according to your routes
       icon: FiUserPlus,
+    },
+    {
+      name: "Pricing",
+      link: "/pricing",
+      icon: FiDollarSign,
     },
     {
       name: "Support",

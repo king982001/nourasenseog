@@ -4,6 +4,7 @@ import React, { useEffect } from "react";
 import BackButton from "src/Components/BackButton.jsx";
 import { NutritionalValues } from "src/Components/Doctor/NutritionalValues.jsx";
 import { GrowthCharts } from "src/Pages/Doctor/GrowthCharts.jsx";
+import { DietPlan } from "src/Components/Doctor/DietPlan.jsx";
 
 const PatientProfile = () => {
   useEffect(() => {
@@ -18,6 +19,7 @@ const PatientProfile = () => {
         <GrowthCharts />
         <CalenderTableComp />
         <NutritionalValues />
+        <DietPlan />
       </div>
     </div>
   );
