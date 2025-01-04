@@ -270,3 +270,26 @@ export const useChartData = (age, gender) => {
     queryKey: ["chartData"],
   });
 };
+
+export const useFoodSearch = () => {
+  return useMutation({
+    mutationFn: async (query) => {
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_BASE_URL_LLM}/food-search?food_name=${query}`,
+      );
+      return response.data;
+    },
+  });
+};
+
+export const useCreateDietPlan = () => {
+  return useMutation({
+    mutationFn: async (data) => {
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_BASE_URL_LLM}/diet-plan`,
+        data,
+      );
+      return response.data;
+    },
+  });
+};

@@ -10,6 +10,7 @@ import Footer from "src/Components/Footer.jsx";
 import TermsAndConditions from "src/Pages/TermsAndConditions.jsx";
 import Policy from "src/Pages/Policy.jsx";
 import EmptyHead from "src/Components/EmptyHead.jsx";
+import Pricing from "src/Pages/Pricing.jsx";
 
 function App() {
   const location = useLocation();
@@ -33,6 +34,7 @@ function App() {
           <Route path="/support" element={<Support />} />
           <Route path="/t&c" element={<TermsAndConditions />} />
           <Route path="/privacy-policy" element={<Policy />} />
+          <Route path="/pricing" element={<Pricing />} />
         </Route>
 
         <Route path="*" element={<NotFoundPage />} />
