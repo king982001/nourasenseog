@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { usePatientById, usePatients } from "src/Hooks/DoctorHooks.js";
+import { usePatientById } from "src/Hooks/DoctorHooks.js";
 import { ClipLoader } from "react-spinners";
 import toast from "react-hot-toast";
 

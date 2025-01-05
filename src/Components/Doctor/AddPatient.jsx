@@ -101,8 +101,10 @@ const AddPatient = ({ closeModal, refetchPatients }) => {
         closeModal();
         refetchPatients();
       },
-      onError: () => {
-        toast.error("Unable to add patient");
+      onError: (error) => {
+        const errorMessage =
+          error.response.data.message ?? "Unable to add patient";
+        toast.error(errorMessage);
       },
     });
   };

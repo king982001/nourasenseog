@@ -293,3 +293,27 @@ export const useCreateDietPlan = () => {
     },
   });
 };
+
+export const useCalculateMPH = () => {
+  return useMutation({
+    mutationFn: async (data) => {
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_BASE_URL_LLM}/mid-parent-height`,
+        data,
+      );
+      return response.data;
+    },
+  });
+};
+
+export const useGetMPH = (childId) => {
+  return useQuery({
+    queryFn: async () => {
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_BASE_URL_LLM}/get-mid-parent-height?child_id=${childId}`,
+      );
+      return response.data;
+    },
+    queryKey: ["midParentHeight"],
+  });
+};
