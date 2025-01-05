@@ -11,16 +11,40 @@ export const GrowthCharts = () => {
     { id: "bmi", label: "BMI for age" },
     { id: "hcfa", label: "Head circumference for age" },
   ];
+
+  const handleDropdownChange = (event) => {
+    setActiveTab(event.target.value);
+  };
+
   return (
     <div className="w-full flex flex-col justify-center items-center px-4 py-6 bg-gray-50">
-      <h1 className="text-2xl font-semibold text-center mb-8">Growth Charts</h1>
-      <div className="w-full max-w-4xl bg-gray-100/90 p-2 rounded-lg flex flex-wrap justify-center sm:justify-between">
+      <h1 className="font-serif text-xl font-semibold text-center mb-8">
+        Growth Charts
+      </h1>
+
+      {/* Dropdown for small screens */}
+      <div className="w-full sm:hidden mb-4">
+        <select
+          value={activeTab}
+          onChange={handleDropdownChange}
+          className="w-full py-3 px-4 text-sm font-medium rounded-md bg-gray-100 border border-gray-300 shadow-sm"
+          aria-label="Select growth chart"
+        >
+          {tabs.map((tab) => (
+            <option key={tab.id} value={tab.id}>
+              {tab.label}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      {/* Tab buttons for larger screens */}
+      <div className="hidden sm:flex w-full max-w-4xl bg-gray-100/90 p-2 rounded-lg flex-wrap justify-center sm:justify-between mb-4">
         {tabs.map((tab) => (
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
-            className={`
-              w-full sm:w-auto py-3 px-4 text-sm sm:text-base font-medium rounded-md
+            className={`w-full sm:w-auto py-3 px-4 text-sm sm:text-base font-medium rounded-md
               transition-all duration-200 ease-in-out mb-2 sm:mb-0
               ${
                 activeTab === tab.id
@@ -37,7 +61,7 @@ export const GrowthCharts = () => {
         ))}
       </div>
 
-      {/* Tab content can be added here */}
+      {/* Tab content */}
       <div className="mt-4 w-full">
         <Chart indicator={activeTab} />
       </div>

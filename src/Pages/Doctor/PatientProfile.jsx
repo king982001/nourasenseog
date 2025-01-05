@@ -5,6 +5,7 @@ import BackButton from "src/Components/BackButton.jsx";
 import { NutritionalValues } from "src/Components/Doctor/NutritionalValues.jsx";
 import { GrowthCharts } from "src/Pages/Doctor/GrowthCharts.jsx";
 import { DietPlan } from "src/Components/Doctor/DietPlan.jsx";
+import MidParentHeight from "src/Components/Doctor/MidParentHeight.jsx";
 
 const PatientProfile = () => {
   useEffect(() => {
@@ -16,6 +17,7 @@ const PatientProfile = () => {
       <BackButton display={"flex"} />
       <div className="diagnose-content">
         <DiagnoseIntro />
+        <MidParentHeight />
         <GrowthCharts />
         <CalenderTableComp />
         <NutritionalValues />

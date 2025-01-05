@@ -92,7 +92,7 @@ const Pricing = () => {
               /{billingCycle === "monthly" ? "mo" : "yr"}
             </span>
           </div>
-          {billingCycle === "yearly" && (
+          {billingCycle === "yearly" && savings > 0 && (
             <p className="text-sm text-green-600 mb-6">
               Save {savings}% with yearly billing
             </p>
