@@ -9,7 +9,11 @@ import { useParams } from "react-router-dom";
 export const MidParentHeight = () => {
   const { id } = useParams();
   const { data: child, isLoading: isLoadingPatient } = usePatientById(id);
-  const { data: mph, isLoading: isLoadingMPH, refetch } = useGetMPH("P123");
+  const {
+    data: mph,
+    isLoading: isLoadingMPH,
+    refetch,
+  } = useGetMPH(child?.customId);
   const { mutate, isLoading: isCalculating } = useCalculateMPH();
 
   const [fatherHeight, setFatherHeight] = useState(mph?.father_height);
@@ -56,13 +60,13 @@ export const MidParentHeight = () => {
         mother_height: motherHeight,
         father_height: fatherHeight,
         child_gender: child?.gender.charAt(0).toLowerCase(),
-        child_id: "P123",
+        child_id: child?.customId,
       },
       {
         onSuccess: () => {
           refetch();
         },
-      },
+      }
     );
     setIsModalOpen(false);
   };
@@ -93,7 +97,7 @@ export const MidParentHeight = () => {
               <div className="flex flex-col p-4 sm:flex-row justify-between items-start sm:items-center gap-4">
                 <div className={""}>
                   <p className="text-gray-600 text-sm sm:text-base">
-                    Current Mid-Parent Height
+                    Mid-Parent Height
                   </p>
                   <p className="text-xl sm:text-2xl font-bold text-primary-blue">
                     {mph?.mid_parent_height?.toFixed(1) || "---"} cm

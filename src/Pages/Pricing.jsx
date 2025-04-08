@@ -1,11 +1,12 @@
 import React from "react";
 import { useAllPricingPlans } from "src/Hooks/Hooks.js";
 import BackButton from "src/Components/BackButton.jsx";
-
+import { useBuySubscription } from "src/Hooks/DoctorHooks";
+// import {} from "razorpay"
 const Pricing = () => {
   const { data, isLoading, isError } = useAllPricingPlans();
   const [billingCycle, setBillingCycle] = React.useState("monthly");
-
+  const { mutate: subscribe } = useBuySubscription();
   if (isLoading) {
     return (
       <div className="max-w-7xl mx-auto px-4 py-12 flex justify-center items-center min-h-[400px]">
@@ -62,6 +63,48 @@ const Pricing = () => {
             100
           ).toFixed(0)
         : 0;
+
+    const handleSubscription = async (planId) => {
+      const doctor = JSON.parse(localStorage.getItem("DoctorAccount"));
+      if (!doctor) {
+        alert("Please login to subscribe to a plan");
+        return;
+      }
+      const isMonthly = billingCycle === "monthly" ? true : false;
+      subscribe(
+        { isMonthly, planId },
+        {
+          onSuccess: (data) => {
+            const { order } = data.data;
+            const options = {
+              key: import.meta.env.VITE_RAZORPAY_KEY_ID, // Replace with your RazorPay Key ID
+              amount: order.amount,
+              currency: order.currency,
+              name: "Nourasense",
+              description: "Test Transaction",
+              order_id: order.id,
+              handler: (response) => {
+                alert(
+                  `Payment Successful! Payment ID: ${response.razorpay_payment_id}`
+                );
+              },
+              prefill: {
+                name: "Saleh",
+                email: "salehkhatri29@example.com",
+                contact: "9999999999",
+              },
+              theme: {
+                color: "#3399cc",
+              },
+            };
+            console.log("Opening Razorpay Payment Gateway", options);
+
+            const paymentObject = new window.Razorpay(options);
+            paymentObject.open();
+          },
+        }
+      );
+    };
 
     return (
       <div className="relative">
@@ -159,19 +202,15 @@ const Pricing = () => {
           </div>
 
           <button
+            onClick={() => handleSubscription(plan._id)}
             className={`mt-6 w-full py-3 px-6 rounded-lg font-medium ${
               isMiddle
                 ? "bg-primary-blue text-white hover:bg-blue-800"
                 : "border-2 border-primary-blue text-primary-blue hover:bg-primary-blue hover:text-white"
             } transition-colors duration-200`}
           >
-            {isMiddle ? "Get Started Now" : "Start Free Trial"}
+            {"Get Started Now"}
           </button>
-          {isMiddle && (
-            <p className="text-xs text-center text-gray-500 mt-2">
-              14-day free trial, no credit card required
-            </p>
-          )}
         </div>
       </div>
     );

@@ -37,14 +37,13 @@ const PatientList = () => {
     refetch(); // Trigger refetch when page changes
   }, [page, refetch]);
 
-  // Filter the children based on search term
   const filteredChildren =
     typeof children?.data.children === "object"
       ? children?.data.children.filter(
           (val) =>
-            val.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            val.lastName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            val._id.toLowerCase().includes(searchTerm.toLowerCase()),
+            val.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            val.surname.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            val._id.toLowerCase().includes(searchTerm.toLowerCase())
         )
       : [];
 
@@ -100,7 +99,7 @@ const PatientList = () => {
   const columns = [
     {
       name: "Name",
-      selector: (row) => `${row.firstName} ${row.lastName}`,
+      selector: (row) => `${row.name} ${row.surname}`,
       style: {
         fontWeight: "500",
       },

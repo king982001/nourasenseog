@@ -5,19 +5,23 @@ import "react-calendar/dist/Calendar.css";
 import "./calender.css";
 import DiagnosisTable from "./DiagnosisTable.jsx";
 import { useParams } from "react-router-dom";
-import { useAppointmentsByPatient } from "src/Hooks/DoctorHooks.js";
+import {
+  useAppointmentsByPatient,
+  usePatientById,
+} from "src/Hooks/DoctorHooks.js";
 
 const CalenderTableComp = () => {
   const { id } = useParams();
   const [filteredAppointments, setFilteredAppointments] = useState([]);
   const [date, setDate] = useState(new Date());
   const { data: appointments } = useAppointmentsByPatient(id);
+  const { data: patient } = usePatientById(id);
 
   // Filter appointments for the selected date
   useEffect(() => {
     const filtered = appointments?.filter(
       (appointment) =>
-        new Date(appointment.date).toDateString() === date.toDateString(),
+        new Date(appointment.date).toDateString() === date.toDateString()
     );
     setFilteredAppointments(filtered);
   }, [date, appointments]);
@@ -26,7 +30,7 @@ const CalenderTableComp = () => {
     if (view === "month") {
       const hasAppointment = appointments?.some(
         (appointment) =>
-          new Date(appointment.date).toDateString() === date.toDateString(),
+          new Date(appointment.date).toDateString() === date.toDateString()
       );
       return hasAppointment ? "booked-day" : null;
     }
@@ -96,8 +100,12 @@ const CalenderTableComp = () => {
       </div>
 
       <div className="w-full bg-transparent mt-8 flex flex-col gap-12">
-        <DiagnosisTable />
-        <TableData />
+        {patient && patient?.customId && (
+          <DiagnosisTable customId={patient?.customId} />
+        )}
+        {patient && patient?.customId && (
+          <TableData customId={patient?.customId} />
+        )}
       </div>
     </div>
   );

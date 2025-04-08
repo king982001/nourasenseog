@@ -6,10 +6,10 @@ import toast from "react-hot-toast";
 
 const AddPatient = ({ refetchChildrens, closeModal }) => {
   const [child, setChild] = useState({
-    firstName: "",
-    lastName: "",
-    gender: "  ",
-    dataOfBirth: "",
+    name: "",
+    surname: "",
+    gender: "",
+    data_of_birth: "",
   });
   const [patientID, setPatientID] = useState("");
   const [loading, setLoading] = useState(false);
@@ -49,8 +49,8 @@ const AddPatient = ({ refetchChildrens, closeModal }) => {
             </label>
             <input
               type="text"
-              name="firstName"
-              id="firstname"
+              name="name"
+              id="name"
               className="w-full bg-white border border-[#CBCBCB] rounded-md py-3 outline-none text-lg px-5"
               onChange={changeHandler}
             />
@@ -63,8 +63,8 @@ const AddPatient = ({ refetchChildrens, closeModal }) => {
             </label>
             <input
               type="text"
-              name="lastName"
-              id="lastname"
+              name="surname"
+              id="surname"
               className="w-full bg-white border border-[#CBCBCB] rounded-md py-3 outline-none text-lg px-5"
               onChange={changeHandler}
             />
@@ -109,7 +109,7 @@ const AddPatient = ({ refetchChildrens, closeModal }) => {
             </label>
             <input
               type="date"
-              name="dataOfBirth"
+              name="date_of_birth"
               id="dob"
               className="w-full bg-white border border-[#CBCBCB] rounded-md py-3 outline-none text-lg px-5"
               onChange={changeHandler}

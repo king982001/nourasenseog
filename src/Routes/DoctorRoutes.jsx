@@ -14,6 +14,8 @@ import PatientProfile from "src/Pages/Doctor/PatientProfile.jsx";
 import Diagnose from "src/Pages/Doctor/Diagnose.jsx";
 import EmptyHead from "src/Components/EmptyHead.jsx";
 import { GeneralDetails } from "src/Pages/Doctor/GeneralDetails.jsx";
+import { FaCreditCard, FaUsers } from "react-icons/fa6";
+import ManageSubscription from "src/Pages/Doctor/ManageSubscription";
 
 const PublicLayout = () => {
   const menuItems = [
@@ -44,7 +46,7 @@ const PublicLayout = () => {
 
 const ProtectedLayout = () => {
   const navigate = useNavigate();
-
+  const account = JSON.parse(localStorage.getItem("DoctorAccount")) || "";
   const handleLogout = () => {
     localStorage.removeItem("DoctorToken");
     localStorage.removeItem("DoctorAccount");
@@ -58,6 +60,13 @@ const ProtectedLayout = () => {
       icon: FiHome,
     },
     {
+      name: !account.subscriptionId
+        ? "Buy Subscription"
+        : "Manage Subscription",
+      link: account.subscriptionId?"/doctor/manage-subscription":"/pricing",
+      icon: account.subscriptionId? FaUsers :FaCreditCard,
+    },
+    {
       name: "Support",
       link: "/support",
       icon: FiHelpCircle,
@@ -67,7 +76,8 @@ const ProtectedLayout = () => {
       onClick: handleLogout,
       icon: FiLogOut,
     },
-  ];
+  ];  
+  
 
   return (
     <>
@@ -96,8 +106,10 @@ const DoctorRoutes = () => (
       }
     >
       <Route path="/" element={<Dashboard />} />
-      <Route path="/diagnose/:id" element={<Diagnose />} />
       <Route path="/patient/:id" element={<PatientProfile />} />
+      <Route path="/diagnose/:id" element={<Diagnose />} />
+      <Route path="/manage-subscription" element={<ManageSubscription />} />
+
     </Route>
     <Route path="*" element={<NotFoundPage />} />
   </Routes>

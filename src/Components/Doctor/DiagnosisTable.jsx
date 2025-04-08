@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
 import { useParams } from "react-router-dom";
-import { useDiagnoseHistory } from "src/Hooks/DoctorHooks.js";
+import { useDiagnoseHistory, usePatientById } from "src/Hooks/DoctorHooks.js";
 import { ClipLoader } from "react-spinners";
 
-const DiagnosisTable = () => {
+const DiagnosisTable = ({ customId }) => {
   const { id } = useParams();
   const [page, setPage] = useState(1); // Tracks current page
-  const [error, setError] = useState(false);
   const {
     data: diagnosisRecords,
     isLoading: loading,
+    error,
     refetch,
-  } = useDiagnoseHistory(id, page);
+  } = useDiagnoseHistory(customId, page);
 
   useEffect(() => {
     refetch();
