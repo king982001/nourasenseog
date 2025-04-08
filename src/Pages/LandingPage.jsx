@@ -21,7 +21,6 @@ import {
   FaPhone,
 } from "react-icons/fa6";
 
-import copyrightIcon from "/src/assets/Doctor/copyright 1.png";
 import RoleSelectionModal from "src/Components/RoleSelectionModal.jsx";
 import EmptyHead from "src/Components/EmptyHead.jsx";
 

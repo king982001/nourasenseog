@@ -29,7 +29,7 @@ const Diagnose = () => {
   const navigate = useNavigate();
   const isApproved = location.state?.isApproved;
   const dobFormatted = new Date(patient?.date_of_birth).toLocaleDateString(
-    "en-GB",
+    "en-GB"
   );
 
   useEffect(() => {
@@ -68,8 +68,9 @@ const Diagnose = () => {
     const data = {
       dob: dobFormatted,
       gender: patient.gender.charAt(0).toLowerCase(),
-      id_num: id,
       height: parseFloat(height),
+      child_id: patient?.customId,
+      user_id: account?.customId,
       weight: parseFloat(weight),
       head_circumference: parseFloat(headCircumference),
     };
@@ -84,7 +85,9 @@ const Diagnose = () => {
         setDiagnosisLoading(false); // Stop loading after diagnosis completes
       },
       onError: (error) => {
-        setError("An error occurred during diagnosis.");
+        console.log(error);
+
+        setError(`An error occurred during diagnosis`);
         toast.error("An error occurred during diagnosis.", { id: toastId });
         setDiagnosisLoading(false); // Stop loading on error
       },
@@ -118,13 +121,14 @@ const Diagnose = () => {
 
     // Extract the required data from the diagnosis result
     const reportData = {
+      user_id: account.customId,
       client_details:
         account.registration?.establishment_name || "Unknown Hospital", // Client details (hospital name)
       doctor_name: `Dr. ${account.name} ${account.surname}`, // Doctor's full name
       dob: dobFormatted || "", // Report date (already in diagnosisResult)
       doctor_id: account.customId, // Doctor ID (from account's customId)
       contact: account.phonenumber || "", // Doctor's contact (from account's phonenumber)
-      patient_id: id, // Patient ID (from patient data)
+      patient_id: patient?.customId, // Patient ID (from patient data)
       name: `${patient.name} ${patient.surname}`, // Patient's full name
       gender: patient.gender,
       date: diagnosisResult.date, // Report date
@@ -162,10 +166,6 @@ const Diagnose = () => {
         </div>
       </div>
     );
-  }
-
-  if (error) {
-    return <div>{error}</div>;
   }
 
   return (
@@ -305,7 +305,7 @@ const Diagnose = () => {
                             <p>{value > 0 ? `+${value}` : value}</p>
                           </span>
                         </li>
-                      ),
+                      )
                     )}
                   </ul>
                 </div>
@@ -327,7 +327,7 @@ const Diagnose = () => {
                           </span>{" "}
                           {value}
                         </li>
-                      ),
+                      )
                     )}
                   </ul>
                 </div>
@@ -349,7 +349,7 @@ const Diagnose = () => {
                           </span>{" "}
                           {value}
                         </li>
-                      ),
+                      )
                     )}
                   </ul>
                 </div>

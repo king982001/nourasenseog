@@ -76,13 +76,13 @@ const PatientList = () => {
   const fetchedPatients = patient?.data?.patients.filter(
     (val) =>
       val.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      val._id.toLowerCase().includes(searchTerm.toLowerCase()),
+      val._id.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const confirmDelete = async () => {
+  const confirmDelete = () => {
     if (patientToDelete) {
       setIsPromptOpen(false); // Close the Prompt modal after deletion
-      await deletePatient(patientToDelete, {
+      deletePatient(patientToDelete, {
         onMutate: () => {
           toast.loading("Deleting patient. Please wait...");
         },

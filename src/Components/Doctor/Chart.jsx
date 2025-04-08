@@ -19,7 +19,7 @@ export const Chart = ({ indicator = "wfh" }) => {
   const { data: patient, isLoading: patientLoading } = usePatientById(id);
   const [chartData, setChartData] = useState([]);
   const { data: childMeasurements, isLoading: measurementsLoading } =
-    useGraphMeasurements(id);
+    useGraphMeasurements(patient?.customId);
   const [yAxisLabel, setYAxisLabel] = useState("Weight (kg)");
   const [xAxisLabel, setXAxisLabel] = useState("Length (cm)");
   const [chartDimensions, setChartDimensions] = useState({
@@ -154,7 +154,7 @@ export const Chart = ({ indicator = "wfh" }) => {
 
   const getXAxisDomain = () => {
     const xValues = [...chartData, ...childData].map(
-      (item) => item[indicator === "wfh" ? "Length" : "Month"],
+      (item) => item[indicator === "wfh" ? "Length" : "Month"]
     );
     return [Math.min(...xValues), Math.max(...xValues)];
   };
@@ -201,7 +201,7 @@ export const Chart = ({ indicator = "wfh" }) => {
                 fontSize: chartDimensions.fontSize * 0.9,
                 dy: chartDimensions.padding * 0.2,
               }}
-              ticks={[0, 10, 20, 30, 40, 50, 60]}
+              // ticks={[0, 10, 20, 30, 40, 50, 60]}
             />
             <YAxis
               domain={[min, max]}
@@ -222,6 +222,7 @@ export const Chart = ({ indicator = "wfh" }) => {
               width={chartDimensions.padding * 3}
             />
             <Tooltip
+              itemSorter={(item) => -item.value}
               contentStyle={{
                 backgroundColor: "white",
                 border: "1px solid #e5e7eb",

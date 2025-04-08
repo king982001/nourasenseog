@@ -83,12 +83,13 @@ export const NutritionalValues = () => {
       const childData = {
         child_age: age,
         child_gender: patientData.gender.charAt(0).toLowerCase(),
+        user_id: patientData.customId,
       };
 
       mutate(childData, {
         onError: (error) => {
           console.error("Error fetching nutrition data:", error);
-          setError(error.message || "An error occurred.");
+          setError("An error occurred.");
           setIsMutating(false);
         },
         onSuccess: () => {
@@ -114,7 +115,15 @@ export const NutritionalValues = () => {
   if (isPatientError)
     return <p>Error fetching patient data. Please try again later.</p>;
 
-  if (isMutationError) return <p>Error fetching nutrition data: {error}</p>;
+  if (isMutationError)
+    return (
+      <div className="w-full max-w-7xl mt-12 mx-auto p-4 space-y-6">
+        <h1 className="font-serif text-xl font-semibold text-center">
+          Nutritional Values
+        </h1>
+        <p>Error fetching nutrition data</p>
+      </div>
+    );
 
   if (!nutritionData && !isMutating)
     return (

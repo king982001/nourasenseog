@@ -68,7 +68,7 @@ const DiagnoseIntro = () => {
             Welcome to{" "}
             <span
               className={"font-medium text-primary-blue"}
-            >{`${patient.firstName} ${patient.lastName}`}</span>{" "}
+            >{`${patient.name} ${patient.surname}`}</span>{" "}
             profile
           </p>
         </div>

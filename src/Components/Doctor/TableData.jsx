@@ -7,7 +7,7 @@ import { useReportHistory } from "src/Hooks/DoctorHooks.js";
 import toast from "react-hot-toast";
 import { ClipLoader } from "react-spinners";
 
-const TableData = () => {
+const TableData = ({ customId }) => {
   const { id } = useParams();
   const [page, setPage] = useState(1); // Tracks current page
   const {
@@ -15,7 +15,7 @@ const TableData = () => {
     isLoading: reportsLoading,
     error,
     refetch,
-  } = useReportHistory(id, page);
+  } = useReportHistory(customId, page);
 
   useEffect(() => {
     refetch();
