@@ -13,7 +13,7 @@ const EmptyHead = ({ showNavigation = false, menuItems }) => {
 
   return (
     <div
-      className={`bg-primary-blue flex w-full min-h-12 p-4 md:p-0 md:py-4 md:px-8 justify-between items-center`}
+      className={`bg-white flex w-full min-h-12 p-4 md:p-0 md:py-4 md:px-8 justify-between items-center border-b border-gray-200 shadow-sm`}
     >
       {/* Logo */}
       <Link to={"/"}>
@@ -22,7 +22,7 @@ const EmptyHead = ({ showNavigation = false, menuItems }) => {
 
       {showNavigation && (
         <button
-          className={`text-white flex justify-center transition-colors items-center space-x-1`}
+          className={`text-primary-blue flex justify-center transition-colors items-center space-x-1 hover:text-blue-700`}
           onClick={toggleNavigationMenu}
         >
           <IoReorderThreeOutline size={36} />

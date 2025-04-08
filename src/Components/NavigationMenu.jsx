@@ -52,13 +52,13 @@ export const NavigationMenu = ({
                       {menuItem.link ? (
                         <Link
                           to={menuItem.link}
-                          className="flex items-center space-x-3 px-3 py-2 rounded-lg text-gray-700 hover:bg-primary-blue hover:text-white transition-colors duration-200 group"
+                          className="flex items-center space-x-3 px-3 py-2 rounded-lg text-gray-700 hover:bg-blue-50 hover:text-primary-blue transition-colors duration-200 group"
                           onClick={toggleNavigationMenu} // Close the menu after navigation
                         >
                           {menuItem.icon && (
                             <menuItem.icon
                               size={20}
-                              className="text-primary-blue group-hover:text-white transition-colors duration-200"
+                              className="text-primary-blue group-hover:text-primary-blue transition-colors duration-200"
                             />
                           )}
                           <span>{menuItem.name}</span>
@@ -69,12 +69,12 @@ export const NavigationMenu = ({
                             menuItem.onClick?.();
                             toggleNavigationMenu(); // Close the menu after action
                           }}
-                          className="flex w-full items-center space-x-3 px-3 py-2 rounded-lg text-gray-700 hover:bg-red-500 hover:text-white transition-colors duration-200 group"
+                          className="flex w-full items-center space-x-3 px-3 py-2 rounded-lg text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors duration-200 group"
                         >
                           {menuItem.icon && (
                             <menuItem.icon
                               size={20}
-                              className="text-gray-700 group-hover:text-white transition-colors duration-200"
+                              className="text-gray-700 group-hover:text-red-600 transition-colors duration-200"
                             />
                           )}
                           <span>{menuItem.name}</span>
