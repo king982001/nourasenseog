@@ -1,98 +1,180 @@
-import { useState } from 'react';
+"use client";
 
-const Header = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+import { useState } from "react";
+import { Navbar, NavBody, NavItems, MobileNav, NavbarLogo, NavbarButton, MobileNavHeader, MobileNavToggle, MobileNavMenu } from "../ui/resizable-navbar";
+
+export function NavbarDemo() {
+  const navItems = [
+    {
+        name: "Who We Help",
+        link: "#home",
+    },
+    {
+      name: "Solutions",
+      link: "#features",
+    },
+    {
+      name: "Partners",
+      link: "#pricing",
+    },
+    {
+      name: "Resources",
+      link: "#contact",
+    },
+    {
+      name: "Company",
+      link: "#contact",
+    },
+  ];
+
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
-    <header className="fixed top-0 left-0 right-0 bg-white z-50 ">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
-          <div className="flex items-center">
-            <a href="/" className="flex items-center">
-              <div className="w-8 h-8 bg-[#4544DF] text-white flex items-center justify-center rounded mr-2">
-                <span className="text-xl font-normal">+</span>
-              </div>
-              <span className="text-xl font-extralight">NouraSense</span>
-            </a>
+    <div className="relative w-full">
+      <Navbar>
+        {/* Desktop Navigation */}
+        <NavBody>
+          <NavbarLogo />
+          <NavItems items={navItems} />
+          <div className="flex items-center gap-4">
+            <NavbarButton variant="secondary">Login</NavbarButton>
+            <NavbarButton variant="primary">Book a call</NavbarButton>
           </div>
-          
-          <nav className="hidden md:flex space-x-8">
-            <a href="#who-we-help" className="text-gray-800 font-extralight hover:text-[#4544DF] transition">Who We Help</a>
-            <a href="#features" className="text-gray-800 font-extralight hover:text-[#4544DF] transition">Features</a>
-            <a href="#partners" className="text-gray-800 font-extralight hover:text-[#4544DF] transition">Partners</a>
-            <a href="#resources" className="text-gray-800 font-extralight hover:text-[#4544DF] transition">Resources</a>
-            <a href="#company" className="text-gray-800 font-extralight hover:text-[#4544DF] transition">Company</a>
-          </nav>
-          
-          <div className="hidden md:flex items-center space-x-4">
-            <a href="#login" className="flex items-center text-gray-800 font-extralight hover:text-[#4544DF]">
-              <span className="mr-2">EN</span>
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
-              </svg>
-            </a>
-            <a href="#contact" className="px-5 py-2 rounded bg-[#4544DF] text-white font-extralight hover:bg-[#3c3cbb] transition">
-              Get in touch
-            </a>
+        </NavBody>
+
+        {/* Mobile Navigation */}
+        <MobileNav>
+          <MobileNavHeader>
+            <NavbarLogo />
+            <MobileNavToggle
+              isOpen={isMobileMenuOpen}
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} />
+          </MobileNavHeader>
+
+          <MobileNavMenu isOpen={isMobileMenuOpen} onClose={() => setIsMobileMenuOpen(false)}>
+            {navItems.map((item, idx) => (
+              <a
+                key={`mobile-link-${idx}`}
+                href={item.link}
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="relative text-neutral-600 dark:text-neutral-300">
+                <span className="block">{item.name}</span>
+              </a>
+            ))}
+            <div className="flex w-full flex-col gap-4">
+              <NavbarButton
+                onClick={() => setIsMobileMenuOpen(false)}
+                variant="primary"
+                className="w-full">
+                Login
+              </NavbarButton>
+              <NavbarButton
+                onClick={() => setIsMobileMenuOpen(false)}
+                variant="primary"
+                className="w-full">
+                Book a call
+              </NavbarButton>
+            </div>
+          </MobileNavMenu>
+        </MobileNav>
+      </Navbar>
+      {/* Navbar */}
+    </div>
+  );
+}
+
+const DummyContent = () => {
+  return (
+    <div className="container mx-auto p-8 pt-24">
+      <h1 className="mb-4 text-center text-3xl font-bold">
+        Check the navbar at the top of the container
+      </h1>
+      <p className="mb-10 text-center text-sm text-zinc-500">
+        For demo purpose we have kept the position as{" "}
+        <span className="font-medium">Sticky</span>. Keep in mind that this
+        component is <span className="font-medium">fixed</span> and will not
+        move when scrolling.
+      </p>
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
+        {[
+          {
+            id: 1,
+            title: "The",
+            width: "md:col-span-1",
+            height: "h-60",
+            bg: "bg-neutral-100 dark:bg-neutral-800",
+          },
+          {
+            id: 2,
+            title: "First",
+            width: "md:col-span-2",
+            height: "h-60",
+            bg: "bg-neutral-100 dark:bg-neutral-800",
+          },
+          {
+            id: 3,
+            title: "Rule",
+            width: "md:col-span-1",
+            height: "h-60",
+            bg: "bg-neutral-100 dark:bg-neutral-800",
+          },
+          {
+            id: 4,
+            title: "Of",
+            width: "md:col-span-3",
+            height: "h-60",
+            bg: "bg-neutral-100 dark:bg-neutral-800",
+          },
+          {
+            id: 5,
+            title: "F",
+            width: "md:col-span-1",
+            height: "h-60",
+            bg: "bg-neutral-100 dark:bg-neutral-800",
+          },
+          {
+            id: 6,
+            title: "Club",
+            width: "md:col-span-2",
+            height: "h-60",
+            bg: "bg-neutral-100 dark:bg-neutral-800",
+          },
+          {
+            id: 7,
+            title: "Is",
+            width: "md:col-span-2",
+            height: "h-60",
+            bg: "bg-neutral-100 dark:bg-neutral-800",
+          },
+          {
+            id: 8,
+            title: "You",
+            width: "md:col-span-1",
+            height: "h-60",
+            bg: "bg-neutral-100 dark:bg-neutral-800",
+          },
+          {
+            id: 9,
+            title: "Do NOT TALK about",
+            width: "md:col-span-2",
+            height: "h-60",
+            bg: "bg-neutral-100 dark:bg-neutral-800",
+          },
+          {
+            id: 10,
+            title: "F Club",
+            width: "md:col-span-1",
+            height: "h-60",
+            bg: "bg-neutral-100 dark:bg-neutral-800",
+          },
+        ].map((box) => (
+          <div
+            key={box.id}
+            className={`${box.width} ${box.height} ${box.bg} flex items-center justify-center rounded-lg p-4 shadow-sm`}>
+            <h2 className="text-xl font-medium">{box.title}</h2>
           </div>
-          
-          <button 
-            className="md:hidden p-2 rounded-md text-gray-800 hover:text-[#4544DF] hover:bg-gray-50 focus:outline-none"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-          >
-            <span className="sr-only">Open main menu</span>
-            {isMenuOpen ? (
-              <svg className="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            ) : (
-              <svg className="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
-            )}
-          </button>
-        </div>
+        ))}
       </div>
-      
-      {/* Mobile menu, show/hide based on menu state */}
-      {isMenuOpen && (
-        <div className="md:hidden bg-white pb-3 px-4">
-          <div className="space-y-1 pt-2 pb-3">
-            <a href="#who-we-help" className="block px-3 py-2 rounded-md text-base font-extralight text-gray-800 hover:bg-gray-50 hover:text-[#4544DF]">
-              Who We Help
-            </a>
-            <a href="#features" className="block px-3 py-2 rounded-md text-base font-extralight text-gray-800 hover:bg-gray-50 hover:text-[#4544DF]">
-              Features
-            </a>
-            <a href="#partners" className="block px-3 py-2 rounded-md text-base font-extralight text-gray-800 hover:bg-gray-50 hover:text-[#4544DF]">
-              Partners
-            </a>
-            <a href="#resources" className="block px-3 py-2 rounded-md text-base font-extralight text-gray-800 hover:bg-gray-50 hover:text-[#4544DF]">
-              Resources
-            </a>
-            <a href="#company" className="block px-3 py-2 rounded-md text-base font-extralight text-gray-800 hover:bg-gray-50 hover:text-[#4544DF]">
-              Company
-            </a>
-          </div>
-          <div className="pt-4 pb-3 border-t border-gray-100">
-            <div className="flex items-center px-3 py-2">
-              <a href="#language" className="flex items-center text-gray-800 font-extralight">
-                <span className="mr-2">EN</span>
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
-                </svg>
-              </a>
-            </div>
-            <div className="mt-3">
-              <a href="#contact" className="block px-4 py-2 text-center rounded bg-[#4544DF] text-white font-extralight">
-                Get in touch
-              </a>
-            </div>
-          </div>
-        </div>
-      )}
-    </header>
+    </div>
   );
 };
-
-export default Header;

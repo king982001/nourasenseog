@@ -1,14 +1,11 @@
 import { useEffect } from 'react';
 import Footer from 'src/Components/Footer';
-import WhoWeHelp from 'src/Components/LandingPage/Features';
-import Features from 'src/Components/LandingPage/Features';
-import Header from 'src/Components/LandingPage/Header';
 import Hero from 'src/Components/LandingPage/Hero';
 import PartnersSection from 'src/Components/LandingPage/SponserSection';
 import UseCasesAndModules from 'src/Components/LandingPage/Modules';
 import { AnimatedTestimonials } from 'src/Components/ui/animated-testimonials';
 import { AppleCardsCarouselDemo } from 'src/Components/LandingPage/Cards';
-import WorldMap from 'src/Components/ui/world-map';
+import { NavbarDemo } from 'src/Components/LandingPage/Header';
 // Add custom styles for the entire app
 const globalStyles = `
   /* Import Google Fonts */
@@ -83,7 +80,7 @@ const LandingPage = () => {
   ];
   return (
     <div className="min-h-screen bg-white">
-      <Header />
+      <NavbarDemo />
       <Hero />
       <PartnersSection />
       {/* <Features /> */}

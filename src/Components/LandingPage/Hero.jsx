@@ -6,32 +6,7 @@ const Hero = () => {
   return (
     <section className="min-h-screen w-full bg-white flex flex-col items-center justify-center">
       {/* Navigation Bar (similar to Infermedica) */}
-      <nav className="fixed top-0 left-0 w-full bg-white z-50 py-4 px-4 sm:px-6 lg:px-8 shadow-sm">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <div className="flex items-center">
-            <div className="flex items-center mr-2">
-              <div className="w-8 h-8 bg-blue-600 rounded flex items-center justify-center text-white font-bold">+</div>
-            </div>
-            <span className="text-xl font-medium">NouraSense</span>
-          </div>
-          
-          <div className="hidden md:flex space-x-6">
-            <a href="#" className="text-gray-700 hover:text-gray-900">Who We Help</a>
-            <a href="#" className="text-gray-700 hover:text-gray-900">Solutions</a>
-            <a href="#" className="text-gray-700 hover:text-gray-900">Partners</a>
-            <a href="#" className="text-gray-700 hover:text-gray-900">Resources</a>
-            <a href="#" className="text-gray-700 hover:text-gray-900">Company</a>
-          </div>
-          
-          <div className="flex items-center space-x-4">
-            <button className="hidden sm:block">EN</button>
-            <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md">
-              Get in touch
-            </button>
-          </div>
-        </div>
-      </nav>
-      
+   
       {/* Full-width content */}
       <div className="w-full px-4 sm:px-6 lg:px-8 mt-20 mb-10">
         <div className="max-w-7xl mx-auto">
