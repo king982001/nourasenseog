@@ -1,4 +1,4 @@
-"use client";;
+"use client";
 import React, {
   useEffect,
   useRef,
@@ -13,7 +13,7 @@ import {
 } from "@tabler/icons-react";
 import { cn } from "src/lib/utils";
 import { AnimatePresence, motion } from "motion/react";
-import { useOutsideClick } from "src/hooks/use-outside-click";
+import { useOutsideClick } from "src/Hooks/use-outside-click";
 
 export const CarouselContext = createContext({
   onCardClose: () => {},
