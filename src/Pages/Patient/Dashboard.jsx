@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import Footer from "src/Components/Footer.jsx";
 import Introduction from "src/Components/Patient/Introduction.jsx";
 import PatientList from "src/Components/Patient/PatientList.jsx";
 import { useNavigate } from "react-router-dom";
