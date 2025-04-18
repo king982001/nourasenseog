@@ -1,11 +1,11 @@
 import { useEffect } from 'react';
-import Footer from 'src/Components/Footer';
 import Hero from 'src/Components/LandingPage/Hero';
 import PartnersSection from 'src/Components/LandingPage/SponserSection';
 import UseCasesAndModules from 'src/Components/LandingPage/Modules';
 import { AnimatedTestimonials } from 'src/Components/ui/animated-testimonials';
 import { AppleCardsCarouselDemo } from 'src/Components/LandingPage/Cards';
 import { NavbarDemo } from 'src/Components/LandingPage/Header';
+import Footer from 'src/Components/LandingPage/Footer';
 // Add custom styles for the entire app
 const globalStyles = `
   /* Import Google Fonts */
