@@ -11,7 +11,7 @@ import TermsAndConditions from "src/Pages/TermsAndConditions.jsx";
 import Policy from "src/Pages/Policy.jsx";
 import EmptyHead from "src/Components/EmptyHead.jsx";
 import Pricing from "src/Pages/Pricing.jsx";
-
+import { NavbarDemo } from "./Components/LandingPage/Header";
 function App() {
   const location = useLocation();
   const shouldShowFooter = location.pathname !== "/";
@@ -25,6 +25,7 @@ function App() {
 
   return (
     <>
+      <NavbarDemo />
       <Routes>
         <Route path={"/"} element={<LandingPage />} />
         <Route path="/doctor/*" element={<DoctorRoutes />} />

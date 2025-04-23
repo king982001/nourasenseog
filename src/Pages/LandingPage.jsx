@@ -80,7 +80,6 @@ const LandingPage = () => {
   ];
   return (
     <div className="min-h-screen bg-white">
-      <NavbarDemo />
       <Hero />
       <PartnersSection />
       {/* <Features /> */}
