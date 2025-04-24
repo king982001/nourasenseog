@@ -72,7 +72,7 @@ const CalenderTableComp = () => {
           <h2 className="text-xl font-light text-gray-800 mb-5 border-b pb-3">
             {formatDate(date)}
           </h2>
-          
+
           {filteredAppointments?.length > 0 ? (
             <div className="overflow-hidden rounded-lg">
               <table className="w-full">
@@ -131,7 +131,7 @@ const CalenderTableComp = () => {
               <DiagnosisTable customId={patient?.customId} />
             </div>
           </div>
-          
+
           <div className="bg-white rounded-xl shadow-sm overflow-hidden">
             <div className="p-5 border-b border-gray-100">
               <h2 className="text-xl font-light text-gray-800">Growth Data</h2>

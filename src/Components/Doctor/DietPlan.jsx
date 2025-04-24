@@ -67,7 +67,7 @@ export const DietPlan = () => {
   }, [searchQuery, debouncedSearch]);
 
   const toggleSelectSearchItem = (item) => {
-    setSelectedSearchItems(prevItems => 
+    setSelectedSearchItems(prevItems =>
       prevItems.includes(item)
         ? prevItems.filter(i => i !== item)
         : [...prevItems, item]
@@ -93,7 +93,7 @@ export const DietPlan = () => {
     const child_gender = childData?.gender.charAt(0).toLowerCase();
     // Get the logged-in doctor information from localStorage
     const doctorAccount = JSON.parse(localStorage.getItem("DoctorAccount") || "{}");
-    
+
     const data = {
       food_choices: selectedItems,
       child_age,
@@ -151,7 +151,7 @@ export const DietPlan = () => {
       <div className="p-5 border-b border-gray-100">
         <h2 className="text-xl font-light text-gray-800">Create Diet Plan</h2>
       </div>
-      
+
       <div className="p-6 space-y-6">
         <p className="text-sm text-gray-500">
           Search and select at least 10 food items to create a customized diet plan
@@ -214,7 +214,7 @@ export const DietPlan = () => {
             <h3 className="text-base font-medium text-gray-800">Selected Items</h3>
             <span className="text-sm text-gray-500">{selectedItems.length} of 10 required</span>
           </div>
-          
+
           <div className="flex flex-wrap gap-2 min-h-[100px] p-4 bg-gray-50 rounded-lg border border-gray-200">
             {selectedItems.length === 0 ? (
               <p className="text-gray-400 text-sm w-full text-center my-auto">
@@ -295,11 +295,10 @@ export const DietPlan = () => {
                         <div className="flex justify-between items-center mb-2">
                           <p className="text-sm font-medium text-gray-700">{nutrient}</p>
                           <span
-                            className={`text-xs font-medium px-2 py-0.5 rounded-full ${
-                              data.percent_dri > 100
+                            className={`text-xs font-medium px-2 py-0.5 rounded-full ${data.percent_dri > 100
                                 ? "bg-yellow-100 text-yellow-800"
                                 : "bg-green-100 text-green-800"
-                            }`}
+                              }`}
                           >
                             {data.percent_dri}% of daily value
                           </span>

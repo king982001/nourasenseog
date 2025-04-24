@@ -166,11 +166,29 @@ export const Chart = ({ indicator = "wfh" }) => {
   const { min, max } = getMinMaxValues(chartData, childData);
   const xAxisDomain = getXAxisDomain();
 
+  // Custom colors for the chart
+  const chartColors = {
+    grid: "#f3f4f6",
+    axis: "#6b7280",
+    tooltip: "#ffffff",
+    tooltipBorder: "#e5e7eb",
+    referenceLines: {
+      SD3neg: "#ef4444",
+      SD2neg: "#f97316",
+      SD1neg: "#fbbf24",
+      SD0: "#22c55e",
+      SD1: "#fbbf24",
+      SD2: "#f97316",
+      SD3: "#ef4444",
+    },
+    childData: "#3b82f6",
+  };
+
   return (
     <div className="w-full h-[450px] p-2">
       {isLoading || patientLoading || measurementsLoading ? (
         <div className="flex h-full w-full justify-center items-center">
-          <ClipLoader />
+          <ClipLoader color="#3b82f6" />
         </div>
       ) : (
         <ResponsiveContainer width="100%" height="100%">
@@ -183,7 +201,11 @@ export const Chart = ({ indicator = "wfh" }) => {
               bottom: chartDimensions.padding,
             }}
           >
-            <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+            <CartesianGrid
+              strokeDasharray="3 3"
+              stroke={chartColors.grid}
+              vertical={false}
+            />
             <XAxis
               dataKey={indicator === "wfh" ? "Length" : "Month"}
               type="number"
@@ -194,14 +216,15 @@ export const Chart = ({ indicator = "wfh" }) => {
                 position: "bottom",
                 offset: 0,
                 fontSize: chartDimensions.fontSize,
-                fill: "#4b5563",
+                fill: chartColors.axis,
+                fontWeight: 500,
               }}
               tick={{
-                fill: "#6b7280",
+                fill: chartColors.axis,
                 fontSize: chartDimensions.fontSize * 0.9,
                 dy: chartDimensions.padding * 0.2,
               }}
-              // ticks={[0, 10, 20, 30, 40, 50, 60]}
+              axisLine={{ stroke: chartColors.axis }}
             />
             <YAxis
               domain={[min, max]}
@@ -210,33 +233,40 @@ export const Chart = ({ indicator = "wfh" }) => {
                 value: yAxisLabel,
                 angle: -90,
                 fontSize: chartDimensions.fontSize,
-                fill: "#4b5563",
+                fill: chartColors.axis,
+                fontWeight: 500,
                 dx: -chartDimensions.padding * 1.5,
               }}
               tick={{
-                fill: "#6b7280",
+                fill: chartColors.axis,
                 fontSize: chartDimensions.fontSize * 0.9,
                 dx: -chartDimensions.padding * 0.2,
               }}
               allowDataOverflow={true}
               width={chartDimensions.padding * 3}
+              axisLine={{ stroke: chartColors.axis }}
             />
             <Tooltip
               itemSorter={(item) => -item.value}
               contentStyle={{
-                backgroundColor: "white",
-                border: "1px solid #e5e7eb",
-                borderRadius: "6px",
+                backgroundColor: chartColors.tooltip,
+                border: `1px solid ${chartColors.tooltipBorder}`,
+                borderRadius: "8px",
                 padding: `${chartDimensions.padding * 0.4}px`,
                 fontSize: `${chartDimensions.fontSize}px`,
+                boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)",
               }}
               formatter={(value, name, props) => [
-                `${value.toFixed(2)} ${yAxisLabel.split(" ")[1]?.replace("(", "")?.replace(")", "")}`,
-                name,
+                <span className="font-medium">
+                  {`${value.toFixed(2)} ${yAxisLabel.split(" ")[1]?.replace("(", "")?.replace(")", "")}`}
+                </span>,
+                <span className="text-gray-600">{name}</span>,
               ]}
-              labelFormatter={(label) =>
-                `${xAxisLabel.split(" ")[0]}: ${label}`
-              }
+              labelFormatter={(label) => (
+                <span className="font-medium text-gray-800">
+                  {`${xAxisLabel.split(" ")[0]}: ${label}`}
+                </span>
+              )}
             />
             <Legend
               verticalAlign="bottom"
@@ -245,90 +275,87 @@ export const Chart = ({ indicator = "wfh" }) => {
                 paddingTop: `${chartDimensions.padding * 2}px`,
                 fontSize: `${chartDimensions.fontSize}px`,
               }}
+              iconType="circle"
+              iconSize={8}
             />
 
-            {childData.map((point, index) => (
-              <Line
-                key={index}
-                data={[point]}
-                type="monotone"
-                dataKey="y"
-                stroke="#22c55e"
-                strokeWidth={0}
-                dot={{
-                  r: 8,
-                  fill: "#22c55e",
-                  strokeWidth: 2,
-                  stroke: "#ffffff",
-                }}
-                name={index === 0 ? "Child Data" : ""}
-                isAnimationActive={false}
-              />
-            ))}
-
+            {/* Reference Lines */}
             <Line
               type="monotone"
               dataKey="SD3neg"
-              stroke="#dc2626"
-              strokeWidth={chartDimensions.fontSize * 0.17}
+              stroke={chartColors.referenceLines.SD3neg}
+              strokeWidth={1.5}
               dot={false}
-              name="-3 SD (Severe)"
-              isAnimationActive={false}
+              name="-3 SD"
             />
             <Line
               type="monotone"
               dataKey="SD2neg"
-              stroke="#ef4444"
-              strokeWidth={chartDimensions.fontSize * 0.13}
+              stroke={chartColors.referenceLines.SD2neg}
+              strokeWidth={1.5}
               dot={false}
-              name="-2 SD (Moderate)"
-              isAnimationActive={false}
+              name="-2 SD"
             />
             <Line
               type="monotone"
               dataKey="SD1neg"
-              stroke="#fca5a5"
-              strokeWidth={chartDimensions.fontSize * 0.08}
+              stroke={chartColors.referenceLines.SD1neg}
+              strokeWidth={1.5}
               dot={false}
-              name="-1 SD (Normal)"
-              isAnimationActive={false}
+              name="-1 SD"
             />
             <Line
               type="monotone"
               dataKey="SD0"
-              stroke="#111827"
-              strokeWidth={chartDimensions.fontSize * 0.21}
+              stroke={chartColors.referenceLines.SD0}
+              strokeWidth={1.5}
               dot={false}
-              name="Median (Normal)"
-              isAnimationActive={false}
+              name="Median"
             />
             <Line
               type="monotone"
               dataKey="SD1"
-              stroke="#93c5fd"
-              strokeWidth={chartDimensions.fontSize * 0.08}
+              stroke={chartColors.referenceLines.SD1}
+              strokeWidth={1.5}
               dot={false}
-              name="+1 SD (Normal)"
-              isAnimationActive={false}
+              name="+1 SD"
             />
             <Line
               type="monotone"
               dataKey="SD2"
-              stroke="#3b82f6"
-              strokeWidth={chartDimensions.fontSize * 0.13}
+              stroke={chartColors.referenceLines.SD2}
+              strokeWidth={1.5}
               dot={false}
-              name="+2 SD (Overweight)"
-              isAnimationActive={false}
+              name="+2 SD"
             />
             <Line
               type="monotone"
               dataKey="SD3"
-              stroke="#1d4ed8"
-              strokeWidth={chartDimensions.fontSize * 0.17}
+              stroke={chartColors.referenceLines.SD3}
+              strokeWidth={1.5}
               dot={false}
-              name="+3 SD (Obese)"
-              isAnimationActive={false}
+              name="+3 SD"
             />
+
+            {/* Child Data Points */}
+            {childData.map((point, index) => (
+              <Line
+                key={index}
+                type="monotone"
+                data={[point]}
+                dataKey="y"
+                stroke={chartColors.childData}
+                strokeWidth={2}
+                dot={{
+                  fill: chartColors.childData,
+                  stroke: "#ffffff",
+                  strokeWidth: 2,
+                  r: 6,
+                }}
+                name="Child's Measurements"
+                isAnimationActive={false}
+              />
+            ))}
           </LineChart>
         </ResponsiveContainer>
       )}

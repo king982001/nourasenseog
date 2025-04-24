@@ -14,9 +14,9 @@ const Hero = () => {
               <h1 className="text-4xl sm:text-5xl font-normal leading-tight mb-6">
                 Revolutionize pediatric care with NouraSense's <span className="text-blue-600">AI-powered diagnostics</span> and <span className="text-blue-600">growth analytics</span>
               </h1>
-              
+
               <div className="flex justify-center mt-8">
-                <button 
+                <button
                   onClick={() => setIsModalOpen(true)}
                   className="px-8 py-3 bg-blue-600 text-white rounded-md text-lg hover:bg-blue-700 transition"
                 >
@@ -26,13 +26,13 @@ const Hero = () => {
             </>
           }>
           <div className="relative w-full h-full">
-            <img 
-              src="/1.png" 
+            <img
+              src="/1.png"
               alt="Child growth monitoring platform interface"
               className="w-full h-full object-cover object-left-top rounded-2xl"
               draggable={false}
             />
-            
+
             {/* Symptom input UI overlay */}
             <div className="absolute top-10 left-10 bg-white p-4 rounded-lg shadow-md">
               <div className="text-sm font-medium text-blue-600 mb-2">ADD YOUR SYMPTOMS</div>
@@ -45,7 +45,7 @@ const Hero = () => {
                 </div>
               </div>
             </div>
-            
+
             {/* Next steps UI overlay */}
             <div className="absolute bottom-10 left-10 bg-white p-4 rounded-lg shadow-md">
               <div className="text-sm font-medium text-blue-600 mb-2">NEXT STEPS</div>
@@ -59,15 +59,8 @@ const Hero = () => {
                 </svg>
               </div>
             </div>
-            
-            {/* Play button overlay */}
-            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-              <div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center cursor-pointer hover:bg-blue-700 transition shadow-lg">
-                <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M8 5v14l11-7z"></path>
-                </svg>
-              </div>
-            </div>
+
+
           </div>
         </ContainerScroll>
       </div>
