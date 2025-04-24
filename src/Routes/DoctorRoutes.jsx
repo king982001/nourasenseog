@@ -188,8 +188,8 @@ const ProtectedLayout = () => {
         account={account}
       />
       
-      {/* Top Navigation */}
-      <div className="w-full py-3 px-4 flex justify-between items-center border-b border-gray-100 bg-white shadow-sm">
+      {/* Top Navigation - Fixed */}
+      <div className="fixed top-0 left-0 right-0 py-3 px-4 flex justify-between items-center border-b border-gray-100 bg-white shadow-sm z-10">
         <div className="flex items-center space-x-2">
           <img src="/Logo1.png" alt="Nourasense" className="h-8 w-auto" />
           <span className="text-primary-blue font-medium text-lg">Nourasense</span>
@@ -217,10 +217,11 @@ const ProtectedLayout = () => {
         </div>
       </div>
       
-      <div className="flex flex-1 overflow-hidden">
-        {/* Sidebar */}
+      {/* Content container - Add top padding to account for fixed header */}
+      <div className="flex flex-1 pt-16 overflow-hidden">
+        {/* Sidebar - Fixed */}
         <div 
-          className={`hidden md:flex flex-col h-[calc(100vh-57px)] border-r border-gray-100 bg-white transition-all duration-300 ${
+          className={`fixed top-16 left-0 h-[calc(100vh-64px)] border-r border-gray-100 bg-white transition-all duration-300 z-10 hidden md:flex flex-col ${
             sidebarCollapsed ? 'w-16' : 'w-56'
           }`}
         >
@@ -284,7 +285,7 @@ const ProtectedLayout = () => {
           </div>
         </div>
         
-        {/* Mobile Navigation (only shown on small screens) */}
+        {/* Mobile Navigation - Fixed at bottom */}
         <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 flex justify-around items-center p-3 z-50">
           <Link to="/doctor/" className={`p-2 rounded-lg ${location.pathname === "/doctor/" ? "text-primary-blue" : "text-gray-600"}`}>
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -312,8 +313,8 @@ const ProtectedLayout = () => {
           </button>
         </div>
         
-        {/* Main Content Area */}
-        <div className="flex-1 overflow-auto pb-16 md:pb-0">
+        {/* Main Content Area - With left padding for sidebar and scrollable */}
+        <div className={`flex-1 overflow-auto pb-16 md:pb-0 ${!sidebarCollapsed ? 'md:ml-56' : 'md:ml-16'}`}>
           <Outlet />
         </div>
       </div>

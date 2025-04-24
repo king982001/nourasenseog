@@ -14,17 +14,22 @@ const PatientProfile = () => {
 
   return (
     <div className="container mx-auto px-4 py-5 bg-gray-50 min-h-screen">
-
-      
-      <div className="space-y-6">
-        <DiagnoseIntro />
-        
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <MidParentHeight />
-          <GrowthCharts />
+      <div className="space-y-5">
+        {/* Top section with patient info and mid-parent height card side by side */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+          <div className="lg:col-span-2">
+            <DiagnoseIntro />
+          </div>
+          <div className="lg:col-span-1">
+            <MidParentHeight />
+          </div>
         </div>
         
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Growth Charts */}
+        <GrowthCharts />
+        
+        {/* Calendar and Nutritional Values side by side */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
           <div className="lg:col-span-2">
             <CalenderTableComp />
           </div>
@@ -33,6 +38,7 @@ const PatientProfile = () => {
           </div>
         </div>
         
+        {/* Diet Plan */}
         <DietPlan />
       </div>
     </div>

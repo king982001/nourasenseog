@@ -5,7 +5,7 @@ import {
   useFoodSearch,
   usePatientById,
 } from "src/Hooks/DoctorHooks.js";
-import { X, Loader2 } from "lucide-react";
+import { X, Loader2, Check } from "lucide-react";
 import { useParams } from "react-router-dom";
 import toast from "react-hot-toast";
 
@@ -20,6 +20,7 @@ export const DietPlan = () => {
   const [searchResults, setSearchResults] = useState([]);
   const [selectedItems, setSelectedItems] = useState([]);
   const [dietPlan, setDietPlan] = useState(null);
+  const [selectedSearchItems, setSelectedSearchItems] = useState([]);
   const { mutate: searchFoodItems, isLoading: isSearching } = useFoodSearch();
   const { mutate: createDietPlan, isLoading: isGenerating } =
     useCreateDietPlan();
@@ -65,10 +66,20 @@ export const DietPlan = () => {
     return () => clearTimeout(timer);
   }, [searchQuery, debouncedSearch]);
 
-  const handleSelectItem = (item) => {
-    if (!selectedItems.includes(item)) {
-      setSelectedItems([...selectedItems, item]);
+  const toggleSelectSearchItem = (item) => {
+    setSelectedSearchItems(prevItems => 
+      prevItems.includes(item)
+        ? prevItems.filter(i => i !== item)
+        : [...prevItems, item]
+    );
+  };
+
+  const handleAddSelectedItems = () => {
+    const newItems = selectedSearchItems.filter(item => !selectedItems.includes(item));
+    if (newItems.length > 0) {
+      setSelectedItems([...selectedItems, ...newItems]);
     }
+    setSelectedSearchItems([]);
     setSearchQuery("");
     setSearchResults([]);
   };
@@ -80,10 +91,14 @@ export const DietPlan = () => {
   const handleCreateDietPlan = () => {
     const child_age = calculateAgeInMonths(childData?.date_of_birth);
     const child_gender = childData?.gender.charAt(0).toLowerCase();
+    // Get the logged-in doctor information from localStorage
+    const doctorAccount = JSON.parse(localStorage.getItem("DoctorAccount") || "{}");
+    
     const data = {
       food_choices: selectedItems,
       child_age,
       child_gender,
+      user_id: doctorAccount.id || doctorAccount._id,
     };
 
     toast.promise(
@@ -169,13 +184,26 @@ export const DietPlan = () => {
                 {searchResults.map((item, index) => (
                   <li
                     key={index}
-                    className="px-4 py-2.5 hover:bg-gray-50 cursor-pointer text-sm text-gray-700 transition-colors"
-                    onClick={() => handleSelectItem(item)}
+                    className="px-4 py-2.5 hover:bg-gray-50 cursor-pointer text-sm text-gray-700 transition-colors flex items-center justify-between"
+                    onClick={() => toggleSelectSearchItem(item)}
                   >
-                    {item}
+                    <span>{item}</span>
+                    {selectedSearchItems.includes(item) && (
+                      <Check size={16} className="text-green-500" />
+                    )}
                   </li>
                 ))}
               </ul>
+              {selectedSearchItems.length > 0 && (
+                <div className="p-2 border-t border-gray-100">
+                  <button
+                    onClick={handleAddSelectedItems}
+                    className="w-full py-2 bg-gray-800 text-white text-sm font-medium rounded hover:bg-gray-700 transition-colors"
+                  >
+                    Add Selected Items ({selectedSearchItems.length})
+                  </button>
+                </div>
+              )}
             </div>
           )}
         </div>
