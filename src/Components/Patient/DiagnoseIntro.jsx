@@ -1,92 +1,144 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
-import { useChildrenById, useChildrens } from "src/Hooks/PatientHooks.js";
+import { useChildrenById } from "src/Hooks/PatientHooks.js";
+import { motion } from "motion/react";
+import { FaCalendarAlt, FaStethoscope, FaChild } from "react-icons/fa";
 
 const DiagnoseIntro = () => {
   const { id } = useParams();
-  const { data: patient, isLoading: loading, isError } = useChildrenById(id);
-  const account = JSON.parse(localStorage.getItem("account"));
+  const { data: patientData, isLoading, isError } = useChildrenById(id);
   const navigate = useNavigate();
+  const account = JSON.parse(localStorage.getItem("account")) || {};
+  
   const formattedDate = new Date().toLocaleDateString("en-US", {
     year: "numeric",
     month: "long",
     day: "numeric",
   });
-  const [showDiagnoseModal, setShowDiagnoseModal] = useState(false);
-  const diagnoseRef = useRef(null);
-  const [isVisible, setIsVisible] = useState(false);
 
-  useEffect(() => {
-    if (showDiagnoseModal) {
-      setTimeout(() => setIsVisible(true), 10);
-    } else {
-      setTimeout(() => setIsVisible(false), 300);
-    }
-  });
+  // Helper to get child's name regardless of API format
+  const getChildName = () => {
+    if (!patientData) return "this child";
+    
+    // Handle both API formats (name/surname and firstName/lastName)
+    const firstName = patientData.firstName || patientData.name || "";
+    const lastName = patientData.lastName || patientData.surname || "";
+    
+    return `${firstName} ${lastName}`.trim() || "this child";
+  };
 
-  useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (diagnoseRef.current && !diagnoseRef.current.contains(e.target)) {
-        setShowDiagnoseModal(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
+  // Helper to get parent's name
+  const getParentName = () => {
+    if (!account) return "Parent";
+    
+    return `${account.name || ""} ${account.surname || ""}`.trim() || "Parent";
+  };
 
-  if (loading) {
-    return (
-      <h1 className="flex justify-center items-center w-full h-[100vh] text-lg">
-        <ClipLoader />
-      </h1>
-    );
-  }
-  if (!patient) {
-    return <h1 className="text-center text-lg">Patient not found</h1>;
-  }
-
-  const navigateToDiagnosos = (id) => {
+  const navigateToDiagnose = () => {
     navigate(`/child/diagnose/${id}`);
   };
 
-  return (
-    <div className="px-6 py-3 sm:px-10 sm:py-7 md:px-14 md:py-9">
-      <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-        <div className="flex flex-col gap-2 text-center sm:text-left">
-          <h1 className="font-serif text-2xl lg:text-3xl">
-            Hello{" "}
-            <span className="text-primary-blue">
-              <span>
-                {account.name} {account?.surname}
-              </span>
-            </span>
-          </h1>
-          <p className="text-base sm:text-lg">
-            Welcome to{" "}
-            <span
-              className={"font-medium text-primary-blue"}
-            >{`${patient.name} ${patient.surname}`}</span>{" "}
-            profile
-          </p>
-        </div>
-        <div className="flex flex-col items-center justify-center gap-2">
-          <p className="font-serif text-lg sm:text-xl font-medium">
-            Today: <span>{formattedDate}</span>
-          </p>
-        </div>
-        <div className="flex justify-center">
-          <button
-            className="bg-primary-blue text-white px-10 py-2 text-sm sm:px-12 sm:py-3 sm:text-lg rounded-md hover:bg-primary-blue/95"
-            onClick={() => navigateToDiagnosos(id)}
-          >
-            Diagnose
-          </button>
+  if (isLoading) {
+    return (
+      <div className="bg-white rounded-xl shadow-sm p-8 flex justify-center items-center">
+        <div className="flex flex-col items-center">
+          <ClipLoader size={40} color="#3b82f6" />
+          <p className="mt-4 text-gray-600 font-light">Loading child profile...</p>
         </div>
       </div>
-    </div>
+    );
+  }
+
+  if (isError || !patientData) {
+    return (
+      <div className="bg-white rounded-xl shadow-sm p-8 text-center">
+        <div className="rounded-full bg-red-50 p-4 mx-auto w-16 h-16 flex items-center justify-center mb-4">
+          <FaChild className="text-red-500 text-2xl" />
+        </div>
+        <h2 className="text-xl font-light text-gray-800 mb-2">Child Not Found</h2>
+        <p className="text-gray-600 mb-4">
+          The child profile you're looking for could not be found.
+        </p>
+        <button
+          onClick={() => navigate('/dashboard')}
+          className="px-4 py-2 bg-primary-blue text-white rounded-lg"
+        >
+          Return to Dashboard
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <motion.div 
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4 }}
+      className="bg-white rounded-xl shadow-sm overflow-hidden"
+    >
+      <div className="bg-primary-blue/5 px-6 py-4 border-b border-gray-100">
+        <h2 className="text-xl font-light text-gray-800">Child Profile</h2>
+      </div>
+      
+      <div className="p-6">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+          <div className="space-y-2">
+            <div className="flex items-center">
+              {patientData.gender ? (
+                <div className={`rounded-full w-10 h-10 flex items-center justify-center mr-3 ${
+                  patientData.gender.toLowerCase() === 'male' ? 'bg-blue-50 text-blue-500' : 'bg-pink-50 text-pink-500'
+                }`}>
+                  <FaChild />
+                </div>
+              ) : null}
+              <h1 className="text-2xl font-light">
+                <span className="text-primary-blue font-medium">{getChildName()}</span>
+              </h1>
+            </div>
+            <p className="text-gray-600">
+              Welcome to {getChildName()}'s profile, {getParentName()}
+            </p>
+          </div>
+          
+          <div className="flex items-center gap-6">
+            <div className="flex items-center">
+              <FaCalendarAlt className="text-primary-blue mr-2" />
+              <span className="text-gray-700">{formattedDate}</span>
+            </div>
+            
+            <button
+              onClick={navigateToDiagnose}
+              className="flex items-center bg-primary-blue text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+            >
+              <FaStethoscope className="mr-2" />
+              Diagnose
+            </button>
+          </div>
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6 pt-4 border-t border-gray-100">
+          <div className="bg-blue-50 rounded-lg p-4">
+            <h3 className="text-sm font-medium text-gray-600">Child ID</h3>
+            <p className="text-lg font-light text-primary-blue mt-1">
+              {patientData.customId || "N/A"}
+            </p>
+          </div>
+          <div className="bg-green-50 rounded-lg p-4">
+            <h3 className="text-sm font-medium text-gray-600">Gender</h3>
+            <p className="text-lg font-light text-green-600 mt-1 capitalize">
+              {patientData.gender?.toLowerCase() || "Not specified"}
+            </p>
+          </div>
+          <div className="bg-purple-50 rounded-lg p-4">
+            <h3 className="text-sm font-medium text-gray-600">Date of Birth</h3>
+            <p className="text-lg font-light text-purple-600 mt-1">
+              {patientData.dataOfBirth || patientData.dateOfBirth || "Not specified"}
+            </p>
+          </div>
+        </div>
+      </div>
+    </motion.div>
   );
 };
 

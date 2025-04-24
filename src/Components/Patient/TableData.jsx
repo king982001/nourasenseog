@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
-import Dropdown from "src/assets/Doctor/Dropdown.svg";
 import { useParams } from "react-router-dom";
 import { useReportHistory } from "src/Hooks/DoctorHooks.js";
 import toast from "react-hot-toast";
-import { AiOutlineDownload, AiOutlineShareAlt } from "react-icons/ai";
+import { FaDownload, FaShareAlt, FaFileAlt, FaExclamationTriangle, FaSortAmountDown } from "react-icons/fa";
 import { ClipLoader } from "react-spinners";
+import { motion } from "motion/react";
 
 const TableData = () => {
   const { id } = useParams();
-  const [page, setPage] = useState(1); // Tracks current page
+  const [page, setPage] = useState(1);
+  const [sortOrder, setSortOrder] = useState("Most Recent");
   const {
     data: reports,
-    isLoading: reportsLoading,
+    isLoading,
     error,
     refetch,
   } = useReportHistory(id, page);
@@ -21,129 +22,233 @@ const TableData = () => {
     refetch();
   }, [page, refetch]);
 
+  const formatDate = (dateStr) => {
+    try {
+      const date = new Date(dateStr);
+      return date.toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric'
+      });
+    } catch (e) {
+      return dateStr || 'N/A';
+    }
+  };
+
   const columns = [
     {
       name: "Date",
       selector: (row) => row.date,
+      sortable: true,
+      cell: (row) => <div className="py-2">{formatDate(row.date)}</div>,
     },
     {
       name: "Responsible Doctor",
       selector: (row) => row.assigned_doctor,
+      sortable: true,
+      cell: (row) => (
+        <div className="py-2">
+          {row.assigned_doctor || 'Not assigned'}
+        </div>
+      ),
     },
     {
-      name: "Action",
+      name: "Actions",
       cell: (row) => (
-        <div className="flex gap-4 justify-center">
-          {/* Download Button */}
+        <div className="flex gap-2 justify-center">
           <button
             onClick={() => handleDownload(row.report_link)}
-            className="p-2 rounded-full hover:bg-gray-200 transition-all"
+            className="p-2 text-blue-600 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors"
             title="Download"
           >
-            <AiOutlineDownload className="text-2xl text-blue-600 hover:text-blue-800" />
+            <FaDownload size={16} />
           </button>
-          {/* Share Button */}
           <button
             onClick={() => handleShare(row.report_link)}
-            className="p-2 rounded-full hover:bg-gray-200 transition-all"
+            className="p-2 text-green-600 bg-green-50 rounded-lg hover:bg-green-100 transition-colors"
             title="Share"
           >
-            <AiOutlineShareAlt className="text-2xl text-green-600 hover:text-green-800" />
+            <FaShareAlt size={16} />
           </button>
         </div>
       ),
-      width: "30%",
     },
   ];
 
   const customStyles = {
+    headRow: {
+      style: {
+        backgroundColor: "#f8fafc",
+        border: "none",
+        fontSize: "14px",
+        fontWeight: "500",
+        color: "#374151",
+      },
+    },
     headCells: {
       style: {
-        textAlign: "center !important", // Enforce alignment in headers
-        justifyContent: "center", // Ensures alignment works visually
+        padding: "16px",
+        fontWeight: "500",
+      },
+    },
+    rows: {
+      style: {
+        fontSize: "14px",
+        backgroundColor: "#fff",
+        border: "none",
+        borderBottom: "1px solid #f1f5f9",
+        "&:last-of-type": {
+          borderBottom: "none",
+        },
+        "&:hover": {
+          backgroundColor: "#f8fafc",
+        },
       },
     },
     cells: {
       style: {
-        textAlign: "center !important", // Enforce alignment in cells
-        justifyContent: "center", // Centers content visually
+        padding: "8px 16px",
+      },
+    },
+    pagination: {
+      style: {
+        borderTop: "1px solid #f1f5f9",
+        backgroundColor: "#fff",
+      },
+      pageButtonsStyle: {
+        color: "#3b82f6",
+        fill: "#3b82f6",
+        "&:disabled": {
+          color: "#cbd5e1",
+          fill: "#cbd5e1",
+        },
+        "&:hover:not(:disabled)": {
+          backgroundColor: "#eff6ff",
+        },
+        "&:focus": {
+          outline: "none",
+        },
       },
     },
   };
 
   const handlePageChange = (newPage) => {
-    setPage(newPage); // Update the current page
+    setPage(newPage);
   };
 
   const handleDownload = (report_link) => {
+    if (!report_link) {
+      toast.error("Download link not available");
+      return;
+    }
+    
     const anchor = document.createElement("a");
     anchor.href = report_link;
-    anchor.download = report_link.split("/").pop(); // Use the file name from the link
-    anchor.target = "_blank"; // Optional: Open in a new tab
+    anchor.download = report_link.split("/").pop();
+    anchor.target = "_blank";
     document.body.appendChild(anchor);
     anchor.click();
     document.body.removeChild(anchor);
+    
+    toast.success("Downloading report");
   };
+  
   const handleShare = async (report_link) => {
+    if (!report_link) {
+      toast.error("Share link not available");
+      return;
+    }
+    
     if (navigator.share) {
       try {
         await navigator.share({
-          title: "Report Link",
+          title: "Medical Report",
           url: report_link,
         });
-        console.log("Shared successfully!");
+        toast.success("Report shared successfully");
       } catch (error) {
         console.error("Error sharing:", error);
+        navigator.clipboard.writeText(report_link)
+          .then(() => toast.success("Link copied to clipboard"))
+          .catch(() => toast.error("Failed to copy link"));
       }
     } else {
-      // Fallback: Copy link to clipboard
       navigator.clipboard
         .writeText(report_link)
-        .then(() => toast.success("Link copied to clipboard!"))
-        .catch((error) => console.error("Error copying to clipboard:", error));
+        .then(() => toast.success("Link copied to clipboard"))
+        .catch(() => toast.error("Failed to copy link"));
     }
   };
+  
   return (
-    <div>
-      <h1 className="font-serif text-xl font-semibold text-center">Reports</h1>
-      <div className="justify-end flex mb-2 text-center">
-        <button className="flex gap-2 items-center justify-center text-sm px-2 py-2 border-[1.5px] border-black rounded-md">
-          <span>Most Recent</span>
-          <span>
-            <img className="h-4" src={Dropdown} alt="Dropdown" />
-          </span>
-        </button>
+    <motion.div 
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4 }}
+      className="bg-white rounded-xl shadow-sm overflow-hidden"
+    >
+      <div className="bg-primary-blue/5 px-6 py-4 border-b border-gray-100 flex justify-between items-center">
+        <h2 className="text-xl font-light text-gray-800 flex items-center">
+          <FaFileAlt className="mr-2 text-primary-blue" />
+          Reports
+        </h2>
+        
+        <div className="relative">
+          <button
+            className="flex items-center text-sm px-3 py-1.5 bg-white border border-gray-200 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
+          >
+            <FaSortAmountDown className="mr-2 text-gray-500 text-xs" />
+            {sortOrder}
+          </button>
+        </div>
       </div>
-      {error && (
-        <div className="flex justify-center items-center">
-          You have not generated any reports yet.
-        </div>
-      )}
-      {reportsLoading && (
-        <div className={"flex justify-center items-center text-primary-blue"}>
-          <ClipLoader color={"#002f88"} />
-        </div>
-      )}
-      {!reportsLoading && !error && (
-        <DataTable
-          columns={columns}
-          data={reports?.report_history}
-          pagination
-          paginationServer
-          paginationComponentOptions={{
-            noRowsPerPage: true, // Disable "Rows per page"
-          }}
-          paginationTotalRows={reports?.total_records || 0}
-          paginationPerPage={reports?.page_size || 10}
-          paginationDefaultPage={reports?.current_page || 1}
-          onChangePage={handlePageChange}
-          fixedHeader
-          responsive
-          pointerOnHover
-          customStyles={customStyles}
-        />
-      )}
-    </div>
+      
+      <div className="p-4">
+        {error ? (
+          <div className="flex flex-col items-center justify-center py-12 text-center">
+            <div className="rounded-full bg-yellow-50 p-4 mb-4">
+              <FaExclamationTriangle className="text-yellow-500 text-2xl" />
+            </div>
+            <h3 className="text-lg font-light text-gray-800 mb-2">No Reports Available</h3>
+            <p className="text-gray-600 max-w-md">
+              There are no reports generated for this child yet.
+            </p>
+          </div>
+        ) : isLoading ? (
+          <div className="flex flex-col items-center justify-center py-16">
+            <ClipLoader size={40} color="#3b82f6" />
+            <p className="mt-4 text-gray-600 font-light">Loading reports...</p>
+          </div>
+        ) : reports?.report_history?.length > 0 ? (
+          <DataTable
+            columns={columns}
+            data={reports.report_history}
+            pagination
+            paginationServer
+            paginationComponentOptions={{
+              noRowsPerPage: true,
+            }}
+            paginationTotalRows={reports?.total_records || 0}
+            paginationPerPage={reports?.page_size || 10}
+            paginationDefaultPage={reports?.current_page || 1}
+            onChangePage={handlePageChange}
+            fixedHeader
+            responsive
+            customStyles={customStyles}
+          />
+        ) : (
+          <div className="flex flex-col items-center justify-center py-16 text-center">
+            <div className="rounded-full bg-blue-50 p-4 mb-4">
+              <FaFileAlt className="text-primary-blue text-2xl" />
+            </div>
+            <h3 className="text-lg font-light text-gray-800 mb-2">No Reports Found</h3>
+            <p className="text-gray-600 max-w-md">
+              There are no reports available for this child at the moment.
+            </p>
+          </div>
+        )}
+      </div>
+    </motion.div>
   );
 };
 
