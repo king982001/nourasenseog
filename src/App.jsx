@@ -18,7 +18,6 @@ function App() {
 
   const Layout = () => (
     <>
-      <EmptyHead />
       <Outlet />
     </>
   );

@@ -80,14 +80,26 @@ const LandingPage = () => {
   ];
   return (
     <div className="min-h-screen bg-white">
-      <Hero />
-      <PartnersSection />
+      <section id="hero">
+        <Hero />
+      </section>
+      <section id="partners">
+        <PartnersSection />
+      </section>
       {/* <Features /> */}
       {/* <UseCases /> */}
-      <AnimatedTestimonials testimonials={testimonials} />
-      <AppleCardsCarouselDemo/>
-      <UseCasesAndModules />
-      <Footer />
+      <section id="testimonials">
+        <AnimatedTestimonials testimonials={testimonials} />
+      </section>
+      <section id="solutions">
+        <AppleCardsCarouselDemo/>
+      </section>
+      <section id="platform">
+        <UseCasesAndModules />
+      </section>
+      <section id="support">
+        <Footer />
+      </section>
     </div>
   );
 };
