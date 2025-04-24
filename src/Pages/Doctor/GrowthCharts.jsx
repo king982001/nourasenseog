@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Chart from "src/Components/Doctor/Chart.jsx";
+import { motion } from "motion/react";
 
 export const GrowthCharts = () => {
   const [activeTab, setActiveTab] = useState("hfa");
@@ -17,53 +18,61 @@ export const GrowthCharts = () => {
   };
 
   return (
-    <div className="w-full flex flex-col justify-center items-center px-4 py-6 bg-gray-50">
-      <h1 className="font-serif text-xl font-semibold text-center mb-8">
-        Growth Charts
-      </h1>
-
-      {/* Dropdown for small screens */}
-      <div className="w-full sm:hidden mb-4">
-        <select
-          value={activeTab}
-          onChange={handleDropdownChange}
-          className="w-full py-3 px-4 text-sm font-medium rounded-md bg-gray-100 border border-gray-300 shadow-sm"
-          aria-label="Select growth chart"
-        >
-          {tabs.map((tab) => (
-            <option key={tab.id} value={tab.id}>
-              {tab.label}
-            </option>
-          ))}
-        </select>
+    <div className="bg-white rounded-xl shadow-sm h-full flex flex-col">
+      <div className="p-5 border-b border-gray-100">
+        <h2 className="text-xl font-light text-gray-800">Growth Charts</h2>
       </div>
 
-      {/* Tab buttons for larger screens */}
-      <div className="hidden sm:flex w-full max-w-4xl bg-gray-100/90 p-2 rounded-lg flex-wrap justify-center sm:justify-between mb-4">
-        {tabs.map((tab) => (
-          <button
-            key={tab.id}
-            onClick={() => setActiveTab(tab.id)}
-            className={`w-full sm:w-auto py-3 px-4 text-sm sm:text-base font-medium rounded-md
-              transition-all duration-200 ease-in-out mb-2 sm:mb-0
-              ${
-                activeTab === tab.id
-                  ? "bg-white text-gray-900 shadow-sm"
-                  : "text-gray-600 hover:bg-gray-200/60"
-              }
-            `}
-            role="tab"
-            aria-selected={activeTab === tab.id}
-            aria-controls={`${tab.id}-panel`}
+      <div className="p-4 md:p-6 flex-1 flex flex-col overflow-hidden">
+        {/* Dropdown for small screens */}
+        <div className="md:hidden mb-4">
+          <select
+            value={activeTab}
+            onChange={handleDropdownChange}
+            className="w-full px-3 py-2 text-sm font-light rounded-lg border border-gray-200 focus:outline-none focus:border-gray-300"
+            aria-label="Select growth chart"
           >
-            {tab.label}
-          </button>
-        ))}
-      </div>
+            {tabs.map((tab) => (
+              <option key={tab.id} value={tab.id}>
+                {tab.label}
+              </option>
+            ))}
+          </select>
+        </div>
 
-      {/* Tab content */}
-      <div className="mt-4 w-full">
-        <Chart indicator={activeTab} />
+        {/* Tab buttons for larger screens */}
+        <div className="hidden md:flex md:flex-wrap border-b border-gray-200 mb-5 overflow-x-auto pb-1">
+          {tabs.map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`px-3 md:px-4 py-2 md:py-3 text-sm font-light transition-colors whitespace-nowrap relative flex-shrink-0
+                ${
+                  activeTab === tab.id
+                    ? "text-gray-800"
+                    : "text-gray-500 hover:text-gray-700"
+                }
+              `}
+              role="tab"
+              aria-selected={activeTab === tab.id}
+              aria-controls={`${tab.id}-panel`}
+            >
+              {tab.label}
+              {activeTab === tab.id && (
+                <motion.div
+                  layoutId="activeTab"
+                  className="absolute bottom-0 left-0 right-0 h-0.5 bg-gray-800"
+                  initial={false}
+                />
+              )}
+            </button>
+          ))}
+        </div>
+
+        {/* Tab content */}
+        <div className="mt-4 w-full flex-1 overflow-auto">
+          <Chart indicator={activeTab} />
+        </div>
       </div>
     </div>
   );

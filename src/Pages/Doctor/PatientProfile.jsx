@@ -9,18 +9,30 @@ import MidParentHeight from "src/Components/Doctor/MidParentHeight.jsx";
 
 const PatientProfile = () => {
   useEffect(() => {
-    document.title = "Nourasense - Profile";
+    document.title = "Nourasense - Patient Profile";
   }, []);
 
   return (
-    <div className="diagnose-dashboard min-h-[80vh]">
-      <BackButton display={"flex"} />
-      <div className="diagnose-content">
+    <div className="container mx-auto px-4 py-5 bg-gray-50 min-h-screen">
+
+      
+      <div className="space-y-6">
         <DiagnoseIntro />
-        <MidParentHeight />
-        <GrowthCharts />
-        <CalenderTableComp />
-        <NutritionalValues />
+        
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <MidParentHeight />
+          <GrowthCharts />
+        </div>
+        
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="lg:col-span-2">
+            <CalenderTableComp />
+          </div>
+          <div className="lg:col-span-1">
+            <NutritionalValues />
+          </div>
+        </div>
+        
         <DietPlan />
       </div>
     </div>

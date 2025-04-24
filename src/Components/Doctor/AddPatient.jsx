@@ -5,6 +5,7 @@ import {
   useAddPatientByPatientId,
 } from "src/Hooks/DoctorHooks.js";
 import toast from "react-hot-toast";
+import { motion } from "motion/react";
 
 const AddPatient = ({ closeModal, refetchPatients }) => {
   const [firstName, setFirstName] = useState("");
@@ -20,20 +21,51 @@ const AddPatient = ({ closeModal, refetchPatients }) => {
   const customStyles = {
     control: (base, state) => ({
       ...base,
-      height: "100%",
-      border: "none",
-      boxShadow: state.isFocused ? "none" : base.boxShadow,
+      height: "40px",
+      minHeight: "40px",
+      borderColor: "#e5e7eb",
+      boxShadow: "none",
+      "&:hover": {
+        borderColor: "#d1d5db"
+      },
+      borderRadius: "0.5rem",
+      fontSize: "0.875rem",
+      fontWeight: 300,
     }),
-    menu: (base) => ({ ...base, marginTop: 0, zIndex: 1 }),
+    placeholder: (base) => ({
+      ...base,
+      color: "#9ca3af",
+      fontWeight: 300
+    }),
+    input: (base) => ({
+      ...base,
+      fontWeight: 300
+    }),
+    menu: (base) => ({
+      ...base,
+      marginTop: "4px",
+      borderRadius: "0.5rem",
+      overflow: "hidden",
+      boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
+    }),
     menuList: (base) => ({
       ...base,
-      maxHeight: 150,
-      overflowY: "auto",
-      position: "absolute",
-      width: "100%",
-      backgroundColor: "#fff",
+      maxHeight: "200px",
     }),
-    placeholder: (base) => ({ ...base, color: "#aaa" }),
+    option: (base, state) => ({
+      ...base,
+      backgroundColor: state.isSelected 
+        ? "#f3f4f6" 
+        : state.isFocused 
+          ? "#f9fafb" 
+          : "white",
+      color: "#374151",
+      fontWeight: state.isSelected ? 400 : 300,
+      padding: "8px 12px",
+      "&:active": {
+        backgroundColor: "#f3f4f6"
+      }
+    }),
   };
 
   const dayOptions = [...Array(31).keys()].map((day) => ({
@@ -110,145 +142,156 @@ const AddPatient = ({ closeModal, refetchPatients }) => {
   };
 
   return (
-    <div className="pop-up px-8 bg-white py-4 mx-auto rounded-lg flex flex-col gap-4">
-      <h1 className="font-serif text-xl font-semibold text-center">
-        Add Patient
-      </h1>
-      <div className="flex flex-col gap-5">
-        <div className={"w-full flex gap-2 flex-col"}>
-          <div className="input flex flex-col gap-2">
-            <label className="pl-2" htmlFor="firstname">
-              First Name
+    <div className="bg-white rounded-xl shadow-md max-h-full">
+      <div className="p-5 border-b border-gray-100 flex items-center justify-between">
+        <h2 className="text-xl font-light text-gray-800">Add Patient</h2>
+        <button 
+          className="text-gray-400 hover:text-gray-600"
+          onClick={closeModal}
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+      
+      <div className="p-6 overflow-y-auto max-h-[calc(100vh-200px)]">
+        <div className="space-y-5">
+          {/* Name fields */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label htmlFor="firstname" className="block text-sm text-gray-500 mb-1">
+                First Name
+              </label>
+              <input
+                type="text"
+                id="firstname"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-gray-300 text-sm font-light"
+                placeholder="Enter first name"
+              />
+            </div>
+            <div>
+              <label htmlFor="lastname" className="block text-sm text-gray-500 mb-1">
+                Last Name
+              </label>
+              <input
+                type="text"
+                id="lastname"
+                value={surname}
+                onChange={(e) => setSurname(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-gray-300 text-sm font-light"
+                placeholder="Enter last name"
+              />
+            </div>
+          </div>
+          
+          {/* Gender selection */}
+          <div>
+            <label className="block text-sm text-gray-500 mb-1">Gender</label>
+            <div className="flex space-x-6">
+              <label className="flex items-center cursor-pointer">
+                <input
+                  type="radio"
+                  name="gender"
+                  value="male"
+                  checked={gender === "male"}
+                  onChange={(e) => setGender(e.target.value)}
+                  className="h-4 w-4 text-gray-500 border-gray-300 focus:ring-0"
+                />
+                <span className="ml-2 text-sm font-light text-gray-700">Male</span>
+              </label>
+              <label className="flex items-center cursor-pointer">
+                <input
+                  type="radio"
+                  name="gender"
+                  value="female"
+                  checked={gender === "female"}
+                  onChange={(e) => setGender(e.target.value)}
+                  className="h-4 w-4 text-gray-500 border-gray-300 focus:ring-0"
+                />
+                <span className="ml-2 text-sm font-light text-gray-700">Female</span>
+              </label>
+            </div>
+          </div>
+          
+          {/* Date of birth fields */}
+          <div>
+            <label className="block text-sm text-gray-500 mb-1">Date of Birth</label>
+            <div className="grid grid-cols-3 gap-3">
+              <div>
+                <Select
+                  placeholder="Day"
+                  options={dayOptions}
+                  value={day}
+                  onChange={(option) => setDay(option)}
+                  styles={customStyles}
+                  instanceId="day-select"
+                />
+              </div>
+              <div>
+                <Select
+                  placeholder="Month"
+                  options={monthOptions}
+                  value={month}
+                  onChange={(option) => setMonth(option)}
+                  styles={customStyles}
+                  instanceId="month-select"
+                />
+              </div>
+              <div>
+                <Select
+                  placeholder="Year"
+                  options={yearOptions}
+                  value={year}
+                  onChange={(option) => setYear(option)}
+                  styles={customStyles}
+                  instanceId="year-select"
+                />
+              </div>
+            </div>
+          </div>
+          
+          {/* Divider */}
+          <div className="relative py-4">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-gray-200"></div>
+            </div>
+            <div className="relative flex justify-center">
+              <span className="px-3 bg-white text-sm text-gray-400 font-light">OR</span>
+            </div>
+            <p className="text-center text-sm text-gray-400 font-light mt-2">
+              Use patient ID if patient already has a profile
+            </p>
+          </div>
+          
+          {/* Patient ID field */}
+          <div>
+            <label htmlFor="patientID" className="block text-sm text-gray-500 mb-1">
+              Patient ID
             </label>
             <input
               type="text"
-              value={firstName}
-              name="firstname"
-              id="firstname"
-              className="w-full bg-white border border-[#CBCBCB] !mt-0 rounded-sm lg:rounded-md py-3 outline-none text-lg px-5"
-              onChange={(e) => setFirstName(e.target.value)}
+              id="patientID"
+              value={patientID}
+              onChange={(e) => setPatientID(e.target.value)}
+              className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-gray-300 text-sm font-light"
+              placeholder="Enter patient ID"
             />
           </div>
-          <div className="input flex flex-col gap-2">
-            <label className="pl-2" htmlFor="lastname">
-              Last Name
-            </label>
-            <input
-              type="text"
-              value={surname}
-              name="lastname"
-              id="lastname"
-              className="w-full bg-white border border-[#CBCBCB] !mt-0 rounded-sm lg:rounded-md py-3 outline-none text-lg px-5"
-              onChange={(e) => setSurname(e.target.value)}
-            />
-          </div>
-        </div>
-        <div className="input flex flex-col gap-1">
-          <label className="pl-2 " htmlFor="gender">
-            Gender
-          </label>
-          <div className="flex gap-20 pl-2">
-            <label htmlFor="male" className="flex items-center text-black/70">
-              <input
-                defaultChecked
-                type="radio"
-                value="male"
-                name="gender"
-                id="male"
-                className="border mr-2"
-                onChange={(e) => setGender(e.target.value)}
-              />
-              Male
-            </label>
-            <label htmlFor="female" className="flex items-center text-black/70">
-              <input
-                type="radio"
-                value="female"
-                name="gender"
-                id="female"
-                className="border mr-2"
-                onChange={(e) => setGender(e.target.value)}
-              />
-              Female
-            </label>
-          </div>
-        </div>
-        <div className="input flex flex-col lg:flex-row justify-between gap-2 lg:gap-10">
-          <div className="flex flex-col gap-1.5 w-full">
-            <label className="pl-2" htmlFor="day">
-              Day
-            </label>
-            <Select
-              name="day"
-              id="day"
-              value={day}
-              className="w-full bg-white border border-[#CBCBCB] rounded-md py-1.5 outline-none text-md px-5"
-              onChange={(option) => setDay(option)}
-              options={dayOptions}
-              styles={customStyles}
-              placeholder="Day"
-            />
-          </div>
-          <div className="flex flex-col gap-1.5 w-full">
-            <label className="pl-2" htmlFor="month">
-              Month
-            </label>
-            <Select
-              options={monthOptions}
-              styles={customStyles}
-              placeholder="Month"
-              name="month"
-              value={month}
-              id="month"
-              className="w-full bg-white border border-[#CBCBCB] rounded-md py-1.5 outline-none text-md px-5"
-              onChange={(option) => setMonth(option)}
-            />
-          </div>
-          <div className="flex flex-col gap-1.5 w-full">
-            <label className="pl-2" htmlFor="year">
-              Year
-            </label>
-            <Select
-              options={yearOptions}
-              placeholder="Year"
-              name="year"
-              value={year}
-              id="year"
-              className="w-full bg-white border border-[#CBCBCB] rounded-md py-1.5 outline-none text-md px-5 relative"
-              onChange={(option) => setYear(option)}
-              styles={customStyles}
-            />
-          </div>
-        </div>
-
-        <div className="partition py-1">
-          <h1 className="text-[#7A7A7A] text-center text-sm">OR</h1>
-          <h1 className="text-[#7A7A7A] text-sm text-center">
-            Use patient ID if patient already has a profile
-          </h1>
-        </div>
-
-        <div className="input flex flex-col gap-1.5">
-          <label className="pl-2" htmlFor="patientID">
-            Patient ID
-          </label>
-          <input
-            type="text"
-            value={patientID}
-            name="patientID"
-            id="patientID"
-            className="w-full bg-white border border-[#CBCBCB] rounded-md py-2.5 outline-none text-lg px-5"
-            onChange={(e) => setPatientID(e.target.value)}
-          />
         </div>
       </div>
-      <div>
-        <button
-          className="bg-primary-blue text-white w-full py-4 rounded-md"
-          onClick={handleAddPatient} // Call the function on button click
+      
+      <div className="p-5 border-t border-gray-100">
+        <motion.button
+          whileHover={{ scale: 1.01 }}
+          whileTap={{ scale: 0.99 }}
+          onClick={handleAddPatient}
+          className="w-full py-2.5 bg-gray-800 hover:bg-gray-700 text-white rounded-lg text-sm font-light transition-colors"
         >
           Add Patient
-        </button>
+        </motion.button>
       </div>
     </div>
   );

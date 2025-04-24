@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Routes, Route, Outlet, useNavigate, Link, useLocation } from "react-router-dom";
 import { FiHome, FiHelpCircle, FiLogOut, FiUserPlus } from "react-icons/fi";
 import { motion } from "motion/react";
+import { FaUsers } from "react-icons/fa6";
 
 import Login from "src/Pages/Doctor/Login.jsx";
 import NotFoundPage from "src/Pages/NotFoundPage.jsx";
@@ -15,7 +16,6 @@ import PatientProfile from "src/Pages/Doctor/PatientProfile.jsx";
 import Diagnose from "src/Pages/Doctor/Diagnose.jsx";
 import EmptyHead from "src/Components/EmptyHead.jsx";
 import { GeneralDetails } from "src/Pages/Doctor/GeneralDetails.jsx";
-import { FaCreditCard, FaUsers } from "react-icons/fa6";
 import ManageSubscription from "src/Pages/Doctor/ManageSubscription";
 
 // Custom styles for consistent font usage
@@ -33,6 +33,78 @@ const globalStyles = `
     font-weight: 300;
   }
 `;
+
+// Profile Modal Component
+const ProfileModal = ({ isOpen, onClose, account }) => {
+  if (!isOpen) return null;
+  
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+      <motion.div 
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.95 }}
+        className="bg-white rounded-xl shadow-lg max-w-md w-full max-h-[90vh] overflow-y-auto"
+      >
+        <div className="p-5 border-b border-gray-100 flex justify-between items-center">
+          <h2 className="text-xl font-light text-gray-800">Profile Details</h2>
+          <button onClick={onClose} className="text-gray-400 hover:text-gray-600">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+        
+        <div className="p-5">
+          <div className="flex flex-col items-center mb-6">
+            {account.registration?.selfie_image ? (
+              <img 
+                src={account.registration.selfie_image} 
+                alt="Profile" 
+                className="w-24 h-24 rounded-full object-cover border-2 border-gray-100"
+              />
+            ) : (
+              <div className="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center text-gray-500 text-2xl">
+                {account.name?.charAt(0) || "D"}
+              </div>
+            )}
+            <h3 className="text-xl font-light mt-4">Dr. {account.name} {account.surname}</h3>
+            <p className="text-gray-500 text-sm">{account.email}</p>
+          </div>
+          
+          <div className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <InfoItem label="Phone" value={account.phonenumber} />
+              <InfoItem label="Gender" value={account.gender} />
+              <InfoItem label="Date of Birth" value={account.date_of_birth} />
+              <InfoItem label="Address" value={account.address} />
+            </div>
+            
+            <div className="mt-6 pt-4 border-t border-gray-100">
+              <h4 className="text-lg font-light mb-4">Registration Details</h4>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <InfoItem label="Establishment" value={account.registration?.establishment_name} />
+                <InfoItem label="Registration Number" value={account.registration?.registration_number} />
+                <InfoItem label="Registration Council" value={account.registration?.registration_council} />
+                <InfoItem label="Place of Establishment" value={account.registration?.place_of_establishment} />
+              </div>
+            </div>
+          </div>
+        </div>
+      </motion.div>
+    </div>
+  );
+};
+
+// Helper Component for Profile Info
+const InfoItem = ({ label, value }) => {
+  return (
+    <div>
+      <p className="text-sm text-gray-500">{label}</p>
+      <p className="font-light">{value || "Not provided"}</p>
+    </div>
+  );
+};
 
 // Sidebar Navigation Item
 const SidebarItem = ({ icon, text, to, active, collapsed, onClick }) => {
@@ -83,6 +155,7 @@ const ProtectedLayout = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(true);
+  const [profileModalOpen, setProfileModalOpen] = useState(false);
   const account = JSON.parse(localStorage.getItem("DoctorAccount")) || {};
   
   useEffect(() => {
@@ -108,6 +181,13 @@ const ProtectedLayout = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
+      {/* Profile Modal */}
+      <ProfileModal 
+        isOpen={profileModalOpen} 
+        onClose={() => setProfileModalOpen(false)}
+        account={account}
+      />
+      
       {/* Top Navigation */}
       <div className="w-full py-3 px-4 flex justify-between items-center border-b border-gray-100 bg-white shadow-sm">
         <div className="flex items-center space-x-2">
@@ -115,14 +195,25 @@ const ProtectedLayout = () => {
           <span className="text-primary-blue font-medium text-lg">Nourasense</span>
         </div>
         <div className="flex items-center gap-4">
-          <Link to="/doctor/profile" className="text-gray-600 hover:text-primary-blue flex items-center">
+          <button 
+            onClick={() => setProfileModalOpen(true)} 
+            className="text-gray-600 hover:text-primary-blue flex items-center"
+          >
             <span className="hidden md:inline mr-2 text-sm">
               {account.name ? `Dr. ${account.name} ${account.surname || ''}` : "Profile"}
             </span>
-            <span className="inline-flex items-center justify-center w-8 h-8 bg-gray-100 rounded-full">
-              {account.name ? account.name.charAt(0) : "D"}
-            </span>
-          </Link>
+            {account.registration?.selfie_image ? (
+              <img 
+                src={account.registration.selfie_image} 
+                alt="Profile" 
+                className="w-8 h-8 rounded-full object-cover"
+              />
+            ) : (
+              <span className="inline-flex items-center justify-center w-8 h-8 bg-gray-100 rounded-full">
+                {account.name ? account.name.charAt(0) : "D"}
+              </span>
+            )}
+          </button>
         </div>
       </div>
       
@@ -162,69 +253,11 @@ const ProtectedLayout = () => {
               text="Dashboard"
             />
             <SidebarItem 
-              to="/doctor/patients" 
-              active={location.pathname.includes("/patient")} 
+              to="/doctor/manage-subscription" 
+              active={location.pathname.includes("/manage-subscription")} 
               collapsed={sidebarCollapsed}
-              icon={
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
-                </svg>
-              }
-              text="Patients"
-            />
-            <SidebarItem 
-              to="/doctor/appointments" 
-              active={location.pathname.includes("/appointments")} 
-              collapsed={sidebarCollapsed}
-              icon={
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                </svg>
-              }
-              text="Appointments"
-            />
-            <SidebarItem 
-              to="/doctor/reports" 
-              active={location.pathname.includes("/reports")} 
-              collapsed={sidebarCollapsed}
-              icon={
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                </svg>
-              }
-              text="Reports"
-            />
-            <SidebarItem 
-              to="/doctor/profile" 
-              active={location.pathname.includes("/profile")} 
-              collapsed={sidebarCollapsed}
-              icon={
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                </svg>
-              }
-              text="Profile"
-            />
-            {account.subscriptionId && (
-              <SidebarItem 
-                to="/doctor/manage-subscription" 
-                active={location.pathname.includes("/manage-subscription")} 
-                collapsed={sidebarCollapsed}
-                icon={<FaUsers className="h-5 w-5" />}
-                text="Subscription"
-              />
-            )}
-            <SidebarItem 
-              to="/doctor/settings" 
-              active={location.pathname.includes("/settings")} 
-              collapsed={sidebarCollapsed}
-              icon={
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                </svg>
-              }
-              text="Settings"
+              icon={<FaUsers className="h-5 w-5" />}
+              text="Subscription"
             />
           </div>
           
@@ -258,16 +291,25 @@ const ProtectedLayout = () => {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
             </svg>
           </Link>
-          <Link to="/doctor/patients" className={`p-2 rounded-lg ${location.pathname.includes("/patient") ? "text-primary-blue" : "text-gray-600"}`}>
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
-            </svg>
+          <Link to="/doctor/manage-subscription" className={`p-2 rounded-lg ${location.pathname.includes("/manage-subscription") ? "text-primary-blue" : "text-gray-600"}`}>
+            <FaUsers className="h-6 w-6" />
           </Link>
-          <Link to="/doctor/profile" className={`p-2 rounded-lg ${location.pathname.includes("/profile") ? "text-primary-blue" : "text-gray-600"}`}>
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-            </svg>
-          </Link>
+          <button 
+            onClick={() => setProfileModalOpen(true)} 
+            className={`p-2 rounded-lg text-gray-600`}
+          >
+            {account.registration?.selfie_image ? (
+              <img 
+                src={account.registration.selfie_image} 
+                alt="Profile" 
+                className="w-6 h-6 rounded-full object-cover"
+              />
+            ) : (
+              <span className="inline-flex items-center justify-center w-6 h-6 bg-gray-100 rounded-full text-sm">
+                {account.name ? account.name.charAt(0) : "D"}
+              </span>
+            )}
+          </button>
         </div>
         
         {/* Main Content Area */}
