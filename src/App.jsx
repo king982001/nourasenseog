@@ -24,7 +24,6 @@ function App() {
 
   return (
     <>
-      <NavbarDemo />
       <Routes>
         <Route path={"/"} element={<LandingPage />} />
         <Route path="/doctor/*" element={<DoctorRoutes />} />
