@@ -1,80 +1,37 @@
 import React, { useEffect } from 'react';
+import { useAllPricingPlans } from "src/Hooks/Hooks.js";
+import { useBuySubscription } from "src/Hooks/DoctorHooks";
 
 const Pricing = () => {
-  // Nourasense color palette
- 
-
-  const plans = [
-    {
-      id: "1",
-      name: "Personal Plan",
-      emoji: "👋",
-      tagline: "Perfect for individual practitioners",
-      pricing: {
-        monthly: 1999,
-        yearly: 19990,
-      },
-      features: [
-        "Manage up to 100 patients",
-        "Support for 1 doctor",
-        "Generate 50 reports/month",
-        "Electronic Health Records",
-        "Appointment Scheduling",
-        "Basic Analytics",
-        "Email Support"
-      ],
-      isPrimary: false
-    },
-    {
-      id: "2",
-      name: "Business Plan",
-      emoji: "💪",
-      tagline: "Ideal for growing practices",
-      pricing: {
-        monthly: 4999,
-        yearly: 49990,
-        additionalDoctorCost: 1499,
-      },
-      features: [
-        "Manage up to 500 patients",
-        "Support for 5 doctors",
-        "Generate 200 reports/month",
-        "Advanced Analytics",
-        "Priority Support",
-        "Custom Branding",
-        "Phone Support"
-      ],
-      isPrimary: true
-    },
-    {
-      id: "3",
-      name: "Enterprise Plan",
-      emoji: "🚀",
-      tagline: "For large healthcare organizations",
-      pricing: {
-        monthly: 9999,
-        yearly: 99990,
-        additionalDoctorCost: 999,
-      },
-      features: [
-        "Unlimited patients",
-        "Support for 15+ doctors",
-        "Unlimited reports",
-        "Dedicated Account Manager",
-        "API Access",
-        "On-site Training",
-        "24/7 Priority Support"
-      ],
-      isPrimary: false
-    }
-  ];
-
+  const { data, isLoading, isError } = useAllPricingPlans();
   const [billingCycle, setBillingCycle] = React.useState("monthly");
+  const { mutate: subscribe } = useBuySubscription();
 
   useEffect(() => {
     // Set document title
     document.title = "NouraSense - Pricing Plans";
   }, []);
+
+  if (isLoading) {
+    return (
+      <div className="max-w-7xl mx-auto px-4 py-12 flex justify-center items-center min-h-[400px]">
+        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-500"></div>
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className="max-w-7xl mx-auto px-4 py-12 flex justify-center items-center min-h-[400px]">
+        <div className="text-center">
+          <h3 className="text-xl font-medium text-gray-900 mb-2">
+            Unable to load pricing plans
+          </h3>
+          <p className="text-gray-600">Please try again later</p>
+        </div>
+      </div>
+    );
+  }
 
   const getPriceString = (price) => {
     const formattedPrice = price.toLocaleString();
@@ -86,6 +43,48 @@ const Pricing = () => {
     const savings = billingCycle === "yearly"
       ? (((plan.pricing.monthly * 12 - plan.pricing.yearly) / (plan.pricing.monthly * 12)) * 100).toFixed(0)
       : 0;
+      
+    const handleSubscription = async () => {
+      const doctor = JSON.parse(localStorage.getItem("DoctorAccount"));
+      if (!doctor) {
+        alert("Please login to subscribe to a plan");
+        return;
+      }
+      const isMonthly = billingCycle === "monthly" ? true : false;
+      subscribe(
+        { isMonthly, planId: plan._id },
+        {
+          onSuccess: (data) => {
+            const { order } = data.data;
+            const options = {
+              key: import.meta.env.VITE_RAZORPAY_KEY_ID,
+              amount: order.amount,
+              currency: order.currency,
+              name: "Nourasense",
+              description: "Test Transaction",
+              order_id: order.id,
+              handler: (response) => {
+                alert(
+                  `Payment Successful! Payment ID: ${response.razorpay_payment_id}`
+                );
+              },
+              prefill: {
+                name: "Saleh",
+                email: "salehkhatri29@example.com",
+                contact: "9999999999",
+              },
+              theme: {
+                color: "#3399cc",
+              },
+            };
+            console.log("Opening Razorpay Payment Gateway", options);
+
+            const paymentObject = new window.Razorpay(options);
+            paymentObject.open();
+          },
+        }
+      );
+    };
 
     return (
       <div className="relative h-full">
@@ -95,12 +94,13 @@ const Pricing = () => {
           }`}
         >
           <div className="mb-4">
-            <span className="text-2xl mr-2">{plan.emoji}</span>
             <h3 className="text-xl font-normal mt-3 mb-2 text-gray-800">
-              {plan.name}
+              {plan.name.replace(/([A-Z])/g, " $1").trim()}
             </h3>
             <p className="text-xs text-gray-500 mb-4">
-              {plan.tagline}
+              {plan.tagline || (plan.name === "PersonalPlan" ? "Perfect for individual practitioners" : 
+                plan.name === "BussinessPlan" ? "Ideal for growing practices" : 
+                plan.name === "EnterprisePlan" ? "For large healthcare organizations" : "")}
             </p>
           </div>
 
@@ -120,32 +120,74 @@ const Pricing = () => {
           )}
 
           <button 
+            onClick={handleSubscription}
             className={`w-full py-2.5 px-4 rounded-lg font-medium text-sm transition-colors duration-200 mb-5 ${
               plan.isPrimary 
                 ? 'bg-blue-500 text-white hover:bg-blue-600' 
                 : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
             }`}
           >
-            Get 14 days free trial
+            Get Started Now
           </button>
 
           <div className="text-xs uppercase font-medium text-gray-500 mb-3">
-            BEST FOR FREE
+            KEY FEATURES
           </div>
           
           <div className="flex-grow">
             <ul className="space-y-3">
-              {plan.features.map((feature, index) => (
-                <li key={index} className="flex items-start">
-                  <div className="text-blue-500 mr-2 mt-0.5 flex-shrink-0">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                      <polyline points="22 4 12 14.01 9 11.01"></polyline>
-                    </svg>
-                  </div>
-                  <span className="text-gray-600 text-sm">{feature}</span>
-                </li>
-              ))}
+              <li className="flex items-start">
+                <div className="text-blue-500 mr-2 mt-0.5 flex-shrink-0">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                  </svg>
+                </div>
+                <span className="text-gray-600 text-sm">
+                  Manage up to {plan.features?.patientManagementLimit === -1 ? "unlimited" : plan.features?.patientManagementLimit} patients
+                </span>
+              </li>
+              
+              <li className="flex items-start">
+                <div className="text-blue-500 mr-2 mt-0.5 flex-shrink-0">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                  </svg>
+                </div>
+                <span className="text-gray-600 text-sm">
+                  Support for {plan.doctorsLimit === -1 ? "unlimited" : plan.doctorsLimit} doctors
+                </span>
+              </li>
+              
+              <li className="flex items-start">
+                <div className="text-blue-500 mr-2 mt-0.5 flex-shrink-0">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                  </svg>
+                </div>
+                <span className="text-gray-600 text-sm">
+                  Generate {plan.features?.reportLimitPerMonth === -1 ? "unlimited" : plan.features?.reportLimitPerMonth} reports/month
+                </span>
+              </li>
+              
+              {Object.entries(plan.features || {})
+                .filter(([key, value]) => typeof value === "boolean" && value && 
+                  !["patientManagementLimit", "reportLimitPerMonth"].includes(key))
+                .map(([key], idx) => (
+                  <li key={idx} className="flex items-start">
+                    <div className="text-blue-500 mr-2 mt-0.5 flex-shrink-0">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                      </svg>
+                    </div>
+                    <span className="text-gray-600 text-sm">
+                      {key.replace(/([A-Z])/g, " $1").replace(/^./, (str) => str.toUpperCase())}
+                    </span>
+                  </li>
+                ))}
             </ul>
           </div>
 
@@ -216,8 +258,8 @@ const Pricing = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5 items-stretch mb-14">
-          {plans.map((plan) => (
-            <PricingCard key={plan.id} plan={plan} />
+          {data?.plans?.map((plan, index) => (
+            <PricingCard key={plan._id || index} plan={{...plan, isPrimary: index === 1}} />
           ))}
         </div>
       </div>

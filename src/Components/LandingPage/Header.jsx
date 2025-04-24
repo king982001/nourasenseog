@@ -1,14 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Navbar, NavBody, NavItems, MobileNav, NavbarLogo, NavbarButton, MobileNavHeader, MobileNavToggle, MobileNavMenu } from "../ui/resizable-navbar";
 
 export function NavbarDemo() {
   const navItems = [
-    {
-      name: "Home",
-      link: "#hero",
-    },
     {
       name: "Partners",
       link: "#partners",
@@ -31,11 +27,31 @@ export function NavbarDemo() {
     },
     {
       name: "Support",
-      link: "#support",
+      link: "/support",
     },
   ];
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const handleNavigation = (link) => {
+    console.log(link);
+    if (link.startsWith('#')) {
+      console.log(link);
+      const sectionId = link.substring(1);
+      if (window.location.pathname === '/') {
+        scrollToSection(sectionId);
+      } else {
+        // First, redirect to the homepage
+        const baseUrl = window.location.origin;
+        window.location.href = `${baseUrl}/#${sectionId}`;
+  
+        // After the redirection, scroll to the section on the homepage (handled via useEffect)
+      }
+    } else {
+      window.location.href = link;
+    }
+  };
+  
 
   const scrollToSection = (sectionId) => {
     const element = document.getElementById(sectionId);
@@ -44,19 +60,28 @@ export function NavbarDemo() {
     }
   };
 
+  // Handle scrolling when redirected from another page with a hash
+  useEffect(() => {
+    if (window.location.hash) {
+      const sectionId = window.location.hash.substring(1);
+      setTimeout(() => {
+        const element = document.getElementById(sectionId);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 500); // Give the page some time to load
+    }
+  }, []);
+
   return (
     <div className="relative w-full">
       <Navbar>
         {/* Desktop Navigation */}
         <NavBody>
-          <NavbarLogo />
-          <NavItems items={navItems} onClick={(item) => {
-            if (item.link.startsWith('#')) {
-              scrollToSection(item.link.substring(1));
-            } else {
-              window.location.href = item.link;
-            }
-          }} />
+          <div onClick={() => window.location.href = "/"}>
+            <NavbarLogo />
+          </div>
+          <NavItems items={navItems} onItemClick={(item) => handleNavigation(item.link)} />
           <div className="flex items-center gap-4">
             <NavbarButton variant="secondary">Login</NavbarButton>
             <NavbarButton variant="primary">Book a call</NavbarButton>
@@ -66,7 +91,9 @@ export function NavbarDemo() {
         {/* Mobile Navigation */}
         <MobileNav>
           <MobileNavHeader>
-            <NavbarLogo />
+            <div onClick={() => window.location.href = "/"}>
+              <NavbarLogo />
+            </div>
             <MobileNavToggle
               isOpen={isMobileMenuOpen}
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} />
@@ -79,11 +106,7 @@ export function NavbarDemo() {
                 href={item.link}
                 onClick={(e) => {
                   e.preventDefault();
-                  if (item.link.startsWith('#')) {
-                    scrollToSection(item.link.substring(1));
-                  } else {
-                    window.location.href = item.link;
-                  }
+                  handleNavigation(item.link);
                   setIsMobileMenuOpen(false);
                 }}
                 className="relative text-neutral-600 dark:text-neutral-300">
@@ -107,7 +130,6 @@ export function NavbarDemo() {
           </MobileNavMenu>
         </MobileNav>
       </Navbar>
-      {/* Navbar */}
     </div>
   );
 }

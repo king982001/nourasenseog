@@ -1,14 +1,15 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
   const [emailInput, setEmailInput] = useState('');
 
   const footerNavs = [
-    { href: "#privacy-policy", name: "Privacy" },
-    { href: "#terms", name: "Terms" },
-    { href: "#support", name: "Support" },
-    { href: "#about", name: "About us" }
+    { to: "/privacy-policy", name: "Privacy" },
+    { to: "/t&c", name: "Terms" },
+    { to: "/support", name: "Support" },
+    { to: "/", name: "About us" }
   ];
 
   const socialLinks = [
@@ -83,12 +84,12 @@ const Footer = () => {
             <ul className="space-y-3">
               {footerNavs.map((item, idx) => (
                 <li key={idx}>
-                  <a 
-                    href={item.href} 
+                  <Link 
+                    to={item.to} 
                     className="text-base text-gray-600 hover:text-indigo-600 transition-colors duration-200"
                   >
                     {item.name}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -147,21 +148,21 @@ const Footer = () => {
         {/* Middle section with call-to-action buttons */}
         <div className="mt-12 pt-8 border-t border-gray-200">
           <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-            <a 
-              href="#signup" 
+            <Link 
+              to="/signup" 
               className="inline-flex justify-center items-center px-6 py-3 text-base font-medium text-white bg-indigo-600 rounded-lg shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors duration-200"
             >
               Get Started
-            </a>
-            <a 
-              href="#login" 
+            </Link>
+            <Link 
+              to="/login" 
               className="inline-flex justify-center items-center px-6 py-3 text-base font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors duration-200"
             >
               <span>Sign In</span>
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5 ml-2">
                 <path fillRule="evenodd" d="M2 10a.75.75 0 01.75-.75h12.59l-2.1-1.95a.75.75 0 111.02-1.1l3.5 3.25a.75.75 0 010 1.1l-3.5 3.25a.75.75 0 11-1.02-1.1l2.1-1.95H2.75A.75.75 0 012 10z" clipRule="evenodd" />
               </svg>
-            </a>
+            </Link>
           </div>
         </div>
 
