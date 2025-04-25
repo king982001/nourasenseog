@@ -15,7 +15,7 @@ const Hero = () => {
                 Revolutionize pediatric care with NouraSense's <span className="text-blue-600">AI-powered diagnostics</span> and <span className="text-blue-600">growth analytics</span>
               </h1>
 
-              <div className="flex justify-center mt-8">
+              <div className="flex justify-center mt-8 mb-8">
                 <button
                   onClick={() => setIsModalOpen(true)}
                   className="px-8 py-3 bg-blue-600 text-white rounded-md text-lg hover:bg-blue-700 transition"

@@ -8,7 +8,7 @@ import { NutritionalValues } from "src/Components/Patient/NutritionalValues.jsx"
 
 const PatientProfile = () => {
   const { id } = useParams();
-  
+
   useEffect(() => {
     document.title = "Nourasense - Child Profile";
   }, []);
@@ -24,7 +24,7 @@ const PatientProfile = () => {
           <span>Back to Dashboard</span>
         </Link>
       </div>
-      
+
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -32,7 +32,7 @@ const PatientProfile = () => {
         className="space-y-6"
       >
         <DiagnoseIntro />
-        
+
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
           <div className="lg:col-span-8">
             <motion.div
@@ -43,7 +43,7 @@ const PatientProfile = () => {
               <CalenderTableComp />
             </motion.div>
           </div>
-          
+
           <div className="lg:col-span-4">
             <motion.div
               initial={{ opacity: 0, y: 20 }}

@@ -33,10 +33,10 @@ const globalStyles = `
 // Profile Modal Component
 const ProfileModal = ({ isOpen, onClose, account }) => {
   if (!isOpen) return null;
-  
+
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
@@ -50,13 +50,13 @@ const ProfileModal = ({ isOpen, onClose, account }) => {
             </svg>
           </button>
         </div>
-        
+
         <div className="p-5">
           <div className="flex flex-col items-center mb-6">
             {account.profile_picture ? (
-              <img 
-                src={account.profile_picture} 
-                alt="Profile" 
+              <img
+                src={account.profile_picture}
+                alt="Profile"
                 className="w-24 h-24 rounded-full object-cover border-2 border-gray-100"
               />
             ) : (
@@ -67,7 +67,7 @@ const ProfileModal = ({ isOpen, onClose, account }) => {
             <h3 className="text-xl font-light mt-4">{account.name} {account.surname}</h3>
             <p className="text-gray-500 text-sm">{account.email}</p>
           </div>
-          
+
           <div className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <InfoItem label="Phone" value={account.phonenumber} />
@@ -75,21 +75,27 @@ const ProfileModal = ({ isOpen, onClose, account }) => {
               <InfoItem label="Date of Birth" value={account.date_of_birth} />
               <InfoItem label="Address" value={account.address} />
             </div>
-            
+
             <div className="mt-6 pt-4 border-t border-gray-100">
               <h4 className="text-lg font-light mb-4">Account Actions</h4>
               <div className="flex flex-col space-y-2">
-                <Link 
-                  to="/update-profile" 
+                <Link
+                  to="/update-profile"
                   className="text-primary-blue hover:underline flex items-center"
                 >
                   <FiSettings className="mr-2" /> Update Profile
                 </Link>
-                <Link 
-                  to="/forgot-password" 
+                <Link
+                  to="/change-password"
                   className="text-primary-blue hover:underline flex items-center"
                 >
                   <FiSettings className="mr-2" /> Change Password
+                </Link>
+                <Link
+                  to="/forgot-password"
+                  className="text-primary-blue hover:underline flex items-center"
+                >
+                  <FiHelpCircle className="mr-2" /> Forgot Password
                 </Link>
               </div>
             </div>
@@ -116,11 +122,10 @@ const SidebarItem = ({ icon, text, to, active, collapsed, onClick }) => {
     <Link
       to={to}
       onClick={onClick}
-      className={`flex items-center ${collapsed ? 'justify-center' : 'space-x-3'} py-2 px-3 rounded-lg transition-colors ${
-        active
-          ? "bg-blue-50 text-primary-blue"
-          : "text-gray-600 hover:bg-gray-100"
-      }`}
+      className={`flex items-center ${collapsed ? 'justify-center' : 'space-x-3'} py-2 px-3 rounded-lg transition-colors ${active
+        ? "bg-blue-50 text-primary-blue"
+        : "text-gray-600 hover:bg-gray-100"
+        }`}
     >
       {icon}
       {!collapsed && <span className="font-light truncate">{text}</span>}
@@ -143,18 +148,18 @@ const ProtectedLayout = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(true);
   const [profileModalOpen, setProfileModalOpen] = useState(false);
   const account = JSON.parse(localStorage.getItem("account")) || {};
-  
+
   useEffect(() => {
     // Add Inter font
     const styleElement = document.createElement('style');
     styleElement.innerHTML = globalStyles;
     document.head.appendChild(styleElement);
-    
+
     return () => {
       document.head.removeChild(styleElement);
     };
   }, []);
-  
+
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("account");
@@ -168,12 +173,12 @@ const ProtectedLayout = () => {
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
       {/* Profile Modal */}
-      <ProfileModal 
-        isOpen={profileModalOpen} 
+      <ProfileModal
+        isOpen={profileModalOpen}
         onClose={() => setProfileModalOpen(false)}
         account={account}
       />
-      
+
       {/* Top Navigation - Fixed */}
       <div className="fixed top-0 left-0 right-0 py-3 px-4 flex justify-between items-center border-b border-gray-100 bg-white shadow-sm z-10">
         <div className="flex items-center space-x-2">
@@ -181,17 +186,17 @@ const ProtectedLayout = () => {
           <span className="text-primary-blue font-medium text-lg">Nourasense</span>
         </div>
         <div className="flex items-center gap-4">
-          <button 
-            onClick={() => setProfileModalOpen(true)} 
+          <button
+            onClick={() => setProfileModalOpen(true)}
             className="text-gray-600 hover:text-primary-blue flex items-center"
           >
             <span className="hidden md:inline mr-2 text-sm">
               {account.name ? `${account.name} ${account.surname || ''}` : "Profile"}
             </span>
             {account.profile_picture ? (
-              <img 
-                src={account.profile_picture} 
-                alt="Profile" 
+              <img
+                src={account.profile_picture}
+                alt="Profile"
                 className="w-8 h-8 rounded-full object-cover"
               />
             ) : (
@@ -202,17 +207,16 @@ const ProtectedLayout = () => {
           </button>
         </div>
       </div>
-      
+
       {/* Content container - Add top padding to account for fixed header */}
       <div className="flex flex-1 pt-16 overflow-hidden">
         {/* Sidebar - Fixed */}
-        <div 
-          className={`fixed top-16 left-0 h-[calc(100vh-64px)] border-r border-gray-100 bg-white transition-all duration-300 z-10 hidden md:flex flex-col ${
-            sidebarCollapsed ? 'w-16' : 'w-56'
-          }`}
+        <div
+          className={`fixed top-16 left-0 h-[calc(100vh-64px)] border-r border-gray-100 bg-white transition-all duration-300 z-10 hidden md:flex flex-col ${sidebarCollapsed ? 'w-16' : 'w-56'
+            }`}
         >
           {/* Sidebar Toggle Button */}
-          <button 
+          <button
             onClick={toggleSidebar}
             className="self-end p-2 m-2 rounded-lg text-gray-400 hover:bg-gray-100 hover:text-gray-600"
           >
@@ -226,11 +230,11 @@ const ProtectedLayout = () => {
               </svg>
             )}
           </button>
-          
+
           <div className="flex-1 p-2 space-y-1 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-200">
-            <SidebarItem 
-              to="/dashboard" 
-              active={location.pathname === "/dashboard"} 
+            <SidebarItem
+              to="/dashboard"
+              active={location.pathname === "/dashboard"}
               collapsed={sidebarCollapsed}
               icon={
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -239,12 +243,12 @@ const ProtectedLayout = () => {
               }
               text="Dashboard"
             />
-            
+
           </div>
-          
+
           <div className="p-2 mt-auto border-t border-gray-100">
-            <SidebarItem 
-              to="/" 
+            <SidebarItem
+              to="/"
               active={false}
               collapsed={sidebarCollapsed}
               icon={
@@ -254,7 +258,7 @@ const ProtectedLayout = () => {
               }
               text="Home"
             />
-            <SidebarItem 
+            <SidebarItem
               to="#"
               onClick={handleLogout}
               active={false}
@@ -264,7 +268,7 @@ const ProtectedLayout = () => {
             />
           </div>
         </div>
-        
+
         {/* Mobile Navigation - Fixed at bottom */}
         <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 flex justify-around items-center p-3 z-50">
           <Link to="/dashboard" className={`p-2 rounded-lg ${location.pathname === "/dashboard" ? "text-primary-blue" : "text-gray-600"}`}>
@@ -275,14 +279,14 @@ const ProtectedLayout = () => {
           <Link to="/add-child" className={`p-2 rounded-lg ${location.pathname.includes("/add-child") ? "text-primary-blue" : "text-gray-600"}`}>
             <FaUserPlus className="h-6 w-6" />
           </Link>
-          <button 
-            onClick={() => setProfileModalOpen(true)} 
+          <button
+            onClick={() => setProfileModalOpen(true)}
             className={`p-2 rounded-lg text-gray-600`}
           >
             {account.profile_picture ? (
-              <img 
-                src={account.profile_picture} 
-                alt="Profile" 
+              <img
+                src={account.profile_picture}
+                alt="Profile"
                 className="w-6 h-6 rounded-full object-cover"
               />
             ) : (
@@ -292,7 +296,7 @@ const ProtectedLayout = () => {
             )}
           </button>
         </div>
-        
+
         {/* Main Content Area - With left padding for sidebar and scrollable */}
         <div className={`flex-1 overflow-auto pb-16 md:pb-0 ${!sidebarCollapsed ? 'md:ml-56' : 'md:ml-16'}`}>
           <Outlet />
