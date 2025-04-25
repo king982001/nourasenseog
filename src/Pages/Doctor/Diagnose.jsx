@@ -6,7 +6,39 @@ import {
   useReport,
 } from "src/Hooks/DoctorHooks.js";
 import toast from "react-hot-toast";
-import BackButton from "src/Components/BackButton.jsx";
+import { motion } from "motion/react";
+import { FiActivity, FiArrowLeft, FiDownload, FiFileText, FiMaximize,  FiUser } from "react-icons/fi";
+
+// Loading spinner component
+const LoadingSpinner = () => (
+  <div className="flex items-center justify-center h-screen">
+    <div className="flex flex-col items-center">
+      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-blue"></div>
+      <p className="mt-4 text-gray-600 font-light">Loading patient data...</p>
+    </div>
+  </div>
+);
+
+// Error state component
+const ErrorState = ({ message }) => (
+  <div className="flex flex-col items-center justify-center h-screen p-4">
+    <div className="text-red-500 mb-4">
+      <svg className="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+      </svg>
+    </div>
+    <h2 className="text-2xl font-light mb-2">Something Went Wrong</h2>
+    <p className="text-gray-600 max-w-md text-center">
+      {message || "We encountered an issue while loading patient data. Please try again."}
+    </p>
+    <button 
+      onClick={() => window.location.reload()} 
+      className="mt-6 px-4 py-2 bg-primary-blue text-white rounded-lg hover:bg-blue-700 transition-colors"
+    >
+      Refresh Page
+    </button>
+  </div>
+);
 
 const Diagnose = () => {
   const { id } = useParams();
@@ -32,7 +64,7 @@ const Diagnose = () => {
   );
 
   useEffect(() => {
-    document.title = "Nourasense - Diagnose";
+    document.title = "Nourasense - Patient Diagnosis";
   }, []);
 
   useEffect(() => {
@@ -62,7 +94,7 @@ const Diagnose = () => {
       toast.error("Please enter at least one measurement to proceed.");
       return;
     }
-    const toastId = toast.loading("Please wait...");
+    const toastId = toast.loading("Processing diagnosis...");
     setError(null);
     const data = {
       dob: dobFormatted,
@@ -80,13 +112,13 @@ const Diagnose = () => {
       },
       onSuccess: (response) => {
         setDiagnosisResult(response);
-        toast.success("Diagnose successfully", { id: toastId });
+        toast.success("Diagnosis completed successfully!", { id: toastId });
         setDiagnosisLoading(false);
       },
       onError: (error) => {
         console.log(error);
         setError(`An error occurred during diagnosis`);
-        toast.error("An error occurred during diagnosis.", { id: toastId });
+        toast.error("Diagnosis failed. Please try again.", { id: toastId });
         setDiagnosisLoading(false);
       },
     });
@@ -97,22 +129,39 @@ const Diagnose = () => {
       case 0:
       case 3:
       case -3:
-        return "bg-green-500";
+        return "bg-green-500 text-white";
       case 5:
       case -5:
-        return "bg-yellow-500";
+        return "bg-yellow-500 text-white";
       case 6:
       case -6:
-        return "bg-red-500";
+        return "bg-red-500 text-white";
       default:
-        return "bg-gray-500";
+        return "bg-gray-200 text-gray-700";
+    }
+  };
+
+  const getZoneIcon = (zone) => {
+    switch (zone) {
+      case 0:
+      case 3:
+      case -3:
+        return <FiActivity className="h-4 w-4" />;
+      case 5:
+      case -5:
+        return <FiActivity className="h-4 w-4" />;
+      case 6:
+      case -6:
+        return <FiActivity className="h-4 w-4" />;
+      default:
+        return <FiActivity className="h-4 w-4" />;
     }
   };
 
   const handleGenerateReport = async () => {
     if (!diagnosisResult) return toast.error("Oops! An error occurred.");
     setReportLoading(true);
-    const toastId = toast.loading("Please wait...");
+    const toastId = toast.loading("Generating report...");
     const account = JSON.parse(localStorage.getItem("DoctorAccount"));
     const dob = new Date(patient?.date_of_birth);
     const dobFormatted = `${dob.getFullYear()}-${String(dob.getMonth() + 1).padStart(2, "0")}-${String(dob.getDate()).padStart(2, "0")}`;
@@ -141,239 +190,302 @@ const Diagnose = () => {
         setReportLoading(true);
       },
       onSuccess: (response) => {
-        toast.success("Report generated successfully.", { id: toastId });
+        toast.success("Report generated successfully!", { id: toastId });
         setReportLink(response.report_link);
         setReportLoading(false);
       },
       onError: (error) => {
         console.error("Error generating report:", error);
-        toast.error("An error occurred.", { id: toastId });
+        toast.error("Report generation failed. Please try again.", { id: toastId });
         setReportLoading(false);
       },
     });
   };
 
   if (loading) {
-    return (
-      <div className="flex justify-center items-center min-h-screen bg-gray-50">
-        <div className="flex flex-col items-center justify-center space-y-4">
-          <div className="animate-spin w-10 h-10 border-4 border-t-transparent border-primary-blue rounded-full"></div>
-          <p className="text-gray-600 font-light">Loading patient data...</p>
-        </div>
-      </div>
-    );
+    return <LoadingSpinner />;
+  }
+
+  if (isError) {
+    return <ErrorState />;
   }
 
   return (
-    <div className="bg-gray-50 min-h-screen pb-10">
-      <div className="container mx-auto px-4">
-        
+    <motion.div 
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+      className="min-h-screen bg-gray-50 pb-10"
+    >
+      <div className="max-w-7xl mx-auto px-4 pt-6">
+        {/* Back button */}
+        <button 
+          onClick={() => navigate("/doctor/")}
+          className="flex items-center text-gray-600 hover:text-primary-blue mb-6"
+        >
+          <FiArrowLeft className="mr-2" />
+          <span>Back to Dashboard</span>
+        </button>
         
         {/* Header Section */}
-        <div className="text-center py-6">
-          <h1 className="text-2xl font-light text-gray-800">
-            Hello, Dr. <span className="text-primary-blue font-normal">{doctorName} {surName}</span>
-          </h1>
-          <p className="text-gray-600 mt-1 font-light">
-            Let's diagnose {patient?.name} {patient?.surname}
+        <motion.div 
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.1 }}
+          className="text-center mb-6"
+        >
+          <div className="flex items-center justify-center mb-2">
+            <div className="bg-primary-blue bg-opacity-10 p-3 rounded-full text-primary-blue mr-2">
+              <FiUser className="h-6 w-6" />
+            </div>
+            <h1 className="text-2xl font-light text-gray-800">
+              Diagnose: <span className="text-primary-blue">{patient?.name} {patient?.surname}</span>
+            </h1>
+          </div>
+          <p className="text-gray-500 font-light">
+            Dr. {doctorName} {surName} • {patient?.gender} • Born: {dobFormatted}
           </p>
-        </div>
+        </motion.div>
         
         <div className="max-w-4xl mx-auto">
           {/* Input Card */}
-          <div className="bg-white rounded-xl shadow-sm p-6 mb-6">
-            <h2 className="text-xl font-light text-gray-800 mb-4 text-center">
-              Enter Measurements
-            </h2>
-            <p className="text-sm text-gray-500 text-center mb-6 font-light">
-              Enter at least one anthropometric measurement to proceed
-            </p>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-              {/* Weight */}
-              <div className="space-y-2">
-                <label className="text-sm text-gray-600 font-light" htmlFor="weight">
-                  Weight (kg)
-                </label>
-                <input
-                  type="number"
-                  value={weight}
-                  name="weight"
-                  id="weight"
-                  placeholder="Enter weight in kg"
-                  className="w-full bg-gray-50 border border-gray-200 rounded-lg py-2.5 px-4 focus:outline-none focus:ring-1 focus:ring-primary-blue focus:border-primary-blue font-light"
-                  onChange={(e) => setWeight(e.target.value)}
-                />
-              </div>
-
-              {/* Height */}
-              <div className="space-y-2">
-                <label className="text-sm text-gray-600 font-light" htmlFor="height">
-                  Height (cm)
-                </label>
-                <input
-                  type="number"
-                  value={height}
-                  name="height"
-                  id="height"
-                  placeholder="Enter height in cm"
-                  className="w-full bg-gray-50 border border-gray-200 rounded-lg py-2.5 px-4 focus:outline-none focus:ring-1 focus:ring-primary-blue focus:border-primary-blue font-light"
-                  onChange={(e) => setHeight(e.target.value)}
-                />
-              </div>
-
-              {/* Head Circumference */}
-              <div className="space-y-2 md:col-span-2">
-                <label className="text-sm text-gray-600 font-light" htmlFor="headCircumference">
-                  Head Circumference (cm)
-                </label>
-                <input
-                  type="number"
-                  value={headCircumference}
-                  name="headCircumference"
-                  id="headCircumference"
-                  placeholder="Enter head circumference in cm"
-                  className="w-full bg-gray-50 border border-gray-200 rounded-lg py-2.5 px-4 focus:outline-none focus:ring-1 focus:ring-primary-blue focus:border-primary-blue font-light"
-                  onChange={(e) => setHeadCircumference(e.target.value)}
-                />
-              </div>
+          <motion.div
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.2 }}
+            className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden mb-6"
+          >
+            <div className="p-6 border-b border-gray-100">
+              <h2 className="text-xl font-light text-gray-800">
+                Anthropometric Measurements
+              </h2>
+              <p className="text-gray-500 text-sm mt-1">
+                Enter at least one measurement to generate diagnosis
+              </p>
             </div>
+            
+            <div className="p-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                {/* Weight */}
+                <div className="space-y-2">
+                  <label className="block text-sm font-light text-gray-600">
+                    Weight (kg)
+                  </label>
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-400">
+                      <FiActivity className="h-5 w-5" />
+                    </div>
+                    <input
+                      type="number"
+                      value={weight}
+                      placeholder="Enter weight in kilograms"
+                      className="bg-gray-50 border border-gray-200 text-gray-800 text-sm rounded-lg focus:ring-primary-blue focus:border-primary-blue block w-full pl-10 p-3"
+                      onChange={(e) => setWeight(e.target.value)}
+                    />
+                  </div>
+                </div>
 
-            {/* Diagnose Button */}
-            <div className="mt-6">
+                {/* Height */}
+                <div className="space-y-2">
+                  <label className="block text-sm font-light text-gray-600">
+                    Height (cm)
+                  </label>
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-400">
+                      {/* <FiRuler className="h-5 w-5" /> */}
+                    </div>
+                    <input
+                      type="number"
+                      value={height}
+                      placeholder="Enter height in centimeters"
+                      className="bg-gray-50 border border-gray-200 text-gray-800 text-sm rounded-lg focus:ring-primary-blue focus:border-primary-blue block w-full pl-10 p-3"
+                      onChange={(e) => setHeight(e.target.value)}
+                    />
+                  </div>
+                </div>
+
+                {/* Head Circumference */}
+                <div className="space-y-2 md:col-span-2">
+                  <label className="block text-sm font-light text-gray-600">
+                    Head Circumference (cm)
+                  </label>
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-400">
+                      <FiMaximize className="h-5 w-5" />
+                    </div>
+                    <input
+                      type="number"
+                      value={headCircumference}
+                      placeholder="Enter head circumference in centimeters"
+                      className="bg-gray-50 border border-gray-200 text-gray-800 text-sm rounded-lg focus:ring-primary-blue focus:border-primary-blue block w-full pl-10 p-3"
+                      onChange={(e) => setHeadCircumference(e.target.value)}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Diagnose Button */}
               <button
-                className="bg-primary-blue text-white w-full py-3 rounded-lg font-light hover:bg-blue-600 transition-colors"
+                className="w-full py-3 bg-primary-blue text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
                 onClick={handleDiagnose}
                 disabled={diagnosisLoading}
               >
                 {diagnosisLoading ? (
                   <div className="flex justify-center items-center gap-2">
-                    <span className="animate-spin w-5 h-5 border-2 border-white border-t-transparent rounded-full"></span>
-                    <span>Diagnosing...</span>
+                    <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    <span>Processing Diagnosis...</span>
                   </div>
                 ) : (
-                  "Diagnose"
+                  <div className="flex justify-center items-center gap-2">
+                    <FiFileText className="h-5 w-5" />
+                    <span>Generate Diagnosis</span>
+                  </div>
                 )}
               </button>
-              {error && <p className="text-red-500 mt-3 text-center">{error}</p>}
+              {error && <p className="text-red-500 mt-3 text-center text-sm">{error}</p>}
             </div>
-          </div>
+          </motion.div>
 
           {/* Results Card */}
           {diagnosisResult && (
-            <div className="bg-white rounded-xl shadow-sm p-6">
-              <h2 className="text-xl font-light text-gray-800 mb-5 text-center">
-                Diagnosis Results
-              </h2>
-
-              <div className="space-y-8">
-                {/* Z-scores */}
-                <div className="bg-gray-50 rounded-lg p-5">
-                  <h3 className="text-md font-normal text-gray-700 mb-4">
-                    Z-scores
-                  </h3>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    {Object.entries(diagnosisResult.zscores).map(
-                      ([key, value]) => (
-                        <div
-                          key={key}
-                          className="flex items-center gap-3"
-                        >
-                          <span
-                            className={`${getZoneStyle(diagnosisResult.zones[key])} h-3 w-3 rounded-full flex-shrink-0`}
-                          ></span>
-                          <span className="text-gray-600 font-light text-sm whitespace-nowrap">
-                            {key.replace(/_/g, " ").toUpperCase()}:
-                          </span>
-                          <span className="bg-white py-1 px-3 rounded-full text-sm font-normal ml-auto">
-                            {value > 0 ? `+${value}` : value}
-                          </span>
-                        </div>
-                      )
-                    )}
-                  </div>
-                </div>
-
-                {/* Measurements & Diagnoses */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                  {/* Measurements */}
-                  <div className="bg-gray-50 rounded-lg p-5">
-                    <h3 className="text-md font-normal text-gray-700 mb-4">
-                      Measurements
-                    </h3>
-                    <div className="space-y-3">
-                      {Object.entries(diagnosisResult.measurements).map(
-                        ([key, value]) => (
-                          <div key={key} className="flex justify-between items-center">
-                            <span className="text-gray-600 font-light text-sm">
-                              {key.replace(/_/g, " ").toUpperCase()}:
-                            </span>
-                            <span className="font-normal text-sm">{value}</span>
-                          </div>
-                        )
-                      )}
-                    </div>
-                  </div>
-
-                  {/* Diagnoses */}
-                  <div className="bg-gray-50 rounded-lg p-5">
-                    <h3 className="text-md font-normal text-gray-700 mb-4">
-                      Diagnoses
-                    </h3>
-                    <div className="space-y-3">
-                      {Object.entries(diagnosisResult.diagnoses).map(
-                        ([key, value]) => (
-                          <div key={key} className="flex flex-col">
-                            <span className="text-gray-600 font-light text-sm">
-                              {key.replace(/_/g, " ").toUpperCase()}:
-                            </span>
-                            <span className="font-normal text-sm mt-1">{value}</span>
-                          </div>
-                        )
-                      )}
-                    </div>
-                  </div>
-                </div>
-
-                {/* Generate Report Button */}
-                <button
-                  className="bg-primary-blue text-white w-full py-3 rounded-lg font-light hover:bg-blue-600 transition-colors"
-                  onClick={handleGenerateReport}
-                  disabled={reportLoading}
-                  id={"diagnosisBtn"}
-                >
-                  {reportLoading ? (
-                    <div className="flex justify-center items-center gap-2">
-                      <span className="animate-spin w-5 h-5 border-2 border-white border-t-transparent rounded-full"></span>
-                      <span>Generating Report...</span>
-                    </div>
-                  ) : (
-                    "Generate Report"
-                  )}
-                </button>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden"
+            >
+              <div className="p-6 border-b border-gray-100">
+                <h2 className="text-xl font-light text-gray-800 flex items-center">
+                  <FiFileText className="mr-2 text-primary-blue" />
+                  Diagnosis Results
+                </h2>
+                <p className="text-gray-500 text-sm mt-1">
+                  Assessment based on provided measurements
+                </p>
               </div>
-            </div>
+
+              <div className="p-6">
+                <div className="space-y-6">
+                  {/* Z-scores */}
+                  <div className="bg-gray-50 rounded-lg p-5 border border-gray-100">
+                    <h3 className="text-lg font-light text-gray-800 mb-4 pb-2 border-b border-gray-100">
+                      Z-scores
+                    </h3>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      {Object.entries(diagnosisResult.zscores).map(
+                        ([key, value]) => (
+                          <div
+                            key={key}
+                            className="flex items-center gap-3"
+                          >
+                            <div className={`${getZoneStyle(diagnosisResult.zones[key])} p-2 rounded-lg flex items-center justify-center`}>
+                              {getZoneIcon(diagnosisResult.zones[key])}
+                            </div>
+                            <span className="text-gray-700 font-light">
+                              {key.replace(/_/g, " ").replace(/\b\w/g, l => l.toUpperCase())}
+                            </span>
+                            <span className="bg-white py-1 px-3 rounded-full text-sm font-medium ml-auto shadow-sm">
+                              {value > 0 ? `+${value}` : value}
+                            </span>
+                          </div>
+                        )
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Measurements & Diagnoses */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    {/* Measurements */}
+                    <div className="bg-gray-50 rounded-lg p-5 border border-gray-100">
+                      <h3 className="text-lg font-light text-gray-800 mb-4 pb-2 border-b border-gray-100">
+                        Measurements
+                      </h3>
+                      <div className="space-y-3">
+                        {Object.entries(diagnosisResult.measurements).map(
+                          ([key, value]) => (
+                            <div key={key} className="flex justify-between items-center">
+                              <span className="text-gray-700 font-light">
+                                {key.replace(/_/g, " ").replace(/\b\w/g, l => l.toUpperCase())}
+                              </span>
+                              <span className="font-medium">{value}</span>
+                            </div>
+                          )
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Diagnoses */}
+                    <div className="bg-gray-50 rounded-lg p-5 border border-gray-100">
+                      <h3 className="text-lg font-light text-gray-800 mb-4 pb-2 border-b border-gray-100">
+                        Diagnoses
+                      </h3>
+                      <div className="space-y-4">
+                        {Object.entries(diagnosisResult.diagnoses).map(
+                          ([key, value]) => (
+                            <div key={key} className="flex flex-col">
+                              <span className="text-gray-700 font-medium">
+                                {key.replace(/_/g, " ").replace(/\b\w/g, l => l.toUpperCase())}
+                              </span>
+                              <span className="text-gray-600 mt-1">{value}</span>
+                            </div>
+                          )
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Generate Report Button */}
+                  <button
+                    className="w-full py-3 bg-primary-blue text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                    onClick={handleGenerateReport}
+                    disabled={reportLoading}
+                    id={"diagnosisBtn"}
+                  >
+                    {reportLoading ? (
+                      <>
+                        <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        <span>Generating Report...</span>
+                      </>
+                    ) : (
+                      <>
+                        <FiFileText className="h-5 w-5" />
+                        <span>Generate PDF Report</span>
+                      </>
+                    )}
+                  </button>
+                </div>
+              </div>
+            </motion.div>
           )}
 
           {/* Report Download */}
           {reportLink && (
-            <div className="mt-5">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3, delay: 0.1 }}
+              className="mt-5"
+            >
               <a
                 href={reportLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-green-500 text-white w-full py-3 rounded-lg flex justify-center items-center font-light hover:bg-green-400 transition-colors"
+                className="bg-green-500 text-white w-full py-3 rounded-lg flex justify-center items-center hover:bg-green-600 transition-colors"
               >
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                  <path fillRule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clipRule="evenodd" />
-                </svg>
-                Download Report
+                <FiDownload className="h-5 w-5 mr-2" />
+                <span>Download PDF Report</span>
               </a>
-            </div>
+            </motion.div>
           )}
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

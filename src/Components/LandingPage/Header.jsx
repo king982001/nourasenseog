@@ -561,7 +561,7 @@ export function NavbarDemo() {
             {navItems.map((item, idx) => (
               <a
                 key={`mobile-link-${idx}`}
-                href={item.link}
+                href={item.link}t
                 onClick={(e) => {
                   e.preventDefault();
                   handleNavigation(item.link);
