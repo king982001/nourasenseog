@@ -1,30 +1,60 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { motion } from "motion/react";
 
 const Introduction = () => {
-  const account = JSON.parse(localStorage.getItem("account"));
-  const navigate = useNavigate();
-  const handleProfile = () => {
-    navigate("/updateProfile");
-  };
-
+  const account = JSON.parse(localStorage.getItem("account")) || {};
+  
   return (
-    <div className="px-4 md:px-14 py-6 flex flex-col md:flex-row items-start md:items-center justify-between mt-8 gap-3 md:gap-0">
-      {/* Greeting Section */}
-      <div className="flex flex-col gap-2">
-        <h1 className="font-serif text-2xl lg:text-3xl">
-          Hello{" "}
-          <span className="text-primary-blue">
-            <span>
-              {account.name} {account?.surname}
-            </span>
-          </span>
-        </h1>
-        <p className="text-sm md:text-lg">
-          Here is your dashboard starting with a list of all your childs
-        </p>
+    <motion.div 
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4 }}
+      className="bg-white rounded-xl p-6 mb-6 shadow-sm"
+    >
+      <div className="flex items-center space-x-4">
+        {account.profile_picture ? (
+          <img 
+            src={account.profile_picture} 
+            alt="Profile" 
+            className="w-14 h-14 rounded-full object-cover border-2 border-gray-100"
+          />
+        ) : (
+          <div className="w-14 h-14 rounded-full bg-blue-50 flex items-center justify-center text-primary-blue text-xl font-light border border-blue-100">
+            {account.name ? account.name.charAt(0).toUpperCase() : "P"}
+          </div>
+        )}
+        
+        <div>
+          <h2 className="text-lg font-light text-gray-700">
+            Welcome back, <span className="text-primary-blue font-normal">{account.name} {account.surname}</span>
+          </h2>
+          <p className="text-sm text-gray-500 mt-1">
+            Here's an overview of your children's health information
+          </p>
+        </div>
       </div>
-    </div>
+      
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6 pt-4 border-t border-gray-100">
+        <div className="bg-blue-50 rounded-lg p-4">
+          <h3 className="text-sm font-medium text-gray-600">Children</h3>
+          <p className="text-2xl font-light text-primary-blue mt-1">
+            {account.children_count || 0}
+          </p>
+        </div>
+        <div className="bg-green-50 rounded-lg p-4">
+          <h3 className="text-sm font-medium text-gray-600">Recent Diagnoses</h3>
+          <p className="text-2xl font-light text-green-600 mt-1">
+            {account.recent_diagnoses || 0}
+          </p>
+        </div>
+        <div className="bg-purple-50 rounded-lg p-4">
+          <h3 className="text-sm font-medium text-gray-600">Last Activity</h3>
+          <p className="text-sm text-purple-600 mt-1">
+            {account.last_activity_date || "No recent activity"}
+          </p>
+        </div>
+      </div>
+    </motion.div>
   );
 };
 
