@@ -1,33 +1,16 @@
 import React from 'react';
 
 const UseCasesAndModules = () => {
-  // Sample data
-  const useCases = [
-    {
-      title: "Growth monitoring",
-      subtitle: "Easy measurement tracking",
-      description: "Guide parents and pediatricians to track child growth measurements accurately and consistently over time"
-    },
-    {
-      title: "Pre-visit data collection",
-      subtitle: "Streamline appointments",
-      description: "Collect relevant growth data before telehealth or in-person consultations"
-    },
-    {
-      title: "Healthcare professional dashboard",
-      subtitle: "Comprehensive analysis",
-      description: "Optimize growth analysis efficiency and decision-making for pediatricians and healthcare providers"
-    }
-  ];
+
 
   const platformModules = [
     {
-      title: "Growth Tracking",
-      description: "Integrates into websites, apps, portals, and call centers for measurement input, growth chart analysis, condition insights, and patient education."
+      title: "Growth Charts",
+      description: "View percentile plots and analyze metrics like height-for-age, weight-for-age, and BMI instantly."
     },
     {
       title: "Analytics Dashboard",
-      description: "Gather measurements, risk factors, history, and demographics pre-visit to reduce admin tasks and increase physician-patient time."
+      description: "Doctors get a real-time snapshot of child growth data, segment anomalies, and generate reports."
     }
   ];
 
@@ -40,8 +23,8 @@ const UseCasesAndModules = () => {
         <div className="max-w-6xl mx-auto px-4">
           <div className="text-center mb-16">
             <span className="text-[#4544DF] font-medium mb-2 block">TECHNOLOGY</span>
-            <h2 className="text-3xl font-medium text-gray-900">Platform modules</h2>
-            <p className="text-gray-600 mt-4 max-w-3xl mx-auto">Our comprehensive suite of tools provides everything you need for effective child growth monitoring and analysis.</p>
+            <h2 className="text-3xl font-medium text-gray-900">Technology That Cares</h2>
+            <p className="text-gray-600 mt-4 max-w-3xl mx-auto">One comprehensive solution for both parents and professionals.</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
@@ -53,7 +36,7 @@ const UseCasesAndModules = () => {
                     {index === 0 ? (
                       <div className="w-full h-full flex flex-col">
                         <div className="bg-gray-100 p-2 text-center text-sm font-medium text-gray-600">
-                          Growth Chart
+                          Growth Charts
                         </div>
                         <div className="flex-1 p-4 flex flex-col justify-between">
                           <div className="w-full h-24 bg-[#EBE9FF] rounded mb-2 p-2">
@@ -90,7 +73,7 @@ const UseCasesAndModules = () => {
                     ) : (
                       <div className="w-full h-full flex flex-col">
                         <div className="bg-gray-100 p-2 text-center text-sm font-medium text-gray-600">
-                          Analysis Dashboard
+                          Analytics Dashboard
                         </div>
                         <div className="flex-1 p-4">
                           <div className="grid grid-cols-2 gap-2 mb-3">

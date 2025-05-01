@@ -12,16 +12,19 @@ const Hero = () => {
           titleComponent={
             <>
               <h1 className="text-4xl sm:text-5xl font-normal leading-tight mb-6">
-                Revolutionize pediatric care with NouraSense's <span className="text-blue-600">AI-powered diagnostics</span> and <span className="text-blue-600">growth analytics</span>
+                Revolutionize pediatric care with Nourasense's <span className="text-blue-600">AI-powered diagnostics</span> and <span className="text-blue-600">growth analytics</span>
               </h1>
 
-              <div className="flex justify-center mt-8 mb-8">
+              <div className="flex flex-col items-center gap-4 mt-8 mb-8">
                 <button
                   onClick={() => setIsModalOpen(true)}
                   className="px-8 py-3 bg-blue-600 text-white rounded-md text-lg hover:bg-blue-700 transition"
                 >
-                  Start free trial
+                  Start Free Trial
                 </button>
+                <p className="text-gray-600 text-lg">
+                  Nourasense for every parent, everywhere.
+                </p>
               </div>
             </>
           }>

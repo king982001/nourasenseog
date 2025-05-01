@@ -6,6 +6,8 @@ import { AnimatedTestimonials } from 'src/Components/ui/animated-testimonials';
 import { AppleCardsCarouselDemo } from 'src/Components/LandingPage/Cards';
 import { NavbarDemo } from 'src/Components/LandingPage/Header';
 import Footer from 'src/Components/LandingPage/Footer';
+import Workflow from 'src/Components/LandingPage/Workflow';
+import CTA from 'src/Components/LandingPage/CTA';
 // Add custom styles for the entire app
 const globalStyles = `
   /* Import Google Fonts */
@@ -98,6 +100,12 @@ const LandingPage = () => {
       </section>
       <section id="platform">
         <UseCasesAndModules />
+      </section>
+      <section id="workflow">
+        <Workflow />
+      </section>
+      <section id="cta">
+        <CTA />
       </section>
       <section id="support">
         <Footer />
