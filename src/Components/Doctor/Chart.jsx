@@ -71,20 +71,16 @@ export const Chart = ({ indicator = "wfh" }) => {
   useEffect(() => {
     if (childMeasurements && childMeasurements[indicator]) {
       const formattedChildData = childMeasurements[indicator].map((item) => {
-        const xKey = indicator === "wfh" ? "height" : "month";
+        const xKey = "month";
         const yKey =
           indicator === "hfa"
             ? "height"
             : indicator === "wfa"
               ? "weight"
-              : indicator === "hcfa"
-                ? "head_circumference"
-                : indicator === "bmi"
-                  ? "bmi"
-                  : "weight";
+              : "bmi";
 
         return {
-          [indicator === "wfh" ? "Length" : "Month"]: item[xKey],
+          Month: item[xKey],
           y: item[yKey],
         };
       });
@@ -102,21 +98,13 @@ export const Chart = ({ indicator = "wfh" }) => {
         setYAxisLabel("Weight (kg)");
         setXAxisLabel("Age (months)");
         break;
-      case "wfh":
-        setYAxisLabel("Weight (kg)");
-        setXAxisLabel("Height (cm)");
-        break;
       case "bmi":
-        setYAxisLabel("BMI");
-        setXAxisLabel("Age (months)");
-        break;
-      case "hcfa":
-        setYAxisLabel("Head Circumference (cm)");
+        setYAxisLabel("BMI (kg/m²)");
         setXAxisLabel("Age (months)");
         break;
       default:
-        setYAxisLabel("Value");
-        setXAxisLabel("Measurement");
+        setYAxisLabel("Height (cm)");
+        setXAxisLabel("Age (months)");
     }
   };
 
@@ -256,12 +244,19 @@ export const Chart = ({ indicator = "wfh" }) => {
                 fontSize: `${chartDimensions.fontSize}px`,
                 boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)",
               }}
-              formatter={(value, name, props) => [
-                <span className="font-medium">
-                  {`${value.toFixed(2)} ${yAxisLabel.split(" ")[1]?.replace("(", "")?.replace(")", "")}`}
-                </span>,
-                <span className="text-gray-600">{name}</span>,
-              ]}
+              formatter={(value, name, props) => {
+                const unit = indicator === "bmi" 
+                  ? "kg/m²" 
+                  : indicator === "hcfa" 
+                    ? "cm" 
+                    : yAxisLabel.split(" ")[1]?.replace("(", "")?.replace(")", "");
+                return [
+                  <span className="font-medium">
+                    {`${value.toFixed(2)} ${unit}`}
+                  </span>,
+                  <span className="text-gray-600">{name}</span>,
+                ];
+              }}
               labelFormatter={(label) => (
                 <span className="font-medium text-gray-800">
                   {`${xAxisLabel.split(" ")[0]}: ${label}`}
