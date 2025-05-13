@@ -6,16 +6,14 @@ import { motion } from "motion/react";
 
 // Custom styles for consistent font usage
 const globalStyles = `
-  /* Import Google Fonts */
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500&display=swap');
-  
   /* Custom styles */
   body {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Poppins', sans-serif;
     font-weight: 300;
   }
   
   h1, h2, h3, h4, h5, h6 {
+    font-family: 'Ledger', serif;
     font-weight: 300;
   }
 `;

@@ -115,7 +115,7 @@ const Login = () => {
                 id="email"
                 type="email"
                 name="email"
-                placeholder="doctor@example.com"
+                placeholder="email@example.com"
                 onChange={changeHandler}
                 required
                 className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-blue focus:border-transparent"
@@ -154,7 +154,7 @@ const Login = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-2.5 bg-primary-blue text-white rounded-lg font-medium hover:bg-blue-800 transition-colors 
+              className="w-full py-2.5 bg-primary-blue text-white rounded-lg font-medium hover:bg-secondary-blue transition-colors 
               disabled:opacity-70 disabled:cursor-not-allowed"
             >
               {loading ? (

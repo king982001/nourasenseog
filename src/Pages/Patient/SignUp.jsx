@@ -146,7 +146,7 @@ const SignUp = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full py-2.5 bg-primary-blue text-white rounded-lg font-medium hover:bg-blue-800 transition-colors 
+                className="w-full py-2.5 bg-primary-blue text-white rounded-lg font-medium hover:bg-secondary-blue transition-colors 
                 disabled:opacity-70 disabled:cursor-not-allowed"
               >
                 {loading ? (
@@ -180,7 +180,7 @@ const SignUp = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full py-2.5 bg-primary-blue text-white rounded-lg font-medium hover:bg-blue-800 transition-colors 
+                className="w-full py-2.5 bg-primary-blue text-white rounded-lg font-medium hover:bg-secondary-blue transition-colors 
                 disabled:opacity-70 disabled:cursor-not-allowed"
               >
                 {loading ? (

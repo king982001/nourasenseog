@@ -149,10 +149,10 @@ const SignUp = () => {
               <div>
                 <label htmlFor="email" className="block text-sm font-light text-gray-600 mb-1">Email</label>
                 <input
-                  type="email"
-                  placeholder="doctor@example.com"
                   id="email"
+                  type="email"
                   name="email"
+                  placeholder="email@example.com"
                   value={formData.email}
                   onChange={handleChange}
                   required
@@ -162,8 +162,8 @@ const SignUp = () => {
               <div>
                 <label htmlFor="password" className="block text-sm font-light text-gray-600 mb-1">Password</label>
                 <input
-                  type="password"
                   id="password"
+                  type="password"
                   name="password"
                   placeholder="••••••••"
                   value={formData.password}
@@ -174,7 +174,7 @@ const SignUp = () => {
               </div>
               <button
                 type="submit"
-                className="w-full py-2.5 bg-primary-blue text-white rounded-lg font-medium hover:bg-blue-800 transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
+                className="w-full py-2.5 bg-primary-blue text-white rounded-lg font-medium hover:bg-secondary-blue transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
                 disabled={isLoadingSignUp}
               >
                 {isLoadingSignUp ? (
@@ -209,7 +209,7 @@ const SignUp = () => {
               </div>
               <button
                 type="submit"
-                className="w-full py-2.5 bg-primary-blue text-white rounded-lg font-medium hover:bg-blue-800 transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
+                className="w-full py-2.5 bg-primary-blue text-white rounded-lg font-medium hover:bg-secondary-blue transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
                 disabled={isLoadingVerifyOtp}
               >
                 {isLoadingVerifyOtp ? (

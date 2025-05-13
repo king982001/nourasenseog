@@ -150,13 +150,13 @@ const Footer = () => {
           <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
             <Link 
               to="/signup" 
-              className="inline-flex justify-center items-center px-6 py-3 text-base font-medium text-white bg-indigo-600 rounded-lg shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors duration-200"
+              className="inline-flex justify-center items-center px-6 py-3 text-base font-medium text-white bg-primary-blue rounded-lg shadow-sm hover:bg-secondary-blue focus:outline-none focus:ring-2 focus:ring-primary-blue focus:ring-offset-2 transition-colors duration-200"
             >
               Get Started
             </Link>
             <Link 
               to="/login" 
-              className="inline-flex justify-center items-center px-6 py-3 text-base font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors duration-200"
+              className="inline-flex justify-center items-center px-6 py-3 text-base font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-primary-blue focus:ring-offset-2 transition-colors duration-200"
             >
               <span>Sign In</span>
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5 ml-2">
@@ -175,7 +175,7 @@ const Footer = () => {
               target="_blank"
               rel="noopener noreferrer"
               aria-label={item.label}
-              className="text-gray-400 hover:text-indigo-600 transition-colors duration-200"
+              className="text-gray-400 hover:text-primary-blue transition-colors duration-200"
             >
               {item.icon}
             </a>

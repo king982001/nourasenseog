@@ -62,29 +62,40 @@ export const Chart = ({ indicator = "wfh" }) => {
 
   useEffect(() => {
     if (rawData && rawData[indicator]) {
+      console.log('Reference Data for', indicator, ':', rawData[indicator]);
       setChartData(rawData[indicator]);
       updateAxisLabels(indicator);
+    } else {
+      console.log('No reference data found for', indicator);
     }
   }, [rawData, indicator]);
 
   // Data processing for childMeasurements
   useEffect(() => {
     if (childMeasurements && childMeasurements[indicator]) {
+      console.log('Child Measurements for', indicator, ':', childMeasurements[indicator]);
       const formattedChildData = childMeasurements[indicator].map((item) => {
-        const xKey = "month";
-        const yKey =
-          indicator === "hfa"
-            ? "height"
-            : indicator === "wfa"
-              ? "weight"
-              : "bmi";
+        const xKey = indicator === "wfh" ? "height" : "month";
+        const yKey = indicator === "hfa" 
+          ? "height" 
+          : indicator === "wfa" 
+            ? "weight" 
+            : indicator === "bmi"
+              ? "bmi"
+              : indicator === "hca"
+                ? "head_circumference"
+                : "weight";
 
-        return {
-          Month: item[xKey],
+        const formattedPoint = {
+          [indicator === "wfh" ? "Length" : "Month"]: item[xKey],
           y: item[yKey],
         };
+        console.log('Formatted point:', formattedPoint);
+        return formattedPoint;
       });
       setChildData(formattedChildData);
+    } else {
+      console.log('No child measurements found for', indicator);
     }
   }, [childMeasurements, indicator]);
 
@@ -101,6 +112,14 @@ export const Chart = ({ indicator = "wfh" }) => {
       case "bmi":
         setYAxisLabel("BMI (kg/m²)");
         setXAxisLabel("Age (months)");
+        break;
+      case "hca":
+        setYAxisLabel("Head Circumference (cm)");
+        setXAxisLabel("Age (months)");
+        break;
+      case "wfh":
+        setYAxisLabel("Weight (kg)");
+        setXAxisLabel("Height (cm)");
         break;
       default:
         setYAxisLabel("Height (cm)");

@@ -9,6 +9,8 @@ export const GrowthCharts = () => {
     { id: "hfa", label: "Height for age" },
     { id: "wfa", label: "Weight for age" },
     { id: "bmi", label: "BMI for age" },
+    { id: "hca", label: "Head circumference for age" },
+    { id: "wfh", label: "Weight for height" },
   ];
 
   const handleDropdownChange = (event) => {

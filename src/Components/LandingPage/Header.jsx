@@ -50,6 +50,9 @@ export function NavbarDemo() {
   const doctorProfileDropdownRef = useRef(null);
   const patientProfileDropdownRef = useRef(null);
   const unifiedDropdownRef = useRef(null);
+  const [isSignupDropdownOpen, setIsSignupDropdownOpen] = useState(false);
+  const signupDropdownRef = useRef(null);
+  const signupDropdownTimeoutRef = useRef(null);
 
   // Check if users are logged in on component mount
   useEffect(() => {
@@ -90,6 +93,11 @@ export function NavbarDemo() {
       // Check if click is outside unified dropdown
       if (unifiedDropdownRef.current && !unifiedDropdownRef.current.contains(event.target)) {
         setIsUnifiedDropdownOpen(false);
+      }
+      
+      // Check if click is outside signup dropdown
+      if (signupDropdownRef.current && !signupDropdownRef.current.contains(event.target)) {
+        setIsSignupDropdownOpen(false);
       }
     };
 
@@ -242,6 +250,9 @@ export function NavbarDemo() {
       if (unifiedDropdownTimeoutRef.current) {
         clearTimeout(unifiedDropdownTimeoutRef.current);
       }
+      if (signupDropdownTimeoutRef.current) {
+        clearTimeout(signupDropdownTimeoutRef.current);
+      }
     };
   }, []);
 
@@ -284,6 +295,26 @@ export function NavbarDemo() {
     setIsLoginDropdownOpen(!isLoginDropdownOpen);
     setIsDoctorProfileDropdownOpen(false);
     setIsPatientProfileDropdownOpen(false);
+  };
+
+  // Signup dropdown handlers
+  const handleSignupDropdownOpen = () => {
+    if (signupDropdownTimeoutRef.current) {
+      clearTimeout(signupDropdownTimeoutRef.current);
+      signupDropdownTimeoutRef.current = null;
+    }
+    setIsSignupDropdownOpen(true);
+  };
+
+  const handleSignupDropdownClose = () => {
+    signupDropdownTimeoutRef.current = setTimeout(() => {
+      setIsSignupDropdownOpen(false);
+    }, 200);
+  };
+
+  const toggleSignupDropdown = (e) => {
+    e.stopPropagation();
+    setIsSignupDropdownOpen(!isSignupDropdownOpen);
   };
 
   return (
@@ -470,77 +501,92 @@ export function NavbarDemo() {
 
             {/* Show login dropdown if no accounts are logged in */}
             {(!doctorLoggedIn && !patientLoggedIn) && (
-              <div 
-                className="relative z-10"
-                onMouseEnter={handleLoginDropdownOpen}
-                onMouseLeave={handleLoginDropdownClose}
-                ref={loginDropdownRef}
-              >
-                <NavbarButton 
-                  variant="secondary"
-                  onClick={toggleLoginDropdown}
+              <div className="flex items-center gap-4">
+                {/* Login Button with Dropdown */}
+                <div 
+                  className="relative z-10"
+                  onMouseEnter={handleLoginDropdownOpen}
+                  onMouseLeave={handleLoginDropdownClose}
+                  ref={loginDropdownRef}
                 >
-                  Login
-                </NavbarButton>
-                
-                {/* No-gap hover bridge */}
-                <div className="absolute left-0 w-full h-4 -bottom-4 bg-transparent"></div>
-                
-                {isLoginDropdownOpen && (
-                  <div 
-                    className="absolute right-0 top-full mt-1 w-56 rounded-md shadow-lg bg-white dark:bg-neutral-800 ring-1 ring-black ring-opacity-5 z-20"
-                    onMouseEnter={handleLoginDropdownOpen}
-                    onMouseLeave={handleLoginDropdownClose}
+                  <NavbarButton 
+                    variant="secondary"
+                    onClick={toggleLoginDropdown}
                   >
-                    <div className="py-2" role="menu" aria-orientation="vertical">
-                      {/* Doctor Section */}
-                      <div className="px-4 py-2 text-base font-medium text-neutral-900 dark:text-white border-b border-neutral-200 dark:border-neutral-700">
-                        Doctor
+                    Login
+                  </NavbarButton>
+                  
+                  {/* No-gap hover bridge */}
+                  <div className="absolute left-0 w-full h-4 -bottom-4 bg-transparent"></div>
+                  
+                  {isLoginDropdownOpen && (
+                    <div 
+                      className="absolute right-0 top-full mt-1 w-48 rounded-md shadow-lg bg-white dark:bg-neutral-800 ring-1 ring-black ring-opacity-5 z-20"
+                      onMouseEnter={handleLoginDropdownOpen}
+                      onMouseLeave={handleLoginDropdownClose}
+                    >
+                      <div className="py-2" role="menu" aria-orientation="vertical">
+                        <button
+                          onClick={() => handleLoginOption('doctor-login')}
+                          className="block w-full text-left px-4 py-2 text-sm text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-700"
+                          role="menuitem"
+                        >
+                          Login as Doctor
+                        </button>
+                        <button
+                          onClick={() => handleLoginOption('parent-login')}
+                          className="block w-full text-left px-4 py-2 text-sm text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-700"
+                          role="menuitem"
+                        >
+                          Login as Parent
+                        </button>
                       </div>
-                      <button
-                        onClick={() => handleLoginOption('doctor-login')}
-                        className="block w-full text-left px-6 py-2 text-sm text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-700"
-                        role="menuitem"
-                      >
-                        <div className="flex items-center">
-                          Login
-                        </div>
-                      </button>
-                      <button
-                        onClick={() => handleLoginOption('doctor-signup')}
-                        className="block w-full text-left px-6 py-2 text-sm text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-700"
-                        role="menuitem"
-                      >
-                        <div className="flex items-center">
-                          Sign Up
-                        </div>
-                      </button>
-                      
-                      {/* Parent Section */}
-                      <div className="px-4 py-2 text-base font-medium text-neutral-900 dark:text-white border-b border-neutral-200 dark:border-neutral-700 mt-2">
-                        Parent
-                      </div>
-                      <button
-                        onClick={() => handleLoginOption('parent-login')}
-                        className="block w-full text-left px-6 py-2 text-sm text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-700"
-                        role="menuitem"
-                      >
-                        <div className="flex items-center">
-                          Login
-                        </div>
-                      </button>
-                      <button
-                        onClick={() => handleLoginOption('parent-signup')}
-                        className="block w-full text-left px-6 py-2 text-sm text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-700"
-                        role="menuitem"
-                      >
-                        <div className="flex items-center">
-                          Sign Up
-                        </div>
-                      </button>
                     </div>
-                  </div>
-                )}
+                  )}
+                </div>
+
+                {/* Sign Up Button with Dropdown */}
+                <div 
+                  className="relative z-10"
+                  onMouseEnter={handleSignupDropdownOpen}
+                  onMouseLeave={handleSignupDropdownClose}
+                  ref={signupDropdownRef}
+                >
+                  <NavbarButton 
+                    variant="primary"
+                    onClick={toggleSignupDropdown}
+                  >
+                    Sign Up
+                  </NavbarButton>
+                  
+                  {/* No-gap hover bridge */}
+                  <div className="absolute left-0 w-full h-4 -bottom-4 bg-transparent"></div>
+                  
+                  {isSignupDropdownOpen && (
+                    <div 
+                      className="absolute right-0 top-full mt-1 w-48 rounded-md shadow-lg bg-white dark:bg-neutral-800 ring-1 ring-black ring-opacity-5 z-20"
+                      onMouseEnter={handleSignupDropdownOpen}
+                      onMouseLeave={handleSignupDropdownClose}
+                    >
+                      <div className="py-2" role="menu" aria-orientation="vertical">
+                        <button
+                          onClick={() => handleLoginOption('doctor-signup')}
+                          className="block w-full text-left px-4 py-2 text-sm text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-700"
+                          role="menuitem"
+                        >
+                          Sign Up as Doctor
+                        </button>
+                        <button
+                          onClick={() => handleLoginOption('parent-signup')}
+                          className="block w-full text-left px-4 py-2 text-sm text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-700"
+                          role="menuitem"
+                        >
+                          Sign Up as Parent
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
               </div>
             )}
           </div>
