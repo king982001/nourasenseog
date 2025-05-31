@@ -254,32 +254,10 @@ const AddPatient = ({ closeModal, refetchPatients }) => {
           </div>
           
           {/* Divider */}
-          <div className="relative py-4">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-200"></div>
-            </div>
-            <div className="relative flex justify-center">
-              <span className="px-3 bg-white text-sm text-gray-400 font-light">OR</span>
-            </div>
-            <p className="text-center text-sm text-gray-400 font-light mt-2">
-              Use patient ID if patient already has a profile
-            </p>
-          </div>
+        
           
           {/* Patient ID field */}
-          <div>
-            <label htmlFor="patientID" className="block text-sm text-gray-500 mb-1">
-              Patient ID
-            </label>
-            <input
-              type="text"
-              id="patientID"
-              value={patientID}
-              onChange={(e) => setPatientID(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-gray-300 text-sm font-light"
-              placeholder="Enter patient ID"
-            />
-          </div>
+        
         </div>
       </div>
       
