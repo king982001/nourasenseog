@@ -3,6 +3,7 @@ import { Routes, Route, Outlet, useNavigate, Link, useLocation } from "react-rou
 import { FiHome, FiHelpCircle, FiLogOut, FiUserPlus } from "react-icons/fi";
 import { motion } from "motion/react";
 import { FaUsers } from "react-icons/fa6";
+import { GiNutrionalData } from "react-icons/gi";
 
 import Login from "src/Pages/Doctor/Login.jsx";
 import NotFoundPage from "src/Pages/NotFoundPage.jsx";
@@ -17,6 +18,7 @@ import Diagnose from "src/Pages/Doctor/Diagnose.jsx";
 import EmptyHead from "src/Components/EmptyHead.jsx";
 import { GeneralDetails } from "src/Pages/Doctor/GeneralDetails.jsx";
 import ManageSubscription from "src/Pages/Doctor/ManageSubscription";
+import { NutritionalValues } from "src/Components/Doctor/NutritionalValues";
 
 // Custom styles for consistent font usage
 const globalStyles = `
@@ -260,6 +262,13 @@ const ProtectedLayout = () => {
               icon={<FaUsers className="h-5 w-5" />}
               text="Subscription"
             />
+            <SidebarItem 
+              to="/doctor/nutritional-values" 
+              active={location.pathname.includes("/nutritional-values")} 
+              collapsed={sidebarCollapsed}
+              icon={<GiNutrionalData className="h-5 w-5" />}
+              text="Nutritional Values"
+            />
           </div>
           
           <div className="p-2 mt-auto border-t border-gray-100">
@@ -294,6 +303,9 @@ const ProtectedLayout = () => {
           </Link>
           <Link to="/doctor/manage-subscription" className={`p-2 rounded-lg ${location.pathname.includes("/manage-subscription") ? "text-primary-blue" : "text-gray-600"}`}>
             <FaUsers className="h-6 w-6" />
+          </Link>
+          <Link to="/doctor/nutritional-values" className={`p-2 rounded-lg ${location.pathname.includes("/nutritional-values") ? "text-primary-blue" : "text-gray-600"}`}>
+            <GiNutrionalData className="h-6 w-6" />
           </Link>
           <button 
             onClick={() => setProfileModalOpen(true)} 
@@ -344,6 +356,7 @@ const DoctorRoutes = () => (
       <Route path="/patient/:id" element={<PatientProfile />} />
       <Route path="/diagnose/:id" element={<Diagnose />} />
       <Route path="/manage-subscription" element={<ManageSubscription />} />
+      <Route path="/nutritional-values" element={<NutritionalValues />} />
     </Route>
     <Route path="*" element={<NotFoundPage />} />
   </Routes>

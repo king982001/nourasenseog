@@ -31,6 +31,12 @@ const AddPatient = ({ closeModal, refetchPatients }) => {
       borderRadius: "0.5rem",
       fontSize: "0.875rem",
       fontWeight: 300,
+      cursor: "pointer",
+      "@media (max-width: 768px)": {
+        fontSize: "1rem",
+        height: "44px",
+        minHeight: "44px",
+      }
     }),
     placeholder: (base) => ({
       ...base,
@@ -43,14 +49,24 @@ const AddPatient = ({ closeModal, refetchPatients }) => {
     }),
     menu: (base) => ({
       ...base,
+      position: "absolute",
+      width: "100%",
       marginTop: "4px",
       borderRadius: "0.5rem",
-      overflow: "hidden",
       boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
+      zIndex: 999,
+      backgroundColor: "white",
+      "@media (max-width: 768px)": {
+        fontSize: "1rem"
+      }
     }),
     menuList: (base) => ({
       ...base,
-      maxHeight: "200px",
+      maxHeight: "250px",
+      padding: "4px",
+      "@media (max-width: 768px)": {
+        maxHeight: "300px"
+      }
     }),
     option: (base, state) => ({
       ...base,
@@ -64,8 +80,27 @@ const AddPatient = ({ closeModal, refetchPatients }) => {
       padding: "8px 12px",
       "&:active": {
         backgroundColor: "#f3f4f6"
+      },
+      cursor: "pointer",
+      borderRadius: "0.375rem"
+    }),
+    dropdownIndicator: (base, state) => ({
+      ...base,
+      transition: "all .2s ease",
+      transform: state.selectProps.menuIsOpen ? "rotate(180deg)" : null,
+      padding: "8px",
+      color: "#6b7280",
+      "&:hover": {
+        color: "#374151"
       }
     }),
+    indicatorSeparator: () => ({
+      display: "none"
+    }),
+    valueContainer: (base) => ({
+      ...base,
+      padding: "2px 8px"
+    })
   };
 
   const dayOptions = [...Array(31).keys()].map((day) => ({
@@ -142,7 +177,7 @@ const AddPatient = ({ closeModal, refetchPatients }) => {
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-md max-h-full">
+    <div className="bg-white rounded-xl shadow-md">
       <div className="p-5 border-b border-gray-100 flex items-center justify-between">
         <h2 className="text-xl font-light text-gray-800">Add Patient</h2>
         <button 
@@ -155,7 +190,7 @@ const AddPatient = ({ closeModal, refetchPatients }) => {
         </button>
       </div>
       
-      <div className="p-6 overflow-y-auto max-h-[calc(100vh-200px)]">
+      <div className="p-6">
         <div className="space-y-5">
           {/* Name fields */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -217,7 +252,7 @@ const AddPatient = ({ closeModal, refetchPatients }) => {
           </div>
           
           {/* Date of birth fields */}
-          <div>
+          <div className="relative">
             <label className="block text-sm text-gray-500 mb-1">Date of Birth</label>
             <div className="grid grid-cols-3 gap-3">
               <div>
@@ -252,12 +287,6 @@ const AddPatient = ({ closeModal, refetchPatients }) => {
               </div>
             </div>
           </div>
-          
-          {/* Divider */}
-        
-          
-          {/* Patient ID field */}
-        
         </div>
       </div>
       
