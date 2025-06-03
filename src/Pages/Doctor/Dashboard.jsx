@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Introduction from "src/Components/Doctor/Introduction.jsx";
 import PatientList from "src/Components/Doctor/PatientList.jsx";
 import CalendarComp from "src/Components/Doctor/CalenderComp.jsx";
+import DiagnosisModal from "src/Components/Doctor/DiagnosisModal.jsx";
 import { motion } from "motion/react";
 
 // Custom styles for consistent font usage
@@ -40,6 +41,8 @@ const StatCard = ({ title, value, icon }) => {
 
 const Dashboard = () => {
   const [loading, setLoading] = useState(true);
+  const [showDiagnosisModal, setShowDiagnosisModal] = useState(false);
+  const [selectedPatient, setSelectedPatient] = useState(null);
   const account = JSON.parse(localStorage.getItem("DoctorAccount")) || {};
   
   useEffect(() => {
@@ -67,6 +70,11 @@ const Dashboard = () => {
     appointmentsToday: 3,
     pendingReports: 7,
     completedDiagnoses: 42
+  };
+
+  const handleStartDiagnosis = (patient) => {
+    setSelectedPatient(patient);
+    setShowDiagnosisModal(true);
   };
 
   if (loading) {
@@ -151,7 +159,7 @@ const Dashboard = () => {
               <p className="text-sm text-gray-500 mt-1">Manage and monitor your patients</p>
             </div>
             <div className="p-4">
-              <PatientList />
+              <PatientList onStartDiagnosis={handleStartDiagnosis} />
             </div>
           </div>
         </motion.div>
@@ -165,6 +173,16 @@ const Dashboard = () => {
           <CalendarComp />
         </motion.div>
       </div>
+
+      {/* Diagnosis Modal */}
+      <DiagnosisModal
+        isOpen={showDiagnosisModal}
+        onClose={() => {
+          setShowDiagnosisModal(false);
+          setSelectedPatient(null);
+        }}
+        patient={selectedPatient}
+      />
     </div>
   );
 };

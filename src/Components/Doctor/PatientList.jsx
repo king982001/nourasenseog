@@ -11,7 +11,7 @@ import AddPatient from "./AddPatient.jsx";
 import CreateAppointmentModal from "./CreateAppointmentModal.jsx";
 import { motion } from "motion/react";
 
-const PatientList = () => {
+const PatientList = ({ onStartDiagnosis }) => {
   const navigate = useNavigate();
   const [page, setPage] = useState(1);
   const {
@@ -142,6 +142,17 @@ const PatientList = () => {
             }}
             aria-label="View Patient"
             title="View Patient"
+          >
+            <FaUserAlt size={16} />
+          </button>
+          <button
+            className="text-gray-500 hover:text-gray-700 p-2 rounded-full transition-colors"
+            onClick={(e) => {
+              e.stopPropagation();
+              onStartDiagnosis(row);
+            }}
+            aria-label="Start Diagnosis"
+            title="Start Diagnosis"
           >
             <FaStethoscope size={16} />
           </button>

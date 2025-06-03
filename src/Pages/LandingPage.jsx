@@ -92,9 +92,9 @@ const LandingPage = () => {
       </section>
       {/* <Features /> */}
       {/* <UseCases /> */}
-      <section id="testimonials">
+      {/* <section id="testimonials">
         <AnimatedTestimonials testimonials={testimonials} />
-      </section>
+      </section> */}
       <section id="solutions">
         <AppleCardsCarouselDemo/>
       </section>
