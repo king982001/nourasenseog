@@ -3,8 +3,8 @@ import { Routes, Route, Outlet, useNavigate, Link, useLocation } from "react-rou
 import { FiHome, FiHelpCircle, FiLogOut, FiUserPlus } from "react-icons/fi";
 import { motion } from "motion/react";
 import { FaUsers } from "react-icons/fa6";
-import { GiNutrionalData } from "react-icons/gi";
-
+// import { GiNutrionalData } from "react-icons/gi";
+import { FaApple } from "react-icons/fa";
 import Login from "src/Pages/Doctor/Login.jsx";
 import NotFoundPage from "src/Pages/NotFoundPage.jsx";
 import SignUp from "src/Pages/Doctor/SignUp.jsx";
@@ -38,57 +38,76 @@ const globalStyles = `
 
 // Profile Modal Component
 const ProfileModal = ({ isOpen, onClose, account }) => {
+  useEffect(() => {
+    if (isOpen) {
+      // Prevent body scroll when modal is open
+      document.body.style.overflow = 'hidden';
+    } else {
+      // Restore body scroll when modal is closed
+      document.body.style.overflow = 'unset';
+    }
+    
+    // Cleanup function to restore scroll on unmount
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isOpen]);
+
   if (!isOpen) return null;
   
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+    <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-2 sm:p-4">
       <motion.div 
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
-        className="bg-white rounded-xl shadow-lg max-w-md w-full max-h-[90vh] overflow-y-auto"
+        className="bg-white rounded-xl shadow-lg w-full max-w-sm sm:max-w-md max-h-[95vh] sm:max-h-[90vh] flex flex-col mx-2"
       >
-        <div className="p-5 border-b border-gray-100 flex justify-between items-center">
-          <h2 className="text-xl font-light text-gray-800">Profile Details</h2>
-          <button onClick={onClose} className="text-gray-400 hover:text-gray-600">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        {/* Fixed Header */}
+        <div className="p-3 sm:p-5 border-b border-gray-100 flex justify-between items-center flex-shrink-0">
+          <h2 className="text-lg sm:text-xl font-light text-gray-800">Profile Details</h2>
+          <button onClick={onClose} className="text-gray-400 hover:text-gray-600 p-1">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 sm:h-6 sm:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
         </div>
         
-        <div className="p-5">
-          <div className="flex flex-col items-center mb-6">
-            {account.registration?.selfie_image ? (
-              <img 
-                src={account.registration.selfie_image} 
-                alt="Profile" 
-                className="w-24 h-24 rounded-full object-cover border-2 border-gray-100"
-              />
-            ) : (
-              <div className="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center text-gray-500 text-2xl">
-                {account.name?.charAt(0) || "D"}
-              </div>
-            )}
-            <h3 className="text-xl font-light mt-4">Dr. {account.name} {account.surname}</h3>
-            <p className="text-gray-500 text-sm">{account.email}</p>
-          </div>
-          
-          <div className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <InfoItem label="Phone" value={account.phonenumber} />
-              <InfoItem label="Gender" value={account.gender} />
-              <InfoItem label="Date of Birth" value={account.date_of_birth} />
-              <InfoItem label="Address" value={account.address} />
+        {/* Scrollable Content */}
+        <div className="flex-1 overflow-y-auto">
+          <div className="p-3 sm:p-5">
+            <div className="flex flex-col items-center mb-4 sm:mb-6">
+              {account.registration?.selfie_image ? (
+                <img 
+                  src={account.registration.selfie_image} 
+                  alt="Profile" 
+                  className="w-20 h-20 sm:w-24 sm:h-24 rounded-full object-cover border-2 border-gray-100"
+                />
+              ) : (
+                <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-gray-200 flex items-center justify-center text-gray-500 text-xl sm:text-2xl">
+                  {account.name?.charAt(0) || "D"}
+                </div>
+              )}
+              <h3 className="text-lg sm:text-xl font-light mt-3 sm:mt-4 text-center">Dr. {account.name} {account.surname}</h3>
+              <p className="text-gray-500 text-xs sm:text-sm text-center">{account.email}</p>
             </div>
             
-            <div className="mt-6 pt-4 border-t border-gray-100">
-              <h4 className="text-lg font-light mb-4">Registration Details</h4>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <InfoItem label="Establishment" value={account.registration?.establishment_name} />
-                <InfoItem label="Registration Number" value={account.registration?.registration_number} />
-                <InfoItem label="Registration Council" value={account.registration?.registration_council} />
-                <InfoItem label="Place of Establishment" value={account.registration?.place_of_establishment} />
+            <div className="space-y-3 sm:space-y-4">
+              <div className="grid grid-cols-1 gap-3 sm:gap-4">
+                <InfoItem label="Phone" value={account.phonenumber} />
+                <InfoItem label="Gender" value={account.gender} />
+                <InfoItem label="Date of Birth" value={account.date_of_birth} />
+                <InfoItem label="Address" value={account.address} />
+              </div>
+              
+              <div className="mt-4 sm:mt-6 pt-3 sm:pt-4 border-t border-gray-100">
+                <h4 className="text-base sm:text-lg font-light mb-3 sm:mb-4">Registration Details</h4>
+                <div className="grid grid-cols-1 gap-3 sm:gap-4">
+                  <InfoItem label="Establishment" value={account.registration?.establishment_name} />
+                  <InfoItem label="Registration Number" value={account.registration?.registration_number} />
+                  <InfoItem label="Registration Council" value={account.registration?.registration_council} />
+                  <InfoItem label="Place of Establishment" value={account.registration?.place_of_establishment} />
+                </div>
               </div>
             </div>
           </div>
@@ -266,7 +285,7 @@ const ProtectedLayout = () => {
               to="/doctor/nutritional-values" 
               active={location.pathname.includes("/nutritional-values")} 
               collapsed={sidebarCollapsed}
-              icon={<GiNutrionalData className="h-5 w-5" />}
+              icon={<FaApple className="h-5 w-5" />}
               text="Nutritional Values"
             />
           </div>
@@ -305,7 +324,7 @@ const ProtectedLayout = () => {
             <FaUsers className="h-6 w-6" />
           </Link>
           <Link to="/doctor/nutritional-values" className={`p-2 rounded-lg ${location.pathname.includes("/nutritional-values") ? "text-primary-blue" : "text-gray-600"}`}>
-            <GiNutrionalData className="h-6 w-6" />
+            <FaApple className="h-6 w-6" />
           </Link>
           <button 
             onClick={() => setProfileModalOpen(true)} 

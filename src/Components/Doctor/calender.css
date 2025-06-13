@@ -10,6 +10,11 @@
 .react-calendar__navigation__label {
   font-family: 'Ledger', serif;
   @apply text-lg text-gray-800 font-light;
+  font-weight: normal !important;
+}
+
+.react-calendar__navigation__label__labelText {
+  font-weight: normal !important;
 }
 
 .react-calendar__navigation__arrow {

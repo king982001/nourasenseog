@@ -63,12 +63,12 @@ export function NavbarDemo() {
       return;
     }
     if (role === 'doctor-dashboard') {
-      window.location.href = '/Doctor/';
+      window.location.href = '/doctor/';
       setIsModalOpen(false);
       return;
     }
     if (role === 'parent-dashboard') {
-      window.location.href = '/Parent/';
+      window.location.href = '/dashboard';
       setIsModalOpen(false);
       return;
     }
@@ -209,20 +209,21 @@ export function NavbarDemo() {
     return null;
   };
   
-  // Helper function to get initial for avatar
-  const getInitial = () => {
-    if (doctorLoggedIn && doctorAccount?.name) {
-      return doctorAccount.name.charAt(0);
-    }
-    if (patientLoggedIn && patientAccount?.name) {
-      return patientAccount.name.charAt(0);
-    }
-    return "?";
-  };
-
+ 
   const handleProfileOption = (option) => {
-    // Implement profile option logic
-    console.log(`Handling profile option: ${option}`);
+    // Implement profile option logic with proper navigation
+    switch (option) {
+      case 'doctor-dashboard':
+        window.location.href = '/doctor/';
+        break;
+      case 'patient-dashboard':
+      case 'parent-dashboard':
+        window.location.href = '/dashboard';
+        break;
+      default:
+        console.log(`Handling profile option: ${option}`);
+        break;
+    }
   };
 
   return (
