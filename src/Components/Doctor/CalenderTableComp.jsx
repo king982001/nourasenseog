@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import "./calender.css";
-import DiagnosisTable from "./DiagnosisTable.jsx";
 import { useParams } from "react-router-dom";
 import {
   useAppointmentsByPatient,
@@ -59,7 +58,7 @@ const CalenderTableComp = () => {
         <div className="flex flex-col lg:flex-row gap-6 h-full">
           {/* Calendar Component */}
           <div className="w-full lg:w-3/5 bg-gray-50 rounded-xl p-5 h-full flex flex-col">
-            <h3 className="text-lg font-light text-gray-800 mb-4">Calendar</h3>
+            <h3 className="text-lg font-light text-gray-800 mb-4">Select Date</h3>
             <div className="flex-1 flex justify-center items-start">
               <Calendar
                 onChange={setDate}
@@ -138,16 +137,7 @@ const CalenderTableComp = () => {
           <div className="w-full space-y-6 mt-8">
             <div className="bg-gray-50 rounded-xl shadow-sm overflow-hidden">
               <div className="p-5 border-b border-gray-100 bg-white">
-                <h3 className="text-lg font-light text-gray-800">Diagnosis History</h3>
-              </div>
-              <div className="p-5 bg-white">
-                <DiagnosisTable customId={patient?.customId} />
-              </div>
-            </div>
-
-            <div className="bg-gray-50 rounded-xl shadow-sm overflow-hidden">
-              <div className="p-5 border-b border-gray-100 bg-white">
-                <h3 className="text-lg font-light text-gray-800">Growth Data</h3>
+                <h3 className="text-lg font-light text-gray-800">Reports</h3>
               </div>
               <div className="p-5 bg-white">
                 <TableData customId={patient?.customId} />

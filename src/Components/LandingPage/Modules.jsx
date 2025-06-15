@@ -103,14 +103,13 @@ const UseCasesAndModules = () => {
                   </div>
                 </div>
                 <div className="px-8 pb-8">
-                  <div className="inline-block bg-[#EBE9FF] text-[#4544DF] px-3 py-1 rounded-full text-sm font-medium mb-4">Module</div>
                   <h3 className="text-2xl font-medium mb-3">{module.title}</h3>
                   <p className="text-gray-600 mb-6 leading-relaxed">{module.description}</p>
                   <div>
                     <button 
-                      className="inline-block px-6 py-3 border border-[#4544DF] text-[#4544DF] rounded-full font-medium hover:bg-[#4544DF] hover:text-white transition-colors duration-300"
+                      className="inline-block px-6 py-3 bg-[#4544DF] text-white rounded-full font-medium hover:bg-[#4544DF]/90 transition-colors duration-300"
                     >
-                      Learn more
+                      Sign up
                     </button>
                   </div>
                 </div>

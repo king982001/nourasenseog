@@ -1,7 +1,9 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 
 const EnhancedCTA = () => {
+  const navigate = useNavigate();
   // Animation variants for staggered children
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -106,6 +108,7 @@ const EnhancedCTA = () => {
               variants={buttonVariants}
               whileHover="hover"
               whileTap="tap"
+              onClick={() => navigate('/signup')}
               className="px-8 py-4 bg-[#4544DF] text-white rounded-full font-medium transition-colors duration-300 hover:bg-[#3635b2]"
             >
               Start Free Trial
@@ -115,6 +118,7 @@ const EnhancedCTA = () => {
               variants={buttonVariants}
               whileHover="hover"
               whileTap="tap"
+              onClick={() => navigate('/support')}
               className="px-8 py-4 bg-white text-[#4544DF] border-2 border-[#4544DF] rounded-full font-medium transition-colors duration-300 hover:bg-[#EBE9FF]"
             >
               Talk to Us

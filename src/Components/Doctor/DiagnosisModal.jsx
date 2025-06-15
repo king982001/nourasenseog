@@ -146,7 +146,7 @@ const DiagnosisModal = ({ isOpen, onClose, patient }) => {
                     disabled={isLoading}
                     className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50"
                   >
-                    {isLoading ? 'Saving...' : 'Save Diagnosis'}
+                    {isLoading ? 'Diagnosing...' : 'Diagnose Child'}
                   </button>
                 </div>
               </form>

@@ -269,10 +269,11 @@ const SupportPage = () => {
           <p className="mb-4 max-w-2xl mx-auto text-sm text-gray-600">
             Our team is ready to provide personalized assistance for your specific needs.
           </p>
-          <button
-            className="px-6 py-2 rounded-lg font-medium text-sm transition-colors duration-200 bg-gray-900 text-white hover:bg-gray-800">
+          <a
+            href="tel:+919723964754"
+            className="inline-block px-6 py-2 rounded-lg font-medium text-sm transition-colors duration-200 bg-gray-900 text-white hover:bg-gray-800">
             Contact Our Team
-          </button>
+          </a>
         </div>
       </div>
     </div>

@@ -3,8 +3,8 @@ import { Routes, Route, Outlet, useNavigate, Link, useLocation } from "react-rou
 import { FiHome, FiHelpCircle, FiLogOut, FiUserPlus } from "react-icons/fi";
 import { motion } from "motion/react";
 import { FaUsers } from "react-icons/fa6";
+import { GiMeal } from "react-icons/gi";
 // import { GiNutrionalData } from "react-icons/gi";
-import { FaApple } from "react-icons/fa";
 import Login from "src/Pages/Doctor/Login.jsx";
 import NotFoundPage from "src/Pages/NotFoundPage.jsx";
 import SignUp from "src/Pages/Doctor/SignUp.jsx";
@@ -285,7 +285,7 @@ const ProtectedLayout = () => {
               to="/doctor/nutritional-values" 
               active={location.pathname.includes("/nutritional-values")} 
               collapsed={sidebarCollapsed}
-              icon={<FaApple className="h-5 w-5" />}
+              icon={<GiMeal className="h-5 w-5" />}
               text="Nutritional Values"
             />
           </div>
@@ -324,7 +324,7 @@ const ProtectedLayout = () => {
             <FaUsers className="h-6 w-6" />
           </Link>
           <Link to="/doctor/nutritional-values" className={`p-2 rounded-lg ${location.pathname.includes("/nutritional-values") ? "text-primary-blue" : "text-gray-600"}`}>
-            <FaApple className="h-6 w-6" />
+            <GiMeal className="h-6 w-6" />
           </Link>
           <button 
             onClick={() => setProfileModalOpen(true)} 

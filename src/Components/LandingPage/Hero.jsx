@@ -12,7 +12,7 @@ const Hero = () => {
           titleComponent={
             <>
               <h1 className="text-4xl sm:text-5xl font-normal leading-tight mb-6">
-                Revolutionize pediatric care with Nourasense's <span className="text-blue-600">AI-powered diagnostics</span> and <span className="text-blue-600">growth analytics</span>
+                <span className="text-blue-600">Revolutionize</span> pediatric care with Nourasense's <span className="text-blue-600">AI-powered diagnostics</span> and <span className="text-blue-600">growth analytics</span>
               </h1>
 
               <div className="flex flex-col items-center gap-4 mt-8 mb-8">

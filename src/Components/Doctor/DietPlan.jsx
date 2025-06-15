@@ -154,7 +154,7 @@ export const DietPlan = () => {
 
       <div className="p-6 space-y-6">
         <p className="text-sm text-gray-500">
-          Search and select at least 10 food items to create a customized diet plan
+          Search and select at least 3 food items to create a customized diet plan
         </p>
 
         {/* Search Input */}
@@ -212,7 +212,7 @@ export const DietPlan = () => {
         <div className="max-w-2xl mx-auto mt-6">
           <div className="flex items-center justify-between mb-2">
             <h3 className="text-base font-medium text-gray-800">Selected Items</h3>
-            <span className="text-sm text-gray-500">{selectedItems.length} of 10 required</span>
+            <span className="text-sm text-gray-500">{selectedItems.length} of 3 required</span>
           </div>
 
           <div className="flex flex-wrap gap-2 min-h-[100px] p-4 bg-gray-50 rounded-lg border border-gray-200">
@@ -243,7 +243,7 @@ export const DietPlan = () => {
         <div className="flex justify-center mt-8">
           <button
             onClick={handleCreateDietPlan}
-            disabled={selectedItems.length < 10 || isGenerating}
+            disabled={selectedItems.length < 3 || isGenerating}
             className="px-6 py-2.5 bg-gray-800 text-white font-medium rounded-lg shadow-sm hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center gap-2"
           >
             {isGenerating && <Loader2 className="w-4 h-4 animate-spin" />}
