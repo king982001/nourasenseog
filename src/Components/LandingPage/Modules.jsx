@@ -1,7 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { RoleSelectionModal } from '../ui/role-selection-modal';
 
 const UseCasesAndModules = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const handleModalOpen = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleRoleSelect = (role, mode) => {
+    if (role === 'doctor') {
+      window.location.href = '/doctor/signup';
+    } else if (role === 'patient') {
+      window.location.href = '/signup';
+    }
+    setIsModalOpen(false);
+  };
 
   const platformModules = [
     {
@@ -34,70 +52,20 @@ const UseCasesAndModules = () => {
                   <div className="w-full h-full bg-white rounded-lg shadow-md overflow-hidden p-2 flex items-center justify-center max-w-xs mx-auto">
                     {/* Mock UI for module */}
                     {index === 0 ? (
-                      <div className="w-full h-full flex flex-col">
-                        <div className="bg-gray-100 p-2 text-center text-sm font-medium text-gray-600">
-                          Growth Charts
-                        </div>
-                        <div className="flex-1 p-4 flex flex-col justify-between">
-                          <div className="w-full h-24 bg-[#EBE9FF] rounded mb-2 p-2">
-                            <div className="w-full h-full bg-[#4544DF]/10 rounded relative overflow-hidden">
-                              <div className="absolute bottom-0 left-0 w-full h-1/2 border-t border-[#4544DF]/30"></div>
-                              <div className="absolute bottom-0 left-0 w-full h-1/3 border-t border-[#4544DF]/30"></div>
-                              <div className="absolute bottom-0 left-0 w-full h-2/3 border-t border-[#4544DF]/30"></div>
-                              <div className="absolute bottom-0 left-0 w-full h-5/6 border-t border-[#4544DF]/30"></div>
-                              <svg viewBox="0 0 100 40" className="w-full h-full">
-                                <polyline
-                                  points="0,35 20,30 40,25 60,20 80,15 100,10"
-                                  fill="none"
-                                  stroke="#4544DF"
-                                  strokeWidth="1.5"
-                                />
-                                <circle cx="20" cy="30" r="2" fill="#4544DF" />
-                                <circle cx="40" cy="25" r="2" fill="#4544DF" />
-                                <circle cx="60" cy="20" r="2" fill="#4544DF" />
-                                <circle cx="80" cy="15" r="2" fill="#4544DF" />
-                              </svg>
-                            </div>
-                          </div>
-                          <div className="flex justify-between text-xs text-gray-500">
-                            <div>12 mo</div>
-                            <div>24 mo</div>
-                            <div>36 mo</div>
-                            <div>48 mo</div>
-                          </div>
-                          <button className="bg-[#4544DF] text-white rounded py-1 px-3 text-sm mt-2">
-                            Generate Report
-                          </button>
-                        </div>
+                      <div className="w-full h-full flex items-center justify-center">
+                        <img 
+                          src="/chart.png" 
+                          alt="Growth Charts Interface" 
+                          className="w-full h-full object-contain"
+                        />
                       </div>
                     ) : (
-                      <div className="w-full h-full flex flex-col">
-                        <div className="bg-gray-100 p-2 text-center text-sm font-medium text-gray-600">
-                          Analytics Dashboard
-                        </div>
-                        <div className="flex-1 p-4">
-                          <div className="grid grid-cols-2 gap-2 mb-3">
-                            <div className="bg-gray-50 p-2 rounded text-xs">
-                              <div className="font-medium text-gray-600 mb-1">Height</div>
-                              <div className="text-[#4544DF] font-medium">95cm (50th %ile)</div>
-                            </div>
-                            <div className="bg-gray-50 p-2 rounded text-xs">
-                              <div className="font-medium text-gray-600 mb-1">Weight</div>
-                              <div className="text-[#4544DF] font-medium">14kg (45th %ile)</div>
-                            </div>
-                            <div className="bg-gray-50 p-2 rounded text-xs">
-                              <div className="font-medium text-gray-600 mb-1">Head Circ.</div>
-                              <div className="text-[#4544DF] font-medium">48cm (55th %ile)</div>
-                            </div>
-                            <div className="bg-gray-50 p-2 rounded text-xs">
-                              <div className="font-medium text-gray-600 mb-1">BMI</div>
-                              <div className="text-[#4544DF] font-medium">15.5 (Normal)</div>
-                            </div>
-                          </div>
-                          <div className="bg-[#EBE9FF] rounded p-2 text-xs text-center text-[#4544DF] font-medium">
-                            Growth Trends: Normal Development
-                          </div>
-                        </div>
+                      <div className="w-full h-full flex items-center justify-center">
+                        <img 
+                          src="/dashboard.png" 
+                          alt="Analytics Dashboard Interface" 
+                          className="w-full h-full object-contain"
+                        />
                       </div>
                     )}
                   </div>
@@ -107,6 +75,7 @@ const UseCasesAndModules = () => {
                   <p className="text-gray-600 mb-6 leading-relaxed">{module.description}</p>
                   <div>
                     <button 
+                      onClick={handleModalOpen}
                       className="inline-block px-6 py-3 bg-[#4544DF] text-white rounded-full font-medium hover:bg-[#4544DF]/90 transition-colors duration-300"
                     >
                       Sign up
@@ -118,6 +87,14 @@ const UseCasesAndModules = () => {
           </div>
         </div>
       </section>
+
+      {/* Role Selection Modal */}
+      <RoleSelectionModal
+        isOpen={isModalOpen}
+        onClose={handleModalClose}
+        onSelect={handleRoleSelect}
+        mode="signup"
+      />
     </div>
   );
 };

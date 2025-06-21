@@ -195,11 +195,10 @@ export const NavbarLogo = () => {
       href="#"
       className="relative z-20 mr-4 flex items-center space-x-2 px-2 py-1 text-sm font-normal text-black">
       <img
-        src="/Logo1.png"
+        src="/logo-blue.png"
         alt="logo"
-        width={30}
-        height={30} />
-      <span className="font-medium text-black dark:text-white">NouraSense</span>
+        className="h-5 w-auto sm:h-6 sm:w-auto md:h-7 md:w-auto lg:h-6 lg:w-auto" />
+      {/* <span className="font-medium text-black dark:text-white">NouraSense</span> */}
     </a>
   );
 };

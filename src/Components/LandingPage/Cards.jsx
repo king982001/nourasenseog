@@ -25,7 +25,7 @@ export function AppleCardsCarouselDemo() {
 
   return (
     <div className="w-full h-full py-10 md:py-20 px-4">
-      <h2 className="max-w-7xl mx-auto text-2xl md:text-5xl font-bold text-neutral-800 dark:text-neutral-200 font-sans">
+      <h2 className="max-w-7xl mx-auto text-2xl md:text-5xl font-bold text-neutral-800 dark:text-neutral-200">
         Get to Know Nourasense
       </h2>
       <p className="max-w-7xl mx-auto text-base md:text-xl text-neutral-600 dark:text-neutral-400 mt-4">
@@ -44,7 +44,7 @@ export function AppleCardsCarouselDemo() {
 const DummyContent = ({ description }) => {
   return (
     <div className="bg-[#F5F5F7] dark:bg-neutral-800 p-6 md:p-14 rounded-3xl mb-4">
-      <p className="text-neutral-600 dark:text-neutral-400 text-sm md:text-2xl font-sans max-w-3xl mx-auto">
+      <p className="text-neutral-600 dark:text-neutral-400 text-sm md:text-2xl max-w-3xl mx-auto">
         {description}
       </p>
     </div>
@@ -60,9 +60,9 @@ const data = [
   },
   {
     category: "Growth Tracking",
-    title: "Growth Tracking for Parents",
+    title: "Accurate Child Growth Tracking",
     src: "https://cdn.pixabay.com/photo/2017/01/29/21/16/nurse-2019420_1280.jpg",
-    content: <DummyContent description="Easily track your child's height, weight, BMI, and milestones — with personalized alerts and guidance, right from your phone." />,
+    content: <DummyContent description="Comprehensive tracking of children's height, weight, BMI, and developmental milestones — with personalized alerts and evidence-based guidance." />,
   },
   {
     category: "Analytics",

@@ -12,7 +12,7 @@ const Hero = () => {
           titleComponent={
             <>
               <h1 className="text-4xl sm:text-5xl font-normal leading-tight mb-6">
-                <span className="text-blue-600">Revolutionize</span> pediatric care with Nourasense's <span className="text-blue-600">AI-powered diagnostics</span> and <span className="text-blue-600">growth analytics</span>
+                <span className="text-blue-600">Revolutionize</span> <span className="text-black">pediatric care with Nourasense's</span> <span className="text-blue-600">AI-powered diagnostics</span> <span className="text-black">and</span> <span className="text-blue-600">growth analytics</span>
               </h1>
 
               <div className="flex flex-col items-center gap-4 mt-8 mb-8">
@@ -32,12 +32,12 @@ const Hero = () => {
             <img
               src="/1.png"
               alt="Child growth monitoring platform interface"
-              className="w-full h-full object-cover object-left-top rounded-2xl"
+              // className="w-full h-full object-cover object-left-top rounded-2xl"
               draggable={false}
             />
 
             {/* Symptom input UI overlay */}
-            <div className="absolute top-10 left-10 bg-white p-4 rounded-lg shadow-md">
+            {/* <div className="absolute top-10 left-10 bg-white p-4 rounded-lg shadow-md">
               <div className="text-sm font-medium text-blue-600 mb-2">ADD YOUR SYMPTOMS</div>
               <div className="flex flex-col gap-2">
                 <div className="bg-gray-100 text-gray-800 px-3 py-2 rounded-md text-sm">
@@ -47,10 +47,10 @@ const Hero = () => {
                   Back pain that comes and goes
                 </div>
               </div>
-            </div>
+            </div> */}
 
             {/* Next steps UI overlay */}
-            <div className="absolute bottom-10 left-10 bg-white p-4 rounded-lg shadow-md">
+            {/* <div className="absolute bottom-10 left-10 bg-white p-4 rounded-lg shadow-md">
               <div className="text-sm font-medium text-blue-600 mb-2">NEXT STEPS</div>
               <div className="text-lg font-medium mb-2">Self-care</div>
               <div className="bg-gray-100 text-gray-800 px-3 py-2 rounded-md text-sm">
@@ -61,7 +61,7 @@ const Hero = () => {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
                 </svg>
               </div>
-            </div>
+            </div> */}
 
 
           </div>
