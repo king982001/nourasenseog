@@ -6,8 +6,11 @@ import { NutritionalValues } from "src/Components/Doctor/NutritionalValues.jsx";
 import { GrowthCharts } from "src/Pages/Doctor/GrowthCharts.jsx";
 import { DietPlan } from "src/Components/Doctor/DietPlan.jsx";
 import MidParentHeight from "src/Components/Doctor/MidParentHeight.jsx";
+import { Link, useParams } from "react-router-dom";
 
 const PatientProfile = () => {
+  const { id: patientId } = useParams();
+
   useEffect(() => {
     document.title = "Nourasense - Patient Profile";
   }, []);
@@ -34,12 +37,26 @@ const PatientProfile = () => {
             <CalenderTableComp />
           </div>
           <div className="lg:col-span-1">
-            <NutritionalValues />
+            <Link to={`/doctor/patient/${patientId}/nutritional-values`} className="block">
+              <div className="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+                <h3 className="text-lg font-medium text-gray-900 mb-2">Nutritional Values</h3>
+                <p className="text-gray-600">View detailed nutritional analysis</p>
+              </div>
+            </Link>
+            <div className="mt-4">
+            <Link to={`/doctor/patient/${patientId}/diet-plan`} className="block">
+          <div className="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+            <h3 className="text-lg font-medium text-gray-900 mb-2">Diet Plan</h3>
+            <p className="text-gray-600">View and manage patient's diet plan</p>
           </div>
+        </Link>
+        </div>
+          </div>
+          
         </div>
 
         {/* Diet Plan */}
-        <DietPlan />
+        
       </div>
     </div>
   );

@@ -40,63 +40,65 @@ const ProfileModal = ({ isOpen, onClose, account }) => {
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
-        className="bg-white rounded-xl shadow-lg max-w-md w-full max-h-[90vh] overflow-y-auto"
+        className="bg-white rounded-xl shadow-lg w-full max-w-sm sm:max-w-md max-h-[95vh] sm:max-h-[85vh] overflow-hidden flex flex-col mx-2"
       >
-        <div className="p-5 border-b border-gray-100 flex justify-between items-center">
-          <h2 className="text-xl font-light text-gray-800">Profile Details</h2>
-          <button onClick={onClose} className="text-gray-400 hover:text-gray-600">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <div className="p-3 sm:p-5 border-b border-gray-100 flex justify-between items-center flex-shrink-0">
+          <h2 className="text-lg sm:text-xl font-light text-gray-800">Profile Details</h2>
+          <button onClick={onClose} className="text-gray-400 hover:text-gray-600 p-1">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 sm:h-6 sm:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
         </div>
 
-        <div className="p-5">
-          <div className="flex flex-col items-center mb-6">
-            {account.profile_picture ? (
-              <img
-                src={account.profile_picture}
-                alt="Profile"
-                className="w-24 h-24 rounded-full object-cover border-2 border-gray-100"
-              />
-            ) : (
-              <div className="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center text-gray-500 text-2xl">
-                {account.name?.charAt(0) || "P"}
-              </div>
-            )}
-            <h3 className="text-xl font-light mt-4">{account.name} {account.surname}</h3>
-            <p className="text-gray-500 text-sm">{account.email}</p>
-          </div>
-
-          <div className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <InfoItem label="Phone" value={account.phonenumber} />
-              <InfoItem label="Gender" value={account.gender} />
-              <InfoItem label="Date of Birth" value={account.date_of_birth} />
-              <InfoItem label="Address" value={account.address} />
+        <div className="flex-1 overflow-y-auto overscroll-contain">
+          <div className="p-3 sm:p-5">
+            <div className="flex flex-col items-center mb-6">
+              {account.profile_picture ? (
+                <img
+                  src={account.profile_picture}
+                  alt="Profile"
+                  className="w-24 h-24 rounded-full object-cover border-2 border-gray-100"
+                />
+              ) : (
+                <div className="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center text-gray-500 text-2xl">
+                  {account.name?.charAt(0) || "P"}
+                </div>
+              )}
+              <h3 className="text-xl font-light mt-4">{account.name} {account.surname}</h3>
+              <p className="text-gray-500 text-sm">{account.email}</p>
             </div>
 
-            <div className="mt-6 pt-4 border-t border-gray-100">
-              <h4 className="text-lg font-light mb-4">Account Actions</h4>
-              <div className="flex flex-col space-y-2">
-                <Link
-                  to="/update-profile"
-                  className="text-primary-blue hover:underline flex items-center"
-                >
-                  <FiSettings className="mr-2" /> Update Profile
-                </Link>
-                <Link
-                  to="/change-password"
-                  className="text-primary-blue hover:underline flex items-center"
-                >
-                  <FiSettings className="mr-2" /> Change Password
-                </Link>
-                <Link
-                  to="/forgot-password"
-                  className="text-primary-blue hover:underline flex items-center"
-                >
-                  <FiHelpCircle className="mr-2" /> Forgot Password
-                </Link>
+            <div className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <InfoItem label="Phone" value={account.phonenumber} />
+                <InfoItem label="Gender" value={account.gender} />
+                <InfoItem label="Date of Birth" value={account.date_of_birth} />
+                <InfoItem label="Address" value={account.address} />
+              </div>
+
+              <div className="mt-6 pt-4 border-t border-gray-100">
+                <h4 className="text-lg font-light mb-4">Account Actions</h4>
+                <div className="flex flex-col space-y-2">
+                  <Link
+                    to="/update-profile"
+                    className="text-primary-blue hover:underline flex items-center"
+                  >
+                    <FiSettings className="mr-2" /> Update Profile
+                  </Link>
+                  <Link
+                    to="/change-password"
+                    className="text-primary-blue hover:underline flex items-center"
+                  >
+                    <FiSettings className="mr-2" /> Change Password
+                  </Link>
+                  <Link
+                    to="/forgot-password"
+                    className="text-primary-blue hover:underline flex items-center"
+                  >
+                    <FiHelpCircle className="mr-2" /> Forgot Password
+                  </Link>
+                </div>
               </div>
             </div>
           </div>

@@ -3,8 +3,10 @@ import { RoleSelectionModal } from '../ui/role-selection-modal';
 
 const UseCasesAndModules = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalMode, setModalMode] = useState('signup');
 
-  const handleModalOpen = () => {
+  const handleModalOpen = (mode) => {
+    setModalMode(mode);
     setIsModalOpen(true);
   };
 
@@ -12,11 +14,21 @@ const UseCasesAndModules = () => {
     setIsModalOpen(false);
   };
 
-  const handleRoleSelect = (role, mode) => {
+  const handleRoleSelect = (role) => {
     if (role === 'doctor') {
       window.location.href = '/doctor/signup';
     } else if (role === 'patient') {
       window.location.href = '/signup';
+    } else if (role === 'login') {
+      setModalMode('login');
+      return;
+    } else if (role === 'signup') {
+      setModalMode('signup');
+      return;
+    } else if (role === 'doctor-dashboard') {
+      window.location.href = '/doctor/';
+    } else if (role === 'parent-dashboard') {
+      window.location.href = '/dashboard';
     }
     setIsModalOpen(false);
   };
@@ -34,8 +46,6 @@ const UseCasesAndModules = () => {
 
   return (
     <div className="bg-white">
-      {/* Use Cases Section */}
-     
       {/* Platform Modules Section */}
       <section className="py-20 bg-white">
         <div className="max-w-6xl mx-auto px-4">
@@ -75,7 +85,7 @@ const UseCasesAndModules = () => {
                   <p className="text-gray-600 mb-6 leading-relaxed">{module.description}</p>
                   <div>
                     <button 
-                      onClick={handleModalOpen}
+                      onClick={() => handleModalOpen('signup')}
                       className="inline-block px-6 py-3 bg-[#4544DF] text-white rounded-full font-medium hover:bg-[#4544DF]/90 transition-colors duration-300"
                     >
                       Sign up
@@ -93,7 +103,7 @@ const UseCasesAndModules = () => {
         isOpen={isModalOpen}
         onClose={handleModalClose}
         onSelect={handleRoleSelect}
-        mode="signup"
+        mode={modalMode}
       />
     </div>
   );

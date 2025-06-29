@@ -19,6 +19,8 @@ import EmptyHead from "src/Components/EmptyHead.jsx";
 import { GeneralDetails } from "src/Pages/Doctor/GeneralDetails.jsx";
 import ManageSubscription from "src/Pages/Doctor/ManageSubscription";
 import { NutritionalValues } from "src/Components/Doctor/NutritionalValues";
+import NutritionalValuesPage from "src/Pages/Doctor/NutritionalValuesPage";
+import DietPlanPage from "src/Pages/Doctor/DietPlanPage";
 
 // Custom styles for consistent font usage
 const globalStyles = `
@@ -61,7 +63,7 @@ const ProfileModal = ({ isOpen, onClose, account }) => {
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
-        className="bg-white rounded-xl shadow-lg w-full max-w-sm sm:max-w-md max-h-[95vh] sm:max-h-[90vh] flex flex-col mx-2"
+        className="bg-white rounded-xl shadow-lg w-full max-w-sm sm:max-w-md max-h-[95vh] sm:max-h-[85vh] overflow-hidden flex flex-col mx-2"
       >
         {/* Fixed Header */}
         <div className="p-3 sm:p-5 border-b border-gray-100 flex justify-between items-center flex-shrink-0">
@@ -74,7 +76,7 @@ const ProfileModal = ({ isOpen, onClose, account }) => {
         </div>
         
         {/* Scrollable Content */}
-        <div className="flex-1 overflow-y-auto">
+        <div className="flex-1 overflow-y-auto overscroll-contain">
           <div className="p-3 sm:p-5">
             <div className="flex flex-col items-center mb-4 sm:mb-6">
               {account.registration?.selfie_image ? (
@@ -281,13 +283,7 @@ const ProtectedLayout = () => {
               icon={<FaUsers className="h-5 w-5" />}
               text="Subscription"
             />
-            <SidebarItem 
-              to="/doctor/nutritional-values" 
-              active={location.pathname.includes("/nutritional-values")} 
-              collapsed={sidebarCollapsed}
-              icon={<GiMeal className="h-5 w-5" />}
-              text="Nutritional Values"
-            />
+           
           </div>
           
           <div className="p-2 mt-auto border-t border-gray-100">
@@ -373,9 +369,10 @@ const DoctorRoutes = () => (
     >
       <Route path="/" element={<Dashboard />} />
       <Route path="/patient/:id" element={<PatientProfile />} />
+      <Route path="/patient/:patientId/nutritional-values" element={<NutritionalValuesPage />} />
+      <Route path="/patient/:patientId/diet-plan" element={<DietPlanPage />} />
       <Route path="/diagnose/:id" element={<Diagnose />} />
       <Route path="/manage-subscription" element={<ManageSubscription />} />
-      <Route path="/nutritional-values" element={<NutritionalValues />} />
     </Route>
     <Route path="*" element={<NotFoundPage />} />
   </Routes>

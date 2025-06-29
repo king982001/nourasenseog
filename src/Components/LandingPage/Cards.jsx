@@ -43,7 +43,7 @@ export function AppleCardsCarouselDemo() {
 
 const DummyContent = ({ description }) => {
   return (
-    <div className="bg-[#F5F5F7] dark:bg-neutral-800 p-6 md:p-14 rounded-3xl mb-4">
+    <div className="bg-[#F5F5F7] dark:bg-neutral-800 p-6 md:p-14 rounded-xl mb-4">
       <p className="text-neutral-600 dark:text-neutral-400 text-sm md:text-2xl max-w-3xl mx-auto">
         {description}
       </p>

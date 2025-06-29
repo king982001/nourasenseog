@@ -1,9 +1,39 @@
 "use client";
 import React, { useState } from 'react';
 import { ContainerScroll } from "../ui/container-scroll-animation";
+import { RoleSelectionModal } from '../ui/role-selection-modal';
 
 const Hero = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalMode, setModalMode] = useState('signup');
+
+  const handleModalOpen = (mode) => {
+    setModalMode(mode);
+    setIsModalOpen(true);
+  };
+
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleRoleSelect = (role) => {
+    if (role === 'doctor') {
+      window.location.href = '/doctor/signup';
+    } else if (role === 'patient') {
+      window.location.href = '/signup';
+    } else if (role === 'login') {
+      setModalMode('login');
+      return;
+    } else if (role === 'signup') {
+      setModalMode('signup');
+      return;
+    } else if (role === 'doctor-dashboard') {
+      window.location.href = '/doctor/';
+    } else if (role === 'parent-dashboard') {
+      window.location.href = '/dashboard';
+    }
+    setIsModalOpen(false);
+  };
 
   return (
     <section className="min-h-screen w-full bg-white flex flex-col items-center justify-center">
@@ -17,7 +47,7 @@ const Hero = () => {
 
               <div className="flex flex-col items-center gap-4 mt-8 mb-8">
                 <button
-                  onClick={() => setIsModalOpen(true)}
+                  onClick={() => handleModalOpen('signup')}
                   className="px-8 py-3 bg-blue-600 text-white rounded-md text-lg hover:bg-blue-700 transition"
                 >
                   Start Free Trial
@@ -67,6 +97,14 @@ const Hero = () => {
           </div>
         </ContainerScroll>
       </div>
+
+      {/* Role Selection Modal */}
+      <RoleSelectionModal
+        isOpen={isModalOpen}
+        onClose={handleModalClose}
+        onSelect={handleRoleSelect}
+        mode={modalMode}
+      />
     </section>
   );
 };

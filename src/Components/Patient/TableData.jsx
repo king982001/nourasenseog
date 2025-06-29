@@ -188,10 +188,10 @@ const TableData = () => {
       className="bg-white rounded-xl shadow-sm overflow-hidden"
     >
       <div className="bg-primary-blue/5 px-6 py-4 border-b border-gray-100 flex justify-between items-center">
-        <h2 className="text-xl font-light text-gray-800 flex items-center">
+        {/* <h2 className="text-xl font-light text-gray-800 flex items-center">
           <FaFileAlt className="mr-2 text-primary-blue" />
           Reports
-        </h2>
+        </h2> */}
         
         <div className="relative">
           <button
