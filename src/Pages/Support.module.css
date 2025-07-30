@@ -1,0 +1,316 @@
+body {
+    margin: 0;
+    overflow-x: hidden;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+.contactForm h2, .contactInfo .whether, .contactInfo .phone, .contactInfo .email, .faqSection h2, .faqQuestion  {
+    font-family: "Ledger", serif !important;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.contactForm label, .contactLines {
+    font-family: 'Inter', sans-serif;
+}
+
+.faq p, .copyright {
+    font-family: "Inter", sans-serif !important;
+}
+
+.header {
+    width: 100%;
+    height: 50px;
+    background-color: #002F88;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 20px;
+    max-width: 1270px;
+    margin: 68px auto 18px auto;
+    flex-wrap: wrap;
+}
+
+.contactForm, .contactInfo {
+    box-sizing: border-box;
+    margin: 0;
+}
+
+.contactForm {
+    flex: 1 1 55%;
+    margin-right: 5%;
+    margin-top: 45px; 
+    position: relative;
+}
+
+.contactInfo {
+    flex: 1 1 40%;
+    margin-top: 45px;
+}
+
+.contactForm h2 {
+    position: absolute;
+    top: -50px; 
+    left: 0;
+    font-size: 34px;
+    margin: 0;
+    padding: 0;
+}
+
+.contactForm form {
+    display: flex;
+    flex-direction: column;
+    width: 92%;
+}
+
+.icon {
+    width: 20px;
+    height: auto;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+.contactForm label {
+    margin-bottom: 5px;
+}
+
+.contactForm input, .contactForm textarea {
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.contactForm textarea {
+    height: 150px;
+}
+
+.contactForm button {
+    background-color: #002F88;
+    width: fit-content;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    padding: 14px 22px;
+    font-size: 16px;
+}
+
+.contactForm button:hover {
+    background-color: #003399;
+}
+
+.contactInfo p {
+    margin-bottom: 16px;
+}
+
+.contactInfo a {
+    color: #003399;
+    text-decoration: none;
+}
+
+.contactInfo a:hover {
+    text-decoration: underline;
+}
+
+.whether {
+    font-size: 30px;
+    line-height: normal;
+}
+
+.phone, .email {
+    font-size: 16px;
+}
+
+.faqSection {
+    padding: 20px;
+    max-width: 1270px;
+    margin: 0 auto;
+}
+
+.faqSection h2 {
+    margin-bottom: 20px;
+    font-size: 34px;
+}
+
+.faq {
+    margin-bottom: 10px;
+}
+
+.faqQuestion {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 5px;
+    background-color: #EEEEEE;
+    cursor: pointer;
+    font-size: 18px;
+    align-items: center;
+}
+
+.faqAnswer {
+    padding: 10px;
+    border-left: 2px solid #002F88;
+    display: none;
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+.faqQuestion span {
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+.footer {
+    text-align: center;
+    font-size: 14px;
+    color: #666666;
+    padding: 20px;
+    width: 100%;
+}
+
+.footer a {
+    color: #003399;
+    text-decoration: none;
+}
+
+.footer a:hover {
+    text-decoration: underline;
+}
+
+.copyright {
+    font-size: 12px;
+    color: #000000;
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.copyrightIcon {
+    width: 14px;
+    height: 14px;
+    margin-right: 5px;
+}
+
+@media (max-width: 1200px) {
+    .contactForm, .contactInfo {
+        flex: 1 1 100%;
+        margin-right: 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .contactForm, .contactInfo {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .contactForm form {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .contactForm input, .contactForm textarea, .contactForm button {
+        width: 100%;
+    }
+
+    .whether {
+        font-size: 24px;
+    }
+
+    .faqSection h2 {
+        font-size: 20px;
+    }
+
+    .faqQuestion {
+        font-size: 14px;
+    }
+
+    .faqAnswer {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .contact-form input, .contact-form textarea, .contact-form button {
+        font-size: 14px;
+        width: 100% !important;
+    }
+
+    .contactInfo {
+        margin-top: 0px;
+    }
+
+    .email {
+        margin-bottom: 0 !important;
+    }
+
+    .contact-form h2 {
+        font-size: 32px;
+    }
+
+    .container {
+        margin: 68px auto 0px auto;
+        padding: 20px 20px 0px 20px;
+    }
+
+    .footer {
+        font-size: 12px;
+    }
+
+    .whether {
+        font-size: 26px;
+    }
+
+    .contact-lines {
+        font-size: 16px;
+    }
+
+    .faq-section {
+        padding: 0px 20px 20px 20px;
+    }
+
+    .faq-section h2 {
+        font-size: 32px;
+    }
+
+    .faq-question {
+        font-size: 18px;
+    }
+
+    .faq-answer {
+        font-size: 12px;
+    }
+
+    .contact-info {
+        margin-top: 0px;
+    }
+
+    .contact-info p {
+        margin-bottom: auto;
+    }
+
+    .contact-lines {
+        margin-top: 3px;
+    }   
+}
