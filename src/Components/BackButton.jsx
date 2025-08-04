@@ -15,7 +15,7 @@ export const BackButton = ({ display = "absolute" }) => {
   };
 
   return (
-    <div className={`${display} left-0 my-3`}>
+    <div className={`${display} left-0 my-3 pl-12 pb-12`}>
       <button
         onClick={handleBackClick}
         className="flex items-center bg-white border border-primary-blue font-medium text-primary-blue hover:bg-primary-blue hover:border-gray-800 hover:text-white transition-colors h-10 px-4 py-2 mx-6 md:h-10 md:px-6 md:mx-8 text-center rounded"

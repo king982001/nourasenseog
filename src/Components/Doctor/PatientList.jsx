@@ -1,18 +1,17 @@
 import { useEffect, useRef, useState } from "react";
 import { FaTrash } from "react-icons/fa";
 import DataTable from "react-data-table-component";
-import Search from "src/assets/Doctor/Search.svg";
-import User from "src/assets/Doctor/User.svg";
-import AddPatient from "./AddPatient.jsx";
 import { useNavigate } from "react-router-dom";
-import CreateAppointmentModal from "./CreateAppointmentModal.jsx";
 import { useDeletePatient, usePatients } from "src/Hooks/DoctorHooks.js";
 import { ClipLoader } from "react-spinners";
 import toast from "react-hot-toast";
 import Prompt from "../Prompt.jsx";
-import { FaCalendarPlus, FaStethoscope } from "react-icons/fa6"; // Import the Prompt component
+import { FaCalendarPlus, FaStethoscope, FaSearch, FaUserAlt } from "react-icons/fa";
+import AddPatient from "./AddPatient.jsx";
+import CreateAppointmentModal from "./CreateAppointmentModal.jsx";
+import { motion } from "motion/react";
 
-const PatientList = () => {
+const PatientList = ({ onStartDiagnosis }) => {
   const navigate = useNavigate();
   const [page, setPage] = useState(1);
   const {
@@ -36,11 +35,11 @@ const PatientList = () => {
   });
 
   const { mutate: deletePatient } = useDeletePatient();
-  const [isPromptOpen, setIsPromptOpen] = useState(false); // State for Prompt modal
-  const [patientToDelete, setPatientToDelete] = useState(null); // State for selected patient ID
+  const [isPromptOpen, setIsPromptOpen] = useState(false);
+  const [patientToDelete, setPatientToDelete] = useState(null);
 
   useEffect(() => {
-    refetch(); // Trigger refetch when page changes
+    refetch();
   }, [page, refetch]);
 
   useEffect(() => {
@@ -81,7 +80,7 @@ const PatientList = () => {
 
   const confirmDelete = () => {
     if (patientToDelete) {
-      setIsPromptOpen(false); // Close the Prompt modal after deletion
+      setIsPromptOpen(false);
       deletePatient(patientToDelete, {
         onMutate: () => {
           toast.loading("Deleting patient. Please wait...");
@@ -98,8 +97,8 @@ const PatientList = () => {
   };
 
   const handleDelete = (patientId) => {
-    setPatientToDelete(patientId); // Set the selected patient ID
-    setIsPromptOpen(true); // Open the Prompt modal
+    setPatientToDelete(patientId);
+    setIsPromptOpen(true);
   };
 
   const navigateToPatientProfile = (patientId) => {
@@ -111,44 +110,46 @@ const PatientList = () => {
       name: "Name",
       selector: (row) => `${row.name} ${row.surname}`,
       style: {
-        fontWeight: "500",
-        fontSize: "1rem", // Increased font size
+        fontWeight: "300",
+        fontSize: "0.95rem",
       },
     },
     {
       name: "Patient ID",
       selector: (row) => row.customId,
       style: {
-        fontWeight: "500",
-        fontSize: "1rem", // Increased font size
+        fontWeight: "300",
+        fontSize: "0.95rem",
       },
     },
     {
       name: "DoB",
       selector: (row) => row.date_of_birth,
       style: {
-        fontWeight: "500",
-        fontSize: "1rem", // Increased font size
+        fontWeight: "300",
+        fontSize: "0.95rem",
       },
     },
     {
       name: "Action",
       cell: (row) => (
-        <div className="flex items-center justify-center space-x-4">
-          {/* Diagnose Button */}
+        <div className="flex items-center justify-center space-x-3">
           <button
-            className="text-blue-500 hover:text-blue-600 p-2 rounded-full"
-            onClick={() => navigateToPatientProfile(row._id)}
-            aria-label="Diagnose Patient"
-            title="Diagnose"
+            className="text-gray-500 hover:text-gray-700 p-2 rounded-full transition-colors"
+            onClick={(e) => {
+              e.stopPropagation();
+              navigateToPatientProfile(row._id);
+            }}
+            aria-label="View Patient"
+            title="View Patient"
           >
-            <FaStethoscope size={20} /> {/* Icon for Diagnose */}
+            <FaUserAlt size={16} />
           </button>
-
-          {/* Add Appointment Button */}
+         
           <button
-            className="text-green-500 hover:text-green-600 p-2 rounded-full"
-            onClick={() => {
+            className="text-gray-500 hover:text-gray-700 p-2 rounded-full transition-colors"
+            onClick={(e) => {
+              e.stopPropagation();
               setShowAddAppointment(true);
               setPatientData({
                 patientId: row._id,
@@ -159,17 +160,18 @@ const PatientList = () => {
             aria-label="Add Appointment"
             title="Add Appointment"
           >
-            <FaCalendarPlus size={20} /> {/* Icon for Add Appointment */}
+            <FaCalendarPlus size={16} />
           </button>
-
-          {/* Delete Button */}
           <button
-            className="text-red-500 hover:text-red-600 p-2 rounded-full"
-            onClick={() => handleDelete(row._id)}
+            className="text-gray-500 hover:text-gray-700 p-2 rounded-full transition-colors"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleDelete(row._id);
+            }}
             aria-label="Delete Patient"
             title="Delete"
           >
-            <FaTrash size={20} /> {/* Icon for Delete */}
+            <FaTrash size={16} />
           </button>
         </div>
       ),
@@ -177,122 +179,147 @@ const PatientList = () => {
   ];
 
   const customStyles = {
+    headRow: {
+      style: {
+        backgroundColor: '#f9fafb',
+        borderBottom: '1px solid #e5e7eb',
+      },
+    },
     headCells: {
       style: {
-        display: "flex",
-        justifyContent: "center",
-        textAlign: "center",
-        fontWeight: "bold",
-        backgroundColor: "#EEEEEE",
-        fontSize: "14px",
+        padding: '16px',
+        fontWeight: '300',
+        fontSize: '0.875rem',
+        color: '#4b5563',
+        textTransform: 'uppercase',
+        letterSpacing: '0.05em',
+      },
+    },
+    rows: {
+      style: {
+        backgroundColor: 'white',
+        '&:hover': {
+          backgroundColor: '#f9fafb',
+          cursor: 'pointer',
+        },
       },
     },
     cells: {
       style: {
-        display: "flex",
-        justifyContent: "center",
-        textAlign: "center",
-        paddingTop: "12px",
-        paddingBottom: "12px",
-        fontSize: "14px",
+        padding: '16px',
+      },
+    },
+    pagination: {
+      style: {
+        borderTop: '1px solid #e5e7eb',
+        padding: '16px',
       },
     },
   };
 
   const handlePageChange = (newPage) => {
-    setPage(newPage); // Update the current page
+    setPage(newPage);
   };
 
   return (
-    <div className="relative px-4 md:px-14 py-10">
-      <div className="flex flex-col">
-        <h1 className="font-serif text-xl md:text-2xl font-semibold text-center md:text-left">
-          Patients
-        </h1>
-        <div className="flex flex-col md:flex-row justify-between items-center py-6 gap-4 md:gap-0">
-          <div className="input flex items-center p-[12px] px-4 border border-[#B0B0B0] rounded-md bg-white cursor-text w-full md:max-w-xs">
-            <img className="h-6 w-6" src={Search} alt="Search Icon" />
-            <input
-              type="text"
-              placeholder="Search by name or ID"
-              onChange={(e) => setSearchTerm(e.target.value)}
-              value={searchTerm}
-              className="w-full  text-sm outline-none px-2 !mt-0 !border-none bg-transparent"
-            />
+    <div className="w-full">
+      {/* Header and controls */}
+      <div className="mb-6 flex flex-col md:flex-row items-center justify-between gap-4">
+        <div className="relative w-full md:w-64">
+          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <FaSearch className="text-gray-400" />
           </div>
-          <div
-            className={
-              "flex w-full justify-between sm:w-[55%] sm:justify-between"
-            }
-          >
-            <div className="flex items-center gap-2">
-              <img src={User} alt="User Icon" className="h-6 w-6" />
-              <h1 className="font-serif text-sm md:text-base">
-                <span>{patient?.data?.totalPatients || 0}</span> Total Patients
-              </h1>
-            </div>
-            <button
-              className="bg-primary-blue text-white px-8 md:px-12 py-2 text-sm md:text-lg rounded-md hover:bg-primary-blue/95"
-              onClick={() => setShowAddPatient(true)}
-            >
-              Add Patient
-            </button>
-          </div>
+          <input
+            type="text"
+            placeholder="Search patients..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="bg-white w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:ring-0 focus:border-gray-300 text-sm font-light"
+          />
         </div>
-        {loading ? (
-          <div className="flex flex-col items-center justify-center min-h-[300px]">
-            <ClipLoader size={50} color="#3498db" />
-            <div className="mt-4 text-lg font-medium text-gray-600">
-              Loading patients, please wait...
-            </div>
+        
+        <div className="flex items-center justify-between w-full md:w-auto">
+          <div className="flex items-center space-x-2 text-gray-500 mr-4">
+            <FaUserAlt size={14} />
+            <span className="text-sm font-light">
+              {patient?.data?.totalPatients || 0} Patients
+            </span>
           </div>
-        ) : (
+          
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={() => setShowAddPatient(true)}
+            className="bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 px-4 py-2 rounded-lg text-sm font-light transition-colors"
+          >
+            Add Patient
+          </motion.button>
+        </div>
+      </div>
+
+      {/* Patient table */}
+      {loading ? (
+        <div className="flex flex-col items-center justify-center py-12">
+          <ClipLoader size={40} color="#9ca3af" />
+          <p className="mt-4 text-gray-500 font-light">Loading patients...</p>
+        </div>
+      ) : (
+        <div className="bg-white rounded-xl shadow-sm">
           <DataTable
             columns={columns}
             data={fetchedPatients}
-            fixedHeader
             pagination
             paginationServer
             paginationComponentOptions={{
-              noRowsPerPage: true, // Disable "Rows per page"
+              noRowsPerPage: true,
             }}
             paginationTotalRows={patient?.data?.totalPatients || 0}
             paginationDefaultPage={Number(patient?.data?.currentPage) || 1}
-            onChangePage={(newPage) => handlePageChange(newPage)}
-            responsive
-            pointerOnHover
-            customStyles={customStyles}
+            onChangePage={handlePageChange}
             onRowClicked={(patient) => navigateToPatientProfile(patient._id)}
+            noDataComponent={
+              <div className="p-8 text-center text-gray-500 font-light">
+                No patients found
+              </div>
+            }
+            customStyles={customStyles}
           />
-        )}
-      </div>
+        </div>
+      )}
 
+      {/* Modals */}
       {showAddPatient && (
-        <div className="fixed inset-0 bg-black/50 z-50 flex justify-center items-center">
-          <div
+        <div className="fixed inset-0 bg-black/50 z-50 flex justify-center items-center p-4">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
             ref={addPatientRef}
-            className="w-[90%] h-[80%] md:h-[85%] lg:h-[95%] md:w-[60%] lg:w-[50%] overflow-auto"
+            className="w-full max-w-2xl max-h-[90vh] overflow-auto"
           >
             <AddPatient
               closeModal={() => setShowAddPatient(false)}
               refetchPatients={refetch}
             />
-          </div>
+          </motion.div>
         </div>
       )}
+      
       {showAddAppointment && (
-        <div className="fixed inset-0 bg-black/50 z-50 flex justify-center items-center">
-          <div
+        <div className="fixed inset-0 bg-black/50 z-50 flex justify-center items-center p-4">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
             ref={addAppointmentRef}
-            className="w-[90%] md:w-[60%] lg:w-[50%] overflow-auto"
+            className="w-full max-w-2xl overflow-auto"
           >
             <CreateAppointmentModal
               patientData={patientData}
               closeModal={() => setShowAddAppointment(false)}
             />
-          </div>
+          </motion.div>
         </div>
       )}
+      
       {isPromptOpen && (
         <Prompt
           isOpen={isPromptOpen}

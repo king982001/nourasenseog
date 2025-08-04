@@ -1,3 +1,85 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  :root {
+    /* Nourasense Color Palette */
+    --nourasense-blue-1: #4544DF;
+    --nourasense-blue-2: #1A68D3;
+    --nourasense-blue-3: #2D9AE9;
+    --nourasense-blue-4: #40CCFF;
+    --nourasense-cream: #F9F8F5;
+    --nourasense-white: #FFFFFF;
+    --nourasense-black: #000000;
+
+    /* Theme Colors */
+    --background: var(--nourasense-cream);
+    --foreground: var(--nourasense-black);
+    --card: var(--nourasense-white);
+    --card-foreground: var(--nourasense-black);
+    --popover: var(--nourasense-white);
+    --popover-foreground: var(--nourasense-black);
+    --primary: var(--nourasense-blue-1);
+    --primary-foreground: var(--nourasense-white);
+    --secondary: var(--nourasense-blue-2);
+    --secondary-foreground: var(--nourasense-white);
+    --muted: var(--nourasense-cream);
+    --muted-foreground: var(--nourasense-black);
+    --accent: var(--nourasense-blue-3);
+    --accent-foreground: var(--nourasense-white);
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 89.8%;
+    --input: 0 0% 89.8%;
+    --ring: var(--nourasense-blue-1);
+    --chart-1: var(--nourasense-blue-1);
+    --chart-2: var(--nourasense-blue-2);
+    --chart-3: var(--nourasense-blue-3);
+    --chart-4: var(--nourasense-blue-4);
+    --chart-5: var(--nourasense-blue-1);
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: var(--nourasense-black);
+    --foreground: var(--nourasense-white);
+    --card: var(--nourasense-black);
+    --card-foreground: var(--nourasense-white);
+    --popover: var(--nourasense-black);
+    --popover-foreground: var(--nourasense-white);
+    --primary: var(--nourasense-blue-4);
+    --primary-foreground: var(--nourasense-black);
+    --secondary: var(--nourasense-blue-3);
+    --secondary-foreground: var(--nourasense-white);
+    --muted: var(--nourasense-black);
+    --muted-foreground: var(--nourasense-white);
+    --accent: var(--nourasense-blue-2);
+    --accent-foreground: var(--nourasense-white);
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 14.9%;
+    --input: 0 0% 14.9%;
+    --ring: var(--nourasense-blue-4);
+    --chart-1: var(--nourasense-blue-4);
+    --chart-2: var(--nourasense-blue-3);
+    --chart-3: var(--nourasense-blue-2);
+    --chart-4: var(--nourasense-blue-1);
+    --chart-5: var(--nourasense-blue-4);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground font-sans;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif;
+  }
+  p, span, a, button, input, textarea, select {
+    @apply font-sans;
+  }
+}

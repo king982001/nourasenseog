@@ -1,22 +1,32 @@
 import React, { useEffect, useRef, useState } from "react";
 import DataTable from "react-data-table-component";
-import Search from "src/assets/Patient/Search.svg";
-import User from "src/assets/Patient/User.svg";
 import { useNavigate } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
 import { useChildrens, useDeleteChildren } from "src/Hooks/PatientHooks.js";
 import AddPatient from "src/Components/Patient/AddPatient.jsx";
-import { FaStethoscope } from "react-icons/fa6";
-import { FaTrash } from "react-icons/fa";
+import { FaStethoscope, FaSearch, FaUser, FaPlus, FaTrash } from "react-icons/fa";
 import Prompt from "src/Components/Prompt.jsx";
 import toast from "react-hot-toast";
+import { motion } from "motion/react";
 
-const formattedDate = () => {
-  return new Date().toLocaleDateString("en-US", {
+const formattedDate = (dateString) => {
+  if (!dateString) return "N/A";
+  return new Date(dateString).toLocaleDateString("en-US", {
     day: "numeric",
     month: "long",
     year: "numeric",
   });
+};
+
+// Helper to safely get full name from child data
+const getFullName = (child) => {
+  if (!child) return "N/A";
+  
+  const firstName = child.firstName || child.name || "";
+  const lastName = child.lastName || child.surname || "";
+  
+  if (!firstName && !lastName) return "Unknown";
+  return `${firstName} ${lastName}`.trim();
 };
 
 const PatientList = () => {
@@ -24,49 +34,48 @@ const PatientList = () => {
   const [page, setPage] = useState(1);
   const { data: children, isLoading: loading, refetch } = useChildrens(page);
   const { mutate: deleteChildren } = useDeleteChildren();
-  const [showDiagnose, setShowDiagnose] = useState(false);
   const [showAddPatient, setShowAddPatient] = useState(false);
-  const addDiagnoseRef = useRef(null);
   const addPatientRef = useRef(null);
   const [searchTerm, setSearchTerm] = useState("");
-  const [isVisible, setIsVisible] = useState(false);
   const [childrenToDelete, setChildrenToDelete] = useState(null);
   const [isPromptOpen, setIsPromptOpen] = useState(false);
 
   useEffect(() => {
-    refetch(); // Trigger refetch when page changes
+    refetch();
   }, [page, refetch]);
 
   const filteredChildren =
-    typeof children?.data.children === "object"
-      ? children?.data.children.filter(
-          (val) =>
-            val.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            val.surname.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            val._id.toLowerCase().includes(searchTerm.toLowerCase())
+    typeof children?.data?.children === "object" && Array.isArray(children?.data?.children)
+      ? children?.data?.children.filter(
+          (val) => {
+            if (!val) return false;
+            const searchString = searchTerm.toLowerCase();
+            return (
+              (val.firstName || "").toLowerCase().includes(searchString) ||
+              (val.lastName || "").toLowerCase().includes(searchString) ||
+              (val.name || "").toLowerCase().includes(searchString) ||
+              (val.surname || "").toLowerCase().includes(searchString) ||
+              (val.customId || "").toLowerCase().includes(searchString) ||
+              (val._id || "").toLowerCase().includes(searchString)
+            );
+          }
         )
       : [];
 
   useEffect(() => {
-    if (showAddPatient || showDiagnose) {
+    if (showAddPatient) {
       document.body.style.overflow = "hidden";
-      setTimeout(() => setIsVisible(true), 10);
     } else {
-      setIsVisible(false);
       setTimeout(() => {
         document.body.style.overflow = "auto";
       }, 300);
     }
-  }, [showAddPatient, showDiagnose]);
+  }, [showAddPatient]);
 
   useEffect(() => {
     const handleClickOutside = (e) => {
-      if (
-        (addPatientRef.current && !addPatientRef.current.contains(e.target)) ||
-        (addDiagnoseRef.current && !addDiagnoseRef.current.contains(e.target))
-      ) {
+      if (addPatientRef.current && !addPatientRef.current.contains(e.target)) {
         setShowAddPatient(false);
-        setShowDiagnose(false);
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
@@ -74,23 +83,21 @@ const PatientList = () => {
   }, []);
 
   const handleDelete = (patientId) => {
-    setChildrenToDelete(patientId); // Set the selected patient ID
-    setIsPromptOpen(true); // Open the Prompt modal
+    setChildrenToDelete(patientId);
+    setIsPromptOpen(true);
   };
 
   const confirmDelete = async () => {
     if (childrenToDelete) {
-      setIsPromptOpen(false); // Close the Prompt modal after deletion
+      setIsPromptOpen(false);
+      const toastId = toast.loading("Deleting child...");
       await deleteChildren(childrenToDelete, {
-        onMutate: () => {
-          toast.loading("Deleting children. Please wait...");
-        },
         onSuccess: () => {
-          toast.success("Children deleted successfully.");
+          toast.success("Child deleted successfully", { id: toastId });
           refetch();
         },
         onError: () => {
-          toast.error("Error deleting children");
+          toast.error("Error deleting child", { id: toastId });
         },
       });
     }
@@ -99,169 +106,241 @@ const PatientList = () => {
   const columns = [
     {
       name: "Name",
-      selector: (row) => `${row.name} ${row.surname}`,
-      style: {
-        fontWeight: "500",
-      },
-    },
-    {
-      name: "Child ID",
-      selector: (row) => row.customId || "N/A",
+      selector: row => getFullName(row),
+      sortable: true,
+      cell: (row) => (
+        <div className="py-2 pl-1">
+          <div className="font-medium text-gray-800">{getFullName(row)}</div>
+          <div className="text-xs text-gray-500">{row.customId || "No ID"}</div>
+        </div>
+      ),
     },
     {
       name: "Gender",
       selector: (row) => row.gender,
-    },
-    {
-      name: "Created At",
-      selector: (row) => formattedDate(row.createdAt),
-    },
-    {
-      name: "Action",
+      sortable: true,
       cell: (row) => (
-        <div>
+        <div className="capitalize text-gray-700">
+          {row.gender ? row.gender.toLowerCase() : "Not specified"}
+        </div>
+      ),
+    },
+    {
+      name: "Date of Birth",
+      selector: (row) => row.dataOfBirth || row.dateOfBirth,
+      sortable: true,
+      cell: (row) => (
+        <div className="text-gray-700">{formattedDate(row.dataOfBirth || row.dateOfBirth)}</div>
+      ),
+    },
+    {
+      name: "Added On",
+      selector: (row) => row.createdAt,
+      sortable: true,
+      cell: (row) => (
+        <div className="text-gray-700">{formattedDate(row.createdAt)}</div>
+      ),
+    },
+    {
+      name: "Actions",
+      cell: (row) => (
+        <div className="flex space-x-2">
           <button
-            onClick={() => navigate(`/child/${row._id}`)}
-            className="text-blue-500 hover:text-blue-600 p-2 rounded-full"
-            aria-label="Diagnose Patient"
-            title="Diagnose"
+            onClick={(e) => {
+              e.stopPropagation();
+              navigate(`/child/${row._id}`);
+            }}
+            className="p-2 text-primary-blue bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors"
+            aria-label="View Profile"
+            title="View Profile"
           >
-            <FaStethoscope size={20} />
+            <FaStethoscope size={16} />
           </button>
 
-          {/* Delete Button */}
           <button
-            className="text-red-500 hover:text-red-600 p-2 rounded-full"
-            onClick={() => handleDelete(row._id)}
-            aria-label="Delete Patient"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleDelete(row._id);
+            }}
+            className="p-2 text-red-500 bg-red-50 rounded-lg hover:bg-red-100 transition-colors"
+            aria-label="Delete"
             title="Delete"
           >
-            <FaTrash size={20} /> {/* Icon for Delete */}
+            <FaTrash size={16} />
           </button>
         </div>
       ),
+      button: true,
     },
   ];
 
   const customStyles = {
+    headRow: {
+      style: {
+        backgroundColor: "#f8fafc",
+        borderRadius: "8px 8px 0 0",
+        border: "none",
+        fontSize: "14px",
+        fontWeight: "500",
+        color: "#374151",
+      },
+    },
     headCells: {
       style: {
-        display: "flex",
-        justifyContent: "center",
-        textAlign: "center",
-        fontWeight: "bold",
-        backgroundColor: "#EEEEEE",
+        padding: "16px",
+        fontWeight: "500",
+      },
+    },
+    rows: {
+      style: {
         fontSize: "14px",
+        backgroundColor: "#fff",
+        border: "none",
+        borderBottom: "1px solid #f1f5f9",
+        "&:last-of-type": {
+          borderBottom: "none",
+          borderRadius: "0 0 8px 8px",
+        },
+        "&:hover": {
+          backgroundColor: "#f8fafc",
+          cursor: "pointer",
+        },
       },
     },
     cells: {
       style: {
-        display: "flex",
-        justifyContent: "center",
-        textAlign: "center",
-        paddingTop: "12px",
-        paddingBottom: "12px",
-
-        fontSize: "14px",
+        padding: "12px 16px",
+      },
+    },
+    pagination: {
+      style: {
+        borderRadius: "0 0 8px 8px",
+        backgroundColor: "#fff",
+        border: "none",
+        borderTop: "1px solid #f1f5f9",
+      },
+      pageButtonsStyle: {
+        color: "#3b82f6",
+        fill: "#3b82f6",
+        "&:disabled": {
+          color: "#cbd5e1",
+          fill: "#cbd5e1",
+        },
+        "&:hover:not(:disabled)": {
+          backgroundColor: "#eff6ff",
+        },
+        "&:focus": {
+          outline: "none",
+        },
       },
     },
   };
 
-  const handlePageChange = (newPage) => {
-    setPage(newPage); // Update the current page
-  };
-
   return (
-    <div className="relative px-4 md:px-14 py-10">
-      <div className="flex flex-col">
-        <h1 className="font-serif text-xl md:text-2xl font-semibold text-center md:text-left">
-          Children
-        </h1>
-        <div className="flex flex-col md:flex-row justify-between items-center py-6 gap-4 md:gap-0">
-          <div className="input flex items-center p-[12px] px-4 border border-[#B0B0B0] rounded-md bg-white cursor-text w-full md:max-w-xs">
-            <img className="h-6 w-6" src={Search} alt="Search Icon" />
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, delay: 0.2 }}
+      className="bg-white rounded-xl shadow-sm overflow-hidden"
+    >
+      <div className="p-6 border-b border-gray-100">
+        <div className="flex flex-col md:flex-row justify-between gap-4 mb-6">
+          <h2 className="text-xl font-light text-gray-800 flex items-center">
+            <FaUser className="mr-2 text-primary-blue" /> 
+            Children
+          </h2>
+          <button
+            onClick={() => setShowAddPatient(true)}
+            className="flex items-center justify-center bg-primary-blue text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+          >
+            <FaPlus className="mr-2" /> Add Child
+          </button>
+        </div>
+        
+        <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+          <div className="relative w-full md:w-72">
+            <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
             <input
               type="text"
               placeholder="Search by name or ID"
-              onChange={(e) => setSearchTerm(e.target.value)}
               value={searchTerm}
-              className="w-full  text-sm outline-none px-2 !mt-0 !border-none bg-transparent"
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-blue focus:border-transparent"
             />
           </div>
-          <div
-            className={
-              "flex w-full justify-between sm:w-[55%] sm:justify-between"
-            }
-          >
-            <div className="flex items-center gap-2">
-              <img src={User} alt="User Icon" className="h-6 w-6" />
-              <h1 className="font-serif text-sm md:text-base">
-                <span>
-                  {typeof children?.data.children === "object"
-                    ? children?.data?.totalChildren
-                    : 0}
-                </span>{" "}
-                Total Children
-              </h1>
-            </div>
-            <button
-              className="bg-primary-blue text-white px-8 md:px-12 py-2 text-sm md:text-lg rounded-md hover:bg-primary-blue/95"
-              onClick={() => setShowAddPatient(true)}
-            >
-              Add Child
-            </button>
+          
+          <div className="text-sm text-gray-500 flex items-center">
+            Total Children: <span className="ml-1 font-medium text-primary-blue">{children?.data?.totalChildren || 0}</span>
           </div>
         </div>
-        {loading ? (
-          <div className="flex flex-col items-center justify-center min-h-[300px]">
-            <ClipLoader size={50} color="#3498db" />
-            <div className="mt-4 text-lg font-medium text-gray-600">
-              Loading patients, please wait...
-            </div>
-          </div>
-        ) : (
-          <DataTable
-            columns={columns}
-            data={filteredChildren}
-            fixedHeader
-            pagination
-            paginationServer
-            paginationComponentOptions={{
-              noRowsPerPage: true, // Disable "Rows per page"
-            }}
-            paginationTotalRows={children?.data?.totalChildren || 0}
-            paginationDefaultPage={Number(children?.data?.currentPage) || 1}
-            onChangePage={(newPage) => handlePageChange(newPage)}
-            responsive
-            pointerOnHover
-            customStyles={customStyles}
-            onRowClicked={(patient) => navigate(`/child/${patient._id}`)}
-          />
-        )}
       </div>
+      
+      {loading ? (
+        <div className="flex flex-col items-center justify-center p-16">
+          <ClipLoader size={40} color="#3b82f6" />
+          <div className="mt-4 text-gray-600 font-light">Loading children...</div>
+        </div>
+      ) : filteredChildren.length === 0 ? (
+        <div className="flex flex-col items-center justify-center p-16 text-center">
+          <div className="rounded-full bg-blue-50 p-4 mb-4">
+            <FaUser className="text-primary-blue text-2xl" />
+          </div>
+          <h3 className="text-lg font-light text-gray-800 mb-2">No children found</h3>
+          <p className="text-gray-500 max-w-md mb-6">
+            {searchTerm ? "Try a different search term or" : "You haven't added any children yet. Get started by"} adding a child to track their health.
+          </p>
+          <button
+            onClick={() => setShowAddPatient(true)}
+            className="flex items-center justify-center bg-primary-blue text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+          >
+            <FaPlus className="mr-2" /> Add Child
+          </button>
+        </div>
+      ) : (
+        <DataTable
+          columns={columns}
+          data={filteredChildren}
+          fixedHeader
+          pagination
+          paginationServer
+          paginationTotalRows={children?.data?.totalChildren || 0}
+          paginationDefaultPage={Number(children?.data?.currentPage) || 1}
+          onChangePage={(newPage) => setPage(newPage)}
+          customStyles={customStyles}
+          onRowClicked={(patient) => navigate(`/child/${patient._id}`)}
+          paginationComponentOptions={{
+            noRowsPerPage: true,
+          }}
+        />
+      )}
 
       {showAddPatient && (
-        <div className="fixed inset-0 bg-black/50 z-50 flex justify-center items-center">
-          <div
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex justify-center items-center">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            transition={{ duration: 0.3 }}
             ref={addPatientRef}
-            className="w-[90%] h-[80%] md:w-[60%] lg:w-[50%] overflow-auto"
+            className="w-[90%] max-w-2xl max-h-[90vh] overflow-auto bg-white rounded-xl shadow-xl"
           >
             <AddPatient
               refetchChildrens={refetch}
               closeModal={() => setShowAddPatient(false)}
             />
-          </div>
+          </motion.div>
         </div>
       )}
+      
       {isPromptOpen && (
         <Prompt
           isOpen={isPromptOpen}
-          message="Are you sure you want to delete this patient?"
+          message="Are you sure you want to delete this child? This action cannot be undone."
           onConfirm={confirmDelete}
           onCancel={() => setIsPromptOpen(false)}
         />
       )}
-    </div>
+    </motion.div>
   );
 };
 

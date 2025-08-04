@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
+import { motion } from "motion/react";
 
-const Prompt = ({ isOpen, title, message, onConfirm, onCancel }) => {
+const Prompt = ({ isOpen, title = "Confirmation", message, onConfirm, onCancel }) => {
   useEffect(() => {
     if (isOpen) {
       // Disable scrolling
@@ -16,28 +17,44 @@ const Prompt = ({ isOpen, title, message, onConfirm, onCancel }) => {
     };
   }, [isOpen]);
 
-  if (!isOpen) return null; // Return null if the modal isn't open
+  if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="bg-white rounded-lg shadow-lg p-6 w-11/12 sm:w-1/3">
-        <h2 className="text-xl font-semibold text-[#002F88] mb-4">{title}</h2>
-        <p className="text-gray-700 mb-6">{message}</p>
-        <div className="flex justify-end space-x-4">
-          <button
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50">
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.95 }}
+        className="bg-white rounded-xl shadow-md w-full max-w-md overflow-hidden"
+      >
+        <div className="p-5 border-b border-gray-100">
+          <h2 className="text-xl font-light text-gray-800">{title}</h2>
+        </div>
+        
+        <div className="p-6">
+          <p className="text-gray-600 font-light">{message}</p>
+        </div>
+        
+        <div className="p-5 border-t border-gray-100 flex justify-end space-x-3">
+          <motion.button
+            whileHover={{ scale: 1.01 }}
+            whileTap={{ scale: 0.99 }}
             onClick={onCancel}
-            className="bg-gray-300 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-400"
+            className="px-4 py-2 border border-gray-200 rounded-lg text-gray-600 hover:bg-gray-50 text-sm font-light transition-colors"
           >
             Cancel
-          </button>
-          <button
+          </motion.button>
+          
+          <motion.button
+            whileHover={{ scale: 1.01 }}
+            whileTap={{ scale: 0.99 }}
             onClick={onConfirm}
-            className="bg-[#002F88] text-white px-4 py-2 rounded-md hover:bg-[#001E5E]"
+            className="px-4 py-2 bg-gray-800 hover:bg-gray-700 text-white rounded-lg text-sm font-light transition-colors"
           >
             Confirm
-          </button>
+          </motion.button>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 };
