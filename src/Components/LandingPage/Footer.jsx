@@ -71,7 +71,7 @@ const Footer = () => {
                 <span className="ml-2 text-black font-bold">NouraSense</span>
               </div>
               <p className="text-gray-600 max-w-xs">
-                Developing state-of-the-art diagnostics and reporting tools for better child care.
+                Developing free and accessible state-of-the-art diagnostics and reporting tools for better child care.
               </p>
             </div>
           </div>

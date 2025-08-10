@@ -214,7 +214,7 @@ const ProtectedLayout = () => {
       {/* Top Navigation - Fixed */}
       <div className="fixed top-0 left-0 right-0 py-3 px-4 flex justify-between items-center border-b border-gray-100 bg-white shadow-sm z-10">
         <div className="flex items-center space-x-2">
-          <img src="/logo-blue.png" alt="Nourasense" className="h-8 w-auto" />
+          <img src="/logo-blue.png" alt="Nourasense" className="h-5 w-auto sm:h-6 sm:w-auto md:h-7 md:w-auto lg:h-6 lg:w-auto" />
           {/* <span className="text-primary-blue font-medium text-lg">Nourasense</span> */}
         </div>
         <div className="flex items-center gap-4">
