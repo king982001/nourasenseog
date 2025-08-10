@@ -111,7 +111,7 @@ const EnhancedCTA = () => {
               onClick={() => navigate('/signup')}
               className="px-8 py-4 bg-[#4544DF] text-white rounded-full font-medium transition-colors duration-300 hover:bg-[#3635b2]"
             >
-              Start Free Trial
+              Use Nourasense Today
             </motion.button>
             
             <motion.button

@@ -42,7 +42,12 @@ const Hero = () => {
           titleComponent={
             <>
               <h1 className="text-4xl sm:text-5xl font-normal leading-tight mb-6">
-                <span className="text-blue-600">Revolutionize</span> <span className="text-black">pediatric care with Nourasense's</span> <span className="text-blue-600">AI-powered diagnostics</span> <span className="text-black">and</span> <span className="text-blue-600">growth analytics</span>
+                <span className='text-black'>We provide </span>
+                <span className="text-blue-600">free, automated malnutrition screening </span> 
+                <span className="text-black">to empower parents and health workers, ensuring </span> 
+                <span className="text-blue-600">no child's health is overlooked </span> 
+                <span className="text-black">because of </span> 
+                <span className="text-blue-600">distance, cost, or access</span>
               </h1>
 
               <div className="flex flex-col items-center gap-4 mt-8 mb-8">
@@ -50,10 +55,10 @@ const Hero = () => {
                   onClick={() => handleModalOpen('signup')}
                   className="px-8 py-3 bg-blue-600 text-white rounded-md text-lg hover:bg-blue-700 transition"
                 >
-                  Start Free Trial
+                  Use Nourasense Today
                 </button>
                 <p className="text-gray-600 text-lg">
-                  Nourasense for every parent, everywhere.
+                  Nourasense: for every parent and health worker anytime, anywhere.
                 </p>
               </div>
             </>
