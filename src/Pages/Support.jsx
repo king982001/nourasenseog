@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom"; // <-- Add this import
 import { useFeedback } from "src/Hooks/Hooks.js";
 import toast from "react-hot-toast";
 import BackButton from "src/Components/BackButton.jsx";
@@ -98,6 +99,21 @@ const SupportPage = () => {
 
   return (
     <div className="bg-white min-h-screen font-['Inter']">
+      {/* Navigation Bar */}
+      <div className="w-full py-4 px-6 flex justify-between items-center border-b border-gray-100">
+        <Link to="/" className="flex items-center space-x-2">
+          <img src="/logo-blue.png" alt="Nourasense" className="h-5 w-auto sm:h-6 sm:w-auto md:h-7 md:w-auto lg:h-6 lg:w-auto" />
+        </Link>
+        <Link 
+          to="/" 
+          className="text-sm text-gray-600 hover:text-primary-blue flex items-center"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
+            <path fillRule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clipRule="evenodd" />
+          </svg>
+          Back to Home
+        </Link>
+      </div>
       <div className="max-w-6xl mx-auto px-4 py-8">
         
         <div className="text-center mb-10">
@@ -125,7 +141,6 @@ const SupportPage = () => {
                   className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm"
                 />
               </div>
-              
               <div>
                 <label htmlFor="email" className="block text-sm text-gray-600 mb-1">Email*</label>
                 <input
