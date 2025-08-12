@@ -4,15 +4,11 @@ import { Link } from "react-router-dom";
 const TermsAndConditions = () => {
   useEffect(() => {
     document.title = "Nourasense - Terms and Conditions";
-    
-    // Add Inter font if not already added
     const fontLink = document.createElement('link');
     fontLink.href = 'https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500&display=swap';
     fontLink.rel = 'stylesheet';
     document.head.appendChild(fontLink);
-    
     return () => {
-      // Clean up the font link if this component added it
       if (document.head.contains(fontLink)) {
         document.head.removeChild(fontLink);
       }
@@ -20,8 +16,24 @@ const TermsAndConditions = () => {
   }, []);
 
   return (
-    <>
-      <div className="min-h-screen px-4 sm:px-12 py-12 sm:py-14 bg-white font-['Inter']">
+    <div className="min-h-screen bg-white flex flex-col">
+      {/* Navigation Bar */}
+      <div className="w-full py-4 px-6 flex justify-between items-center border-b border-gray-100">
+        <Link to="/" className="flex items-center space-x-2">
+          <img src="/logo-blue.png" alt="Nourasense" className="h-5 w-auto sm:h-6 sm:w-auto md:h-7 md:w-auto lg:h-6 lg:w-auto" />
+        </Link>
+        <Link 
+          to="/" 
+          className="text-sm text-gray-600 hover:text-primary-blue flex items-center"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
+            <path fillRule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clipRule="evenodd" />
+          </svg>
+          Back to Home
+        </Link>
+      </div>
+
+      <div className="flex-grow px-4 sm:px-12 py-12 sm:py-14">
         <div className="max-w-4xl mx-auto bg-white rounded-xl border border-gray-100 shadow-sm p-6 sm:p-10">
           <div className="text-center mb-10">
             <h1 className="text-2xl sm:text-3xl font-light text-gray-800 mb-2">
@@ -159,15 +171,9 @@ const TermsAndConditions = () => {
               </p>
             </section>
           </div>
-
-          <div className="mt-12 pt-6 border-t border-gray-100 text-center">
-            <Link to="/" className="text-sm text-blue-500 hover:text-blue-600">
-              Return to Homepage
-            </Link>
-          </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
