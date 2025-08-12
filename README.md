@@ -1,4 +1,4 @@
-# Nourasense Frontendffffff
+# Nourasense Frontend
 
 Nourasense is a web application built with React, designed to help identify deficiencies in infants using machine learning algorithms. The application is structured with three main dashboards: **Doctor**, **Admin**, and **Patient**. The project is set up using [Vite](https://vitejs.dev/), a fast and optimized build tool for React applications.
 
@@ -44,6 +44,7 @@ cp .env.example .env
 ```
 npm run dev
 ```
+
 
 
 
