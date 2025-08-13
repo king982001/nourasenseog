@@ -17,7 +17,6 @@ import PatientProfile from "src/Pages/Doctor/PatientProfile.jsx";
 import Diagnose from "src/Pages/Doctor/Diagnose.jsx";
 import EmptyHead from "src/Components/EmptyHead.jsx";
 import { GeneralDetails } from "src/Pages/Doctor/GeneralDetails.jsx";
-import ManageSubscription from "src/Pages/Doctor/ManageSubscription";
 import { NutritionalValues } from "src/Components/Doctor/NutritionalValues";
 import NutritionalValuesPage from "src/Pages/Doctor/NutritionalValuesPage";
 import DietPlanPage from "src/Pages/Doctor/DietPlanPage";
@@ -276,14 +275,6 @@ const ProtectedLayout = () => {
               }
               text="Dashboard"
             />
-            <SidebarItem 
-              to="/doctor/manage-subscription" 
-              active={location.pathname.includes("/manage-subscription")} 
-              collapsed={sidebarCollapsed}
-              icon={<FaUsers className="h-5 w-5" />}
-              text="Subscription"
-            />
-           
           </div>
           
           <div className="p-2 mt-auto border-t border-gray-100">
@@ -315,9 +306,6 @@ const ProtectedLayout = () => {
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
             </svg>
-          </Link>
-          <Link to="/doctor/manage-subscription" className={`p-2 rounded-lg ${location.pathname.includes("/manage-subscription") ? "text-primary-blue" : "text-gray-600"}`}>
-            <FaUsers className="h-6 w-6" />
           </Link>
           <Link to="/doctor/nutritional-values" className={`p-2 rounded-lg ${location.pathname.includes("/nutritional-values") ? "text-primary-blue" : "text-gray-600"}`}>
             <GiMeal className="h-6 w-6" />
@@ -372,7 +360,6 @@ const DoctorRoutes = () => (
       <Route path="/patient/:patientId/nutritional-values" element={<NutritionalValuesPage />} />
       <Route path="/patient/:patientId/diet-plan" element={<DietPlanPage />} />
       <Route path="/diagnose/:id" element={<Diagnose />} />
-      <Route path="/manage-subscription" element={<ManageSubscription />} />
     </Route>
     <Route path="*" element={<NotFoundPage />} />
   </Routes>
