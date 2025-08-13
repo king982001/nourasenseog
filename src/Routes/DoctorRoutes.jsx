@@ -263,7 +263,7 @@ const ProtectedLayout = () => {
             )}
           </button>
           
-          <div className="flex-1 p-2 space-y-1 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-200">
+          <div className="flex-1 p-https://chatgpt.com/c/689ce87b-8728-8327-a8c7-5ab8800ca7a9#:~:text=git%20push%20origin%20main%20%2D%2Dforce2 space-y-1 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-200">
             <SidebarItem 
               to="/doctor/" 
               active={location.pathname === "/doctor/"} 
@@ -306,9 +306,6 @@ const ProtectedLayout = () => {
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
             </svg>
-          </Link>
-          <Link to="/doctor/nutritional-values" className={`p-2 rounded-lg ${location.pathname.includes("/nutritional-values") ? "text-primary-blue" : "text-gray-600"}`}>
-            <GiMeal className="h-6 w-6" />
           </Link>
           <button 
             onClick={() => setProfileModalOpen(true)} 
