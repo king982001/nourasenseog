@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom"; // <-- Add this import
+import { Link } from "react-router-dom";
 import { useFeedback } from "src/Hooks/Hooks.js";
 import toast from "react-hot-toast";
-import BackButton from "src/Components/BackButton.jsx";
 
 const SupportPage = () => {
   const [faqState, setFaqState] = useState({});
@@ -61,13 +60,10 @@ const SupportPage = () => {
 
   useEffect(() => {
     document.title = "Nourasense - Support";
-    
-    // Add Inter font if not already added
     const fontLink = document.createElement('link');
     fontLink.href = 'https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500&display=swap';
     fontLink.rel = 'stylesheet';
     document.head.appendChild(fontLink);
-    
     return () => {
       document.head.removeChild(fontLink);
     };
@@ -98,7 +94,7 @@ const SupportPage = () => {
   ];
 
   return (
-    <div className="bg-white min-h-screen font-['Inter']">
+    <div className="min-h-screen bg-white flex flex-col">
       {/* Navigation Bar */}
       <div className="w-full py-4 px-6 flex justify-between items-center border-b border-gray-100">
         <Link to="/" className="flex items-center space-x-2">
