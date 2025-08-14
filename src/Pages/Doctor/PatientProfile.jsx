@@ -7,7 +7,6 @@ import { GrowthCharts } from "src/Pages/Doctor/GrowthCharts.jsx";
 import { DietPlan } from "src/Components/Doctor/DietPlan.jsx";
 import MidParentHeight from "src/Components/Doctor/MidParentHeight.jsx";
 import { Link, useParams } from "react-router-dom";
-import DiagnosisTable from "src/Components/Doctor/DiagnosisTable.jsx"; // <-- Add this import
 
 const PatientProfile = () => {
   const { id: patientId } = useParams();
@@ -32,9 +31,6 @@ const PatientProfile = () => {
         {/* Growth Charts */}
         <GrowthCharts />
 
-        {/* Diagnosis Table */}
-        <DiagnosisTable customId={patientId} />
-
         {/* Calendar */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
           <div className="lg:col-span-2">
@@ -46,7 +42,7 @@ const PatientProfile = () => {
         <NutritionalValues patientId={patientId} />
 
         {/* Diet Plan at the end of the page */}
-        <DietPlan patientId={patientId} />
+        <DietPlan />
       </div>
     </div>
   );
