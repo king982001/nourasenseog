@@ -195,61 +195,6 @@ export const useDiagnoseHistory = (patientId, page = 1) => {
   });
 };
 
-export const useReportHistory = (patientId, page = 1) => {
-  return useQuery({
-    queryFn: async () => {
-      if (!patientId) {
-        throw new Error("Patient ID is required");
-      }
-      const response = await axios.get(
-        `${import.meta.env.VITE_API_BASE_URL_LLM}/report-history?child_id=${patientId}&page=${page}`,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("DoctorToken")}`,
-          },
-        }
-      );
-      return response.data;
-    },
-    queryKey: ["reportHistory", patientId],
-    enabled: !!patientId,
-  });
-};
-
-export const useDiagnose = () => {
-  return useMutation({
-    mutationFn: async (data) => {
-      const response = await axios.post(
-        `${import.meta.env.VITE_API_BASE_URL_LLM}/diagnosis`,
-        data,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("DoctorToken")}`,
-          },
-        }
-      );
-      return response.data;
-    },
-  });
-};
-
-export const useReport = () => {
-  return useMutation({
-    mutationFn: async (data) => {
-      const response = await axios.post(
-        `${import.meta.env.VITE_API_BASE_URL_LLM}/report`,
-        data,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("DoctorToken")}`,
-          },
-        }
-      );
-      return response.data;
-    },
-  });
-};
-
 export const useUpdateDoctorGeneralDetails = () => {
   return useMutation({
     mutationFn: async (data) => {
@@ -322,11 +267,11 @@ export const useDoctorProfile = () => {
   return useQuery({
     queryFn: async () => {
       console.log("Please Wait");
-      
+
       const response = await api.get("/api/v1/doctor/getProfile", {
         headers: { "X-Use-Doctor-Token": true },
       });
-      console.log(response)
+      console.log(response);
       return response.data;
     },
     queryKey: ["profile"],
@@ -363,11 +308,11 @@ export const useGetEmailsInSubscription = () => {
     },
     queryKey: ["emails"],
   });
-}
+};
 
 export const useInviteEmailToSubscription = () => {
   return useMutation({
-    mutationFn: async ({subscriptionId, email}) => {      
+    mutationFn: async ({ subscriptionId, email }) => {
       const response = await api.post(
         `/api/v1/doctor/sendInviteToSubscription/${subscriptionId}`,
         { email },
@@ -378,4 +323,4 @@ export const useInviteEmailToSubscription = () => {
       return response.data;
     },
   });
-}
+};
