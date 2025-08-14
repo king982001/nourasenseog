@@ -131,20 +131,6 @@ const CalenderTableComp = () => {
             </div>
           </div>
         </div>
-
-        {/* Patient Data Tables */}
-        {patient && patient?.customId && (
-          <div className="w-full space-y-6 mt-8">
-            <div className="bg-gray-50 rounded-xl shadow-sm overflow-hidden">
-              <div className="p-5 border-b border-gray-100 bg-white">
-                <h3 className="text-lg font-light text-gray-800">Reports</h3>
-              </div>
-              <div className="p-5 bg-white">
-                <TableData customId={patient?.customId} />
-              </div>
-            </div>
-          </div>
-        )}
       </div>
     </div>
   );
