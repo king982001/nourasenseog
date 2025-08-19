@@ -22,10 +22,10 @@ export function NavbarDemo() {
       name: "Platform",
       link: "#platform",
     },
-    {
-      name: "Pricing",
-      link: "/pricing",
-    },
+    //{
+     // name: "Pricing",
+      //link: "/pricing",
+    //},
     {
       name: "Support",
       link: "/support",

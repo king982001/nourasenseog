@@ -4,6 +4,8 @@ import PatientList from "src/Components/Doctor/PatientList.jsx";
 import CalendarComp from "src/Components/Doctor/CalenderComp.jsx";
 import DiagnosisModal from "src/Components/Doctor/DiagnosisModal.jsx";
 import { motion } from "motion/react";
+import NutritionalValues from "src/Components/Doctor/NutritionalValues";
+import DietPlanPage from "src/Pages/Doctor/DietPlanPage";
 
 // Custom styles for consistent font usage
 const globalStyles = `
@@ -68,7 +70,6 @@ const Dashboard = () => {
   const stats = {
     totalPatients: 24,
     appointmentsToday: 3,
-    pendingReports: 7,
     completedDiagnoses: 42
   };
 
@@ -113,7 +114,7 @@ const Dashboard = () => {
           className="lg:col-span-2 space-y-5"
         >
           {/* Stats Cards in row */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
             <StatCard 
               title="Total Patients" 
               value={stats.totalPatients} 
@@ -129,15 +130,6 @@ const Dashboard = () => {
               icon={
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                </svg>
-              }
-            />
-            <StatCard 
-              title="Pending Reports" 
-              value={stats.pendingReports} 
-              icon={ 
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                 </svg>
               }
             />
@@ -160,6 +152,18 @@ const Dashboard = () => {
             </div>
             <div className="p-4">
               <PatientList onStartDiagnosis={handleStartDiagnosis} />
+            </div>
+          </div>
+
+          {/* Nutritional Values and Diet Plan - Show directly on dashboard */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div className="bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 p-5">
+              <h2 className="text-xl font-light text-gray-800 mb-2">Nutritional Data</h2>
+              <NutritionalValues />
+            </div>
+            <div className="bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 p-5">
+              <h2 className="text-xl font-light text-gray-800 mb-2">Diet Plan</h2>
+              <DietPlanPage />
             </div>
           </div>
         </motion.div>

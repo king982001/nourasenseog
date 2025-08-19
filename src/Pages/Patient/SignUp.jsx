@@ -89,8 +89,7 @@ const SignUp = () => {
       {/* Navigation Bar */}
       <div className="w-full py-4 px-6 flex justify-between items-center border-b border-gray-100">
         <Link to="/" className="flex items-center space-x-2">
-          <img src="/Logo1.png" alt="Nourasense" className="h-8 w-auto" />
-          <span className="text-primary-blue font-medium text-lg">Nourasense</span>
+          <img src="/logo-blue.png" alt="Nourasense" className="h-5 w-auto sm:h-6 sm:w-auto md:h-7 md:w-auto lg:h-6 lg:w-auto" />
         </Link>
         <Link 
           to="/" 

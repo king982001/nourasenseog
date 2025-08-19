@@ -31,7 +31,7 @@ const globalStyles = `
 const LandingPage = () => {
   useEffect(() => {
     // Set document title
-    document.title = "NouraSense - Child Growth Monitoring Platform";
+    document.title = "Nourasense - Child Growth Monitoring Platform";
     
     // Create a style element and append global styles
     const styleElement = document.createElement('style');
